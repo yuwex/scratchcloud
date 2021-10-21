@@ -8,7 +8,7 @@ An asynchronous Pythonic wrapper for scratch.mit.edu cloud variables.
 
 ## Example
 ```python
-from scratchcloudpy.client import CloudClient, CloudChange
+from scratchcloudpy import CloudClient, CloudChange
 
 client = CloudClient('SS-2', '574440525')
 
