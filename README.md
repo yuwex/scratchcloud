@@ -27,3 +27,7 @@ async def on_message(cloud: CloudChange):
 
 client.run("SuperSecretPassword22")
 ```
+
+## Links
+ * [Scratch](https://scratch.mit.edu)
+ * [Python Asyncio](https://docs.python.org/3/library/asyncio.html)
