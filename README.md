@@ -23,7 +23,7 @@ async def on_disconnect():
 @client.event
 async def on_message(cloud: CloudChange):
     print(f"I got: {cloud}!")
-    client.set_cloud(cloud.name, "123")
+    await client.set_cloud(cloud.name, "123")
 
 client.run("SuperSecretPassword22")
 ```
