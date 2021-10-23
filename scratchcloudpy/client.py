@@ -7,19 +7,12 @@ import time
 
 from websockets.exceptions import ConnectionClosedError
 
+from github.scratchcloudpy.ext.codecs import DecodeError
+
 class CloudChange:
-    def __init__(self, name: str, value: str, decoder = None):
+    def __init__(self, name: str, value: str):
         self.name = name
         self.value = value
-        self.decoder = decoder
-        self.decoded = False
-
-        if decoder is not None:
-            try:
-                self.value = decoder(value)
-                self.decoded = True
-            except:
-                pass
         
     def __repr__(self):
         return f'<CloudChange: name={self.name}, value={self.value}>'
@@ -46,6 +39,7 @@ class CloudClient:
 
         self.commands = []
         self.cloud_events = {}
+        self.cloud_event_errors = {}
 
     # RUNNING CLIENT
     def run(self, token: str):
@@ -168,12 +162,19 @@ class CloudClient:
             for name, value in self.parse_raw_cloud(data).items():
                 
                 self.cloud_variables.update({name: value})
-                cloud = CloudChange(name, value, decoder=self.decoder) 
+                cloud = CloudChange(name, value)
 
                 for func_name, cloud_event_name in self.cloud_events.items():
                     if cloud_event_name == name:
-                        # write Try here that sends errors to decorator function if it exists, otherwise raise
-                        await getattr(self, f'{func_name}')(cloud)
+                        
+                        try:
+                            cloud.value = self.decoder(value)
+                            await getattr(self, f'{func_name}')(cloud)
+                        except Exception as e:
+                            if name in self.cloud_event_errors.keys():
+                                await getattr(self, f'{self.cloud_event_errors[name]}')(cloud, e)
+                            else:
+                                raise e
                 
                                
                 await self.on_message(cloud)
@@ -195,11 +196,11 @@ class CloudClient:
             setattr(self, 'on_message', func)
             return wrap
         
-        if f_name == 'on_connect':
+        elif f_name == 'on_connect':
             setattr(self, 'on_connect', func)
             return wrap
         
-        if f_name == 'on_disconnect':
+        elif f_name == 'on_disconnect':
             setattr(self, 'on_disconnect', func)
             return wrap
 
@@ -215,6 +216,23 @@ class CloudClient:
                 raise TypeError(f'cloud_event function with name {f_name} already exists.')
         
             self.cloud_events.update({c_name: variable_name})
+            setattr(self, c_name, func)
+
+            return wrap
+        return decorator
+
+    def cloud_event_error(self, variable_name: str):
+        def decorator(func):
+            f_name = func.__name__
+            c_name = f'_cloud_event_error_{f_name}'
+
+            def wrap(*args, **kwargs):
+                return func(*args, **kwargs)
+
+            if c_name in self.cloud_events.values():
+                raise TypeError(f'cloud_event_error for cloud variable {variable_name} already exists.')
+        
+            self.cloud_event_errors.update({variable_name: c_name})
             setattr(self, c_name, func)
 
             return wrap
