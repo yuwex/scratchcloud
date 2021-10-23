@@ -18,7 +18,7 @@ class BaseCodec:
                 encoded.append(letter)
             return ''.join(encoded)
         except:
-            raise EncodeError
+            raise EncodeError(f'Unable to encode: {plaintext}')
 
     def decode(self, ciphertext: str) -> str:
         try:
@@ -28,5 +28,5 @@ class BaseCodec:
                 decoded.append(letter)
             return ''.join(decoded)
         except:
-            raise DecodeError
+            raise DecodeError(f'Unable to decode: {ciphertext}')
 
