@@ -10,7 +10,7 @@ An asynchronous Pythonic wrapper for scratch.mit.edu cloud variables.
 ```python
 from scratchcloudpy.client import CloudClient, CloudChange
 
-client = CloudClient('SS-2', '574440525')
+client = CloudClient('SS-2', '588579111')
 
 @client.event
 async def on_connect():
