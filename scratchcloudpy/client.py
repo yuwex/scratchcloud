@@ -168,7 +168,8 @@ class CloudClient:
                     if cloud_event_name == name:
                         
                         try:
-                            cloud.value = self.decoder(value)
+                            if self.decoder:
+                                cloud.value = self.decoder(value)
                             await getattr(self, f'{func_name}')(cloud)
                         except Exception as e:
                             if name in self.cloud_event_errors.keys():
