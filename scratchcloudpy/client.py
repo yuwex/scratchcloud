@@ -7,7 +7,7 @@ import time
 
 from websockets.exceptions import ConnectionClosedError
 
-from github.scratchcloudpy.ext.codecs import DecodeError
+from .ext.codecs import DecodeError
 
 class CloudChange:
     def __init__(self, name: str, value: str):
