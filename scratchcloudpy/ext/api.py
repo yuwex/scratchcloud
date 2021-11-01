@@ -7,7 +7,6 @@ import requests
 import json
 
 class APIClient (CloudClient):
-
     pass
 
 
@@ -33,34 +32,3 @@ class User():
 
 class Author(User):
     pass
-
-class Project():
-    def __init__(self, client: APIClient, **kwargs):
-        self.client = client
-        
-        self.id = kwargs['id']
-        self.title = kwargs['title']
-        self.description = kwargs['description']
-        self.instructions = kwargs['instructions']
-        self.visibility = kwargs['visibility']
-        self.public = kwargs['public']
-        self.comments_allowed = kwargs['comments_allowed']
-        self.is_published = kwargs['is_published']
-
-        self.author = Author(client, **kwargs['author'])
-
-        self.image = kwargs['image']
-        self.created = kwargs['history']['created']
-
-
-
-
-resp = requests.get('https://api.scratch.mit.edu/users/sansstudios')
-data = json.loads(resp.content)
-
-user = User(None, **data)
-print(json.dumps(user.__dict__, indent=2))
-
-
-
-# a -> b, b ! a -> b
