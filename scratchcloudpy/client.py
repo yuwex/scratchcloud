@@ -7,8 +7,6 @@ import time
 
 from websockets.exceptions import ConnectionClosedError
 
-from .ext.codecs import DecodeError
-
 class CloudChange:
     def __init__(self, name: str, value: str):
         self.name = name
