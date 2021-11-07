@@ -55,7 +55,7 @@ class CloudClient:
                 loop.create_task(self.on_disconnect_task())
                 loop.run_until_complete(self.close())
                 break
-            except (ConnectionClosedError, ConnectionError, requests.exceptions.ConnectionError) as e:
+            except (ConnectionClosedError, ConnectionError, requests.exceptions.ConnectionError, TimeoutError) as e:
                 print(e)
                 # If connection closed, reconnect
 
@@ -100,7 +100,7 @@ class CloudClient:
 
     async def ws_send(self, data: dict):
         data = json.dumps(data) + '\n'
-        await self.ws.send(data)
+        return await self.ws.send(data)
 
     # START REQS
     async def login(self, token: str) -> None:
@@ -150,8 +150,12 @@ class CloudClient:
             'project_id': self.project_id
         }
         await self.ws_send(payload)
-
-        data = await asyncio.wait_for(self.ws.recv(), 5)
+        
+        try:
+            data = await asyncio.wait_for(self.ws.recv(), 5)
+        except:
+            self.close()
+            raise Exception('No Cloud Variables Found!')
         self.cloud_variables.update(self.parse_raw_cloud(data))
 
     # TASKS
@@ -247,11 +251,11 @@ class CloudClient:
         pass
 
     ### CLOUD VARIABLES
-    async def set_cloud(self, name: str, value: str):
+    async def set_cloud(self, name: str, value: str, encode: bool = True):
         
         value = str(value)
 
-        if self.encoder:
+        if self.encoder and encode:
             value = self.encoder(value)
         
         assert value.isdigit(), 'Cloud value must be digits'
