@@ -1,12 +1,15 @@
-from requests.models import Response
+from __future__ import annotations
+
 from ..client import CloudClient
 import asyncio
 import aiohttp
 import time
-import requests
 import json
+from enum import Enum
 
-class NotFound(dict): pass
+from typing import List
+
+class NotFound(): pass
 
 def get_keys(d: dict, keys: list, if_not_found = NotFound()):
     for key in keys:
@@ -19,8 +22,12 @@ def get_keys(d: dict, keys: list, if_not_found = NotFound()):
 class APIClient (CloudClient):
     pass
 
-# api.scratch.mit.edu/users/User
-class User():
+class BaseScratchObject():
+    def __setattr__(self, name: str, value) -> None:
+        if not (isinstance(value, NotFound) and name in self.__dict__.keys()):
+            self.__dict__[name] = value  
+
+class User(BaseScratchObject):
     def __init__(self, session: aiohttp.ClientSession, **kwargs):
         self.session = session
         self._update_all(kwargs)
@@ -42,23 +49,75 @@ class User():
         self.country = get_keys(data, ['profile', 'bio'])
 
     async def fetch_api(self):
-        data = await self.session.get(f'https://api.scratch.mit.edu/users/{self.name}')
+        PATH = f'https://api.scratch.mit.edu/users/{self.name}'
+        data = await self.session.get(PATH)
         data = await data.json()
-        self.__init__(self.session, **data)
-
-    def __setattr__(self, name: str, value) -> None:
-        if not (isinstance(value, NotFound) and name in self.__dict__.keys()):
-            self.__dict__[name] = value
+        self._update_all(data)
+    
+    async def fetch_message_count(self):
+        PATH = f'https://api.scratch.mit.edu/users/{self.name}/messages/count'
+        data = await self.session.get(PATH)
+        data = await data.json()
+        return data['count']
 
 class Author(User):
     pass
 
-class Project():
+class CommentType(Enum):
+    Project = 0
+    Studio = 1
+    Profile = 2
+
+class Comment(BaseScratchObject):
+    def __init__(self, session: aiohttp.ClientSession, comment_type: CommentType, **kwargs):
+        self.session = session
+        self.comment_type = comment_type
+
+        self._update_all(kwargs)
+    
+    def _update_all(self, data):
+        if self.comment_type.value == 0: # Project type
+            self.project: Project = get_keys(data, ['project'])
+        if self.comment_type.value == 1: # Studio type
+            self.studio: Studio = get_keys(data, ['studio'])
+
+        self.id = get_keys(data, ['id'])
+        self.parent_id = get_keys(data, ['parent_id'])
+        self.parent_author_id = get_keys(data, ['commentee_id'])
+        self.content = get_keys(data, ['content'])
+        self.datetime_created = get_keys(data, ['datetime_created'])
+        self.datetime_modified = get_keys(data, ['datetime_modified'])
+        self.visibility = get_keys(data, ['visibility'])
+        self.reply_count = get_keys(data, ['reply_count']) 
+
+        self.author = Author(self.session, **get_keys(data, ['author']))
+    
+    async def fetch_replies(self, offset: int = 0, limit: int = 20) -> List[Reply]:
+        if self.comment_type.value == 0: # Project type
+            PATH = f'https://api.scratch.mit.edu/users/{self.project.author.name}/projects/{self.project.id}/comments/{self.id}/replies?offset={offset}&limit={limit}'
+        elif self.comment_type.value == 1: # Studio type
+            PATH = f'https://api.scratch.mit.edu/studios/{self.studio.id}/comments/{self.id}/replies?offset={offset}&limit={limit}'
+        
+        data = await self.session.get(PATH)
+        data = await data.json()
+
+        comments = []
+        for comment in data:
+            if self.comment_type.value == 0: # Project type
+                comments.append(Reply(self.session, self.comment_type, project = self.project, **comment))
+            elif self.comment_type.value == 1: # Studio type
+                comments.append(Reply(self.session, self.comment_type, studio = self.studio, **comment))
+
+        return comments
+
+class Reply(Comment):
+    pass
+
+class Project(BaseScratchObject):
     def __init__(self, session: aiohttp.ClientSession, **kwargs):
         self.session = session
         
         self._update_all(kwargs)
-
 
     def _update_all(self, data):
         self.id = get_keys(data, ['id'])
@@ -85,15 +144,87 @@ class Project():
         self.remix_parent = get_keys(data, ['remix', 'parent'])
         self.remix_root = get_keys(data, ['remix', 'root'])
 
+    async def fetch_api(self):
+        PATH = f'https://api.scratch.mit.edu/projects/{self.id}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+        self._update_all(data)
+    
+    async def fetch_comments(self, offset: int = 0, limit: int = 20) -> List[Comment]:
+        PATH = f'https://api.scratch.mit.edu/users/{self.author.name}/projects/{self.id}/comments?offset={offset}&limit={limit}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+        
+        comments = []
+        for comment in data:
+            comments.append(Comment(self.session, CommentType(0), project = self, **comment))
+        
+        return comments
 
+class StudioProject(Project):
+    pass
+
+class Studio(BaseScratchObject):
+    def __init__(self, session: aiohttp.ClientSession, **kwargs):
+        self.session = session
+        self._update_all(kwargs)
+    
+    def _update_all(self, data):
+        self.id = get_keys(data, ['id'])
+        self.title = get_keys(data, ['title'])
+        self.host_id = get_keys(data, ['host'])
+        self.description = get_keys(data, ['description'])
+        self.visibility = get_keys(data, ['visibility'])
+        self.public = get_keys(data, ['public'])
+        self.open_to_all = get_keys(data, ['open_to_all'])
+        self.comments_allowed = get_keys(data, ['comments_allowed'])
+        self.image = get_keys(data, ['image'])
+        self.created = get_keys(data, ['created'])
+        self.modified = get_keys(data, ['modified'])
+        self.num_comments = get_keys(data, ['comments'])
+        self.num_followers = get_keys(data, ['followers'])
+        self.num_managers = get_keys(data, ['managers'])
+        self.num_projects = get_keys(data, ['projects'])
 
     async def fetch_api(self):
-        data = await self.session.get(f'https://api.scratch.mit.edu/projects/{self.id}')
-        data = await data.json()
-        self.__init__(self.session, **data)
-    
-    def __setattr__(self, name: str, value) -> None:
-        if not (isinstance(value, NotFound) and name in self.__dict__.keys()):
-            self.__dict__[name] = value    
+        PATH = f'https://api.scratch.mit.edu/studios/{self.id}'
+        data = await self.session.get(PATH)
+        data = await data.json
+        self._update_all(data)
 
-    
+    async def fetch_projects(self, offset: int = 0, limit: int = 24):
+        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/projects/'
+        data = await self.session.get(PATH)
+        data = await data.json()
+        projects = []
+        for proj in data:
+            projects.append(
+                StudioProject(
+                    session = self.session,
+
+                    id = proj['id'], 
+                    title = proj['title'], 
+                    image = proj['image'], 
+                    author = {
+                        'id': proj['creator_id'],
+                        'username': proj['username']
+                    }
+            ))
+        
+        return projects
+
+    async def fetch_comments(self, offset: int = 0, limit: int = 20):
+        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/comments?offset={offset}&limit={limit}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+
+        comments = []
+        for comment in data:
+            comments.append(Comment(self.session, CommentType(1), studio = self, **comment))
+        
+        return comments
+
+# TODO
+# Add /site-api/ methods
+# Change ClientSession uses to APIClient
+# Add 
