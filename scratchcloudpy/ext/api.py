@@ -35,9 +35,15 @@ class APIClient (CloudClient):
         
         return User(self.http_session, **data)
     
-    async def fetch_project(self):
-        PATH = f'https://api.scratch.mit.edu/projects/'
+    async def fetch_project(self, owner_username: str, project_id: str):
+        PATH = f'https://api.scratch.mit.edu/users/{owner_username}/projects/{project_id}'
         data = await self.http_session.get(PATH)
+        data = await data.json()
+        if 'code' in data:
+            if data['code'] == 'NotFound':
+                raise NotFoundError()
+        
+        return Project(self.http_session, **data)
         
 
 class BaseScratchObject():
@@ -121,8 +127,6 @@ class User(BaseScratchObject):
             projects.append(Project(session=self.session, **project))
         
         return projects
-
-
 
 class Author(User):
     pass
