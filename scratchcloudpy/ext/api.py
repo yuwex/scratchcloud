@@ -79,7 +79,7 @@ class User(BaseScratchObject):
 
         self.status = get_keys(data, ['profile', 'status'])
         self.bio = get_keys(data, ['profile', 'bio'])
-        self.country = get_keys(data, ['profile', 'bio'])
+        self.country = get_keys(data, ['profile', 'country'])
 
     async def fetch_api(self):
         PATH = f'https://api.scratch.mit.edu/users/{self.name}'
@@ -246,8 +246,6 @@ class Project(BaseScratchObject):
 
         self.project_json = data
         return data
-        
-
 
 class StudioProject(Project):
     pass
