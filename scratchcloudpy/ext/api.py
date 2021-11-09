@@ -11,6 +11,8 @@ from typing import List
 
 class NotFound(): pass
 
+class NotFoundError(Exception): pass
+
 def get_keys(d: dict, keys: list, if_not_found = NotFound()):
     for key in keys:
         try: 
@@ -20,7 +22,23 @@ def get_keys(d: dict, keys: list, if_not_found = NotFound()):
     return d
 
 class APIClient (CloudClient):
-    pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+    async def fetch_user(self, username: str) -> "User":
+        PATH = f'https://api.scratch.mit.edu/users/{username}'
+        data = await self.http_session.get(PATH)
+        data = await data.json()
+        if 'code' in data:
+            if data['code'] == 'NotFound':
+                raise NotFoundError()
+        
+        return User(self.http_session, **data)
+    
+    async def fetch_project(self):
+        PATH = f'https://api.scratch.mit.edu/projects/'
+        data = await self.http_session.get(PATH)
+        
 
 class BaseScratchObject():
     def __setattr__(self, name: str, value) -> None:
@@ -54,11 +72,57 @@ class User(BaseScratchObject):
         data = await data.json()
         self._update_all(data)
     
-    async def fetch_message_count(self):
+    async def fetch_message_count(self) -> int:
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/messages/count'
         data = await self.session.get(PATH)
         data = await data.json()
         return data['count']
+    
+    async def fetch_favorites(self, limit: int = 20, offset: int = 0) -> List[Project]:
+        PATH = f'https://api.scratch.mit.edu/users/{self.name}/favorites?limit={limit}&offset={offset}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+
+        projects = []
+        for project in data:
+            projects.append(Project(session=self.session, **project))
+        
+        return projects
+
+    async def fetch_followers(self, limit: int = 20, offset: int = 0) -> List[User]:
+        PATH = f'https://api.scratch.mit.edu/users/{self.name}/followers?limit={limit}&offset={offset}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+
+        users = []
+        for user in data:
+            users.append(User(session=self.session, **user))
+        
+        return users
+
+    async def fetch_following(self, limit: int = 20, offset: int = 0) -> List[User]:
+        PATH = f'https://api.scratch.mit.edu/users/{self.name}/following?limit={limit}&offset={offset}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+
+        users = []
+        for user in data:
+            users.append(User(session=self.session, **user))
+        
+        return users
+
+    async def fetch_projects(self, limit: int = 20, offset: int = 0) -> List[Project]:
+        PATH = f'https://api.scratch.mit.edu/users/{self.name}/projects?limit={limit}&offset={offset}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+
+        projects = []
+        for project in data:
+            projects.append(Project(session=self.session, **project))
+        
+        return projects
+
+
 
 class Author(User):
     pass
@@ -116,6 +180,7 @@ class Reply(Comment):
 class Project(BaseScratchObject):
     def __init__(self, session: aiohttp.ClientSession, **kwargs):
         self.session = session
+        self.project_json = None
         
         self._update_all(kwargs)
 
@@ -160,6 +225,16 @@ class Project(BaseScratchObject):
             comments.append(Comment(self.session, CommentType(0), project = self, **comment))
         
         return comments
+    
+    async def fetch_project_json(self):
+        PATH = f'https://projects.scratch.mit.edu/{self.id}'
+        data = await self.session.get(PATH)
+        data = await data.json()
+
+        self.project_json = data
+        return data
+        
+
 
 class StudioProject(Project):
     pass
@@ -225,6 +300,8 @@ class Studio(BaseScratchObject):
         return comments
 
 # TODO
-# Add /site-api/ methods
+# Add more project methods (Get Project JSON, get blockcount)
+# Add APIClient get methods
 # Change ClientSession uses to APIClient
-# Add 
+# Add /site-api/ methods
+# Add ValidateCloud
