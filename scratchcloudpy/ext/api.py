@@ -25,7 +25,7 @@ class APIClient (CloudClient):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
-    async def fetch_user(self, username: str) -> "User":
+    async def fetch_user(self, username: str) -> 'User':
         PATH = f'https://api.scratch.mit.edu/users/{username}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -35,7 +35,7 @@ class APIClient (CloudClient):
         
         return User(self.http_session, **data)
     
-    async def fetch_project(self, owner_username: str, project_id: str):
+    async def fetch_project(self, owner_username: str, project_id: str) -> 'Project':
         PATH = f'https://api.scratch.mit.edu/users/{owner_username}/projects/{project_id}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -45,6 +45,15 @@ class APIClient (CloudClient):
         
         return Project(self.http_session, **data)
         
+    async def fetch_studio(self, studio_id: str) -> 'Studio':
+        PATH = f'https://api.scratch.mit.edu/{studio_id}'
+        data = await self.http_session.get(PATH)
+        data = await data.json()
+        if 'code' in data:
+            if data['code'] == 'NotFound':
+                raise NotFoundError()
+        
+        return Studio(self.http_session, **data)
 
 class BaseScratchObject():
     def __setattr__(self, name: str, value) -> None:
