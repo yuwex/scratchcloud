@@ -247,6 +247,24 @@ class Project(BaseScratchObject):
         self.project_json = data
         return data
 
+    async def fetch_block_count(self):
+        project = await self.fetch_project_json()
+
+        blocks = 0
+        for sprite in project['targets']:
+            blocks += len(sprite['blocks'])
+    
+        return blocks
+    
+    async def fetch_sprite_count(self):
+        project = await self.fetch_project_json()
+
+        sprites = 0
+        for sprite in project['targets']:
+            sprites += 1
+    
+        return sprites
+
 class StudioProject(Project):
     pass
 
