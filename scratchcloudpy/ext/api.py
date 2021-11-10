@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from ..client import CloudClient
+from datetime import datetime
 import asyncio
 import aiohttp
 import time
@@ -69,7 +70,9 @@ class User(BaseScratchObject):
         self.id = get_keys(data, ['id'])
         self.name = get_keys(data, ['username'])
         self.scratchteam = get_keys(data, ['scratchteam'])
-        self.joined = get_keys(data, ['history', 'joined'])
+        self.joined_at = get_keys(data, ['history', 'joined'])
+        if type(self.joined_at) == 'str':
+            self.joined_at = datetime.strptime(self.joined_at, "%Y-%m-%dT%H:%M:%S.%f%z")
         
         self.image_90x90 = get_keys(data, ['profile', 'images', '90x90'])
         self.image_60x60 = get_keys(data, ['profile', 'images', '60x60'])
@@ -162,8 +165,15 @@ class Comment(BaseScratchObject):
         self.parent_id = get_keys(data, ['parent_id'])
         self.parent_author_id = get_keys(data, ['commentee_id'])
         self.content = get_keys(data, ['content'])
-        self.datetime_created = get_keys(data, ['datetime_created'])
-        self.datetime_modified = get_keys(data, ['datetime_modified'])
+
+        self.created_at = get_keys(data, ['datetime_created'])
+        if type(self.created_at) == 'str':
+            self.created_at = datetime.strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f%z")
+
+        self.modified_at = get_keys(data, ['datetime_modified'])
+        if type(self.modified_at) == 'str':
+            self.modified_at = datetime.strptime(self.modified_at, "%Y-%m-%dT%H:%M:%S.%f%z")
+
         self.visibility = get_keys(data, ['visibility'])
         self.reply_count = get_keys(data, ['reply_count']) 
 
@@ -210,9 +220,19 @@ class Project(BaseScratchObject):
         self.author = Author(self.client, **get_keys(data, ['author']))
 
         self.image = get_keys(data, ['image'])
-        self.created = get_keys(data, ['history', 'created'])
-        self.modified = get_keys(data, ['history', 'modified'])
-        self.shared = get_keys(data, ['history', 'shared'])
+        self.created_at = get_keys(data, ['history', 'created'])
+        if type(self.created_at) == 'str':
+            self.created_at = datetime.strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f%z")
+
+        self.modified_at = get_keys(data, ['history', 'modified'])
+        if type(self.modified_at) == 'str':
+            self.modified_at = datetime.strptime(self.modified_at, "%Y-%m-%dT%H:%M:%S.%f%z")
+
+        self.shared_at = get_keys(data, ['history', 'shared'])
+        if type(self.shared_at) == 'str':
+            self.shared_at = datetime.strptime(self.shared_at, "%Y-%m-%dT%H:%M:%S.%f%z")
+         
+
 
         self.views = get_keys(data, ['stats', 'views'])
         self.loves = get_keys(data, ['stats', 'loves'])
@@ -283,8 +303,15 @@ class Studio(BaseScratchObject):
         self.open_to_all = get_keys(data, ['open_to_all'])
         self.comments_allowed = get_keys(data, ['comments_allowed'])
         self.image = get_keys(data, ['image'])
-        self.created = get_keys(data, ['created'])
-        self.modified = get_keys(data, ['modified'])
+
+        self.created_at = get_keys(data, ['created'])
+        if type(self.created_at) == 'str':
+            self.created_at = datetime.strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f%z")
+
+        self.modified_at = get_keys(data, ['modified'])
+        if type(self.modified_at) == 'str':
+            self.modified_at = datetime.strptime(self.modified_at, "%Y-%m-%dT%H:%M:%S.%f%z")
+
         self.num_comments = get_keys(data, ['comments'])
         self.num_followers = get_keys(data, ['followers'])
         self.num_managers = get_keys(data, ['managers'])
@@ -329,7 +356,6 @@ class Studio(BaseScratchObject):
         return comments
 
 # TODO
-# datetime.datetime.strptime("2012-10-24T12:59:31.000Z", "%Y-%m-%dT%H:%M:%S.%f%z")
 # Change ClientSession uses to APIClient
 # Add Regex for site-api (followers#, following#, etc)
 # Add /site-api/ methods
