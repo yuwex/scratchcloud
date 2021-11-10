@@ -33,7 +33,7 @@ class APIClient (CloudClient):
             if data['code'] == 'NotFound':
                 raise NotFoundError()
         
-        return User(self.http_session, **data)
+        return User(self, **data)
     
     async def fetch_project(self, owner_username: str, project_id: str) -> 'Project':
         PATH = f'https://api.scratch.mit.edu/users/{owner_username}/projects/{project_id}'
@@ -43,7 +43,7 @@ class APIClient (CloudClient):
             if data['code'] == 'NotFound':
                 raise NotFoundError()
         
-        return Project(self.http_session, **data)
+        return Project(self, **data)
         
     async def fetch_studio(self, studio_id: str) -> 'Studio':
         PATH = f'https://api.scratch.mit.edu/{studio_id}'
@@ -53,7 +53,7 @@ class APIClient (CloudClient):
             if data['code'] == 'NotFound':
                 raise NotFoundError()
         
-        return Studio(self.http_session, **data)
+        return Studio(self, **data)
 
 class BaseScratchObject():
     def __setattr__(self, name: str, value) -> None:
@@ -61,8 +61,8 @@ class BaseScratchObject():
             self.__dict__[name] = value  
 
 class User(BaseScratchObject):
-    def __init__(self, session: aiohttp.ClientSession, **kwargs):
-        self.session = session
+    def __init__(self, client: APIClient, **kwargs):
+        self.client = client
         self._update_all(kwargs)
 
     def _update_all(self, data):
@@ -83,57 +83,57 @@ class User(BaseScratchObject):
 
     async def fetch_api(self):
         PATH = f'https://api.scratch.mit.edu/users/{self.name}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         self._update_all(data)
     
     async def fetch_message_count(self) -> int:
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/messages/count'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         return data['count']
     
     async def fetch_favorites(self, limit: int = 20, offset: int = 0) -> List[Project]:
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/favorites?limit={limit}&offset={offset}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
 
         projects = []
         for project in data:
-            projects.append(Project(session=self.session, **project))
+            projects.append(Project(client=self.client, **project))
         
         return projects
 
     async def fetch_followers(self, limit: int = 20, offset: int = 0) -> List[User]:
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/followers?limit={limit}&offset={offset}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
 
         users = []
         for user in data:
-            users.append(User(session=self.session, **user))
+            users.append(User(client=self.client, **user))
         
         return users
 
     async def fetch_following(self, limit: int = 20, offset: int = 0) -> List[User]:
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/following?limit={limit}&offset={offset}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
 
         users = []
         for user in data:
-            users.append(User(session=self.session, **user))
+            users.append(User(client=self.client, **user))
         
         return users
 
     async def fetch_projects(self, limit: int = 20, offset: int = 0) -> List[Project]:
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/projects?limit={limit}&offset={offset}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
 
         projects = []
         for project in data:
-            projects.append(Project(session=self.session, **project))
+            projects.append(Project(client=self.client, **project))
         
         return projects
 
@@ -146,8 +146,8 @@ class CommentType(Enum):
     Profile = 2
 
 class Comment(BaseScratchObject):
-    def __init__(self, session: aiohttp.ClientSession, comment_type: CommentType, **kwargs):
-        self.session = session
+    def __init__(self, client: APIClient, comment_type: CommentType, **kwargs):
+        self.client = client
         self.comment_type = comment_type
 
         self._update_all(kwargs)
@@ -167,7 +167,7 @@ class Comment(BaseScratchObject):
         self.visibility = get_keys(data, ['visibility'])
         self.reply_count = get_keys(data, ['reply_count']) 
 
-        self.author = Author(self.session, **get_keys(data, ['author']))
+        self.author = Author(self.client, **get_keys(data, ['author']))
     
     async def fetch_replies(self, offset: int = 0, limit: int = 20) -> List[Reply]:
         if self.comment_type.value == 0: # Project type
@@ -175,15 +175,15 @@ class Comment(BaseScratchObject):
         elif self.comment_type.value == 1: # Studio type
             PATH = f'https://api.scratch.mit.edu/studios/{self.studio.id}/comments/{self.id}/replies?offset={offset}&limit={limit}'
         
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
 
         comments = []
         for comment in data:
             if self.comment_type.value == 0: # Project type
-                comments.append(Reply(self.session, self.comment_type, project = self.project, **comment))
+                comments.append(Reply(self.client, self.comment_type, project = self.project, **comment))
             elif self.comment_type.value == 1: # Studio type
-                comments.append(Reply(self.session, self.comment_type, studio = self.studio, **comment))
+                comments.append(Reply(self.client, self.comment_type, studio = self.studio, **comment))
 
         return comments
 
@@ -191,8 +191,8 @@ class Reply(Comment):
     pass
 
 class Project(BaseScratchObject):
-    def __init__(self, session: aiohttp.ClientSession, **kwargs):
-        self.session = session
+    def __init__(self, client: APIClient, **kwargs):
+        self.client = client
         self.project_json = None
         
         self._update_all(kwargs)
@@ -207,7 +207,7 @@ class Project(BaseScratchObject):
         self.comments_allowed = get_keys(data, ['comments_allowed'])
         self.is_published = get_keys(data, ['is_published'])
 
-        self.author = Author(self.session, **get_keys(data, ['author']))
+        self.author = Author(self.client, **get_keys(data, ['author']))
 
         self.image = get_keys(data, ['image'])
         self.created = get_keys(data, ['history', 'created'])
@@ -224,24 +224,24 @@ class Project(BaseScratchObject):
 
     async def fetch_api(self):
         PATH = f'https://api.scratch.mit.edu/projects/{self.id}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         self._update_all(data)
     
     async def fetch_comments(self, offset: int = 0, limit: int = 20) -> List[Comment]:
         PATH = f'https://api.scratch.mit.edu/users/{self.author.name}/projects/{self.id}/comments?offset={offset}&limit={limit}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         
         comments = []
         for comment in data:
-            comments.append(Comment(self.session, CommentType(0), project = self, **comment))
+            comments.append(Comment(self.client, CommentType(0), project = self, **comment))
         
         return comments
     
     async def fetch_project_json(self):
         PATH = f'https://projects.scratch.mit.edu/{self.id}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
 
         self.project_json = data
@@ -269,8 +269,8 @@ class StudioProject(Project):
     pass
 
 class Studio(BaseScratchObject):
-    def __init__(self, session: aiohttp.ClientSession, **kwargs):
-        self.session = session
+    def __init__(self, client: APIClient, **kwargs):
+        self.client = client
         self._update_all(kwargs)
     
     def _update_all(self, data):
@@ -292,19 +292,19 @@ class Studio(BaseScratchObject):
 
     async def fetch_api(self):
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json
         self._update_all(data)
 
     async def fetch_projects(self, offset: int = 0, limit: int = 24):
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/projects/'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         projects = []
         for proj in data:
             projects.append(
                 StudioProject(
-                    session = self.session,
+                    client = self.client,
 
                     id = proj['id'], 
                     title = proj['title'], 
@@ -319,18 +319,18 @@ class Studio(BaseScratchObject):
 
     async def fetch_comments(self, offset: int = 0, limit: int = 20):
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/comments?offset={offset}&limit={limit}'
-        data = await self.session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
 
         comments = []
         for comment in data:
-            comments.append(Comment(self.session, CommentType(1), studio = self, **comment))
+            comments.append(Comment(self.client, CommentType(1), studio = self, **comment))
         
         return comments
 
 # TODO
-# Add more project methods (Get Project JSON, get blockcount)
-# Add APIClient get methods
+# datetime.datetime.strptime("2012-10-24T12:59:31.000Z", "%Y-%m-%dT%H:%M:%S.%f%z")
 # Change ClientSession uses to APIClient
+# Add Regex for site-api (followers#, following#, etc)
 # Add /site-api/ methods
 # Add ValidateCloud
