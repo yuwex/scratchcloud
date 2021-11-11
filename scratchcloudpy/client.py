@@ -8,12 +8,27 @@ import time
 from websockets.exceptions import ConnectionClosedError
 
 class CloudChange:
-    def __init__(self, name: str, value: str):
+    def __init__(self, name: str, value: str, previous_value: str = None):
         self.name = name
         self.value = value
+        self.previous_value = previous_value
+        self.recieve_time: float = time.time()
+
+    def __gt__(self, other):
+        if not isinstance(other, CloudChange):
+            raise TypeError(f'CloudChange cannot be compared to type {type(other)}')
         
+        return self.recieve_time > other.recieve_time
+    
+    def __lt__(self, other):
+        if not isinstance(other, CloudChange):
+            raise TypeError(f'CloudChange cannot be compared to type {type(other)}')
+        
+        return self.recieve_time < other.recieve_time
+    
+
     def __repr__(self):
-        return f'<CloudChange: name={self.name}, value={self.value}>'
+        return f'<CloudChange: name={self.name}, value={self.value}, previous_value={self.previous_value}>'
 
 class CloudClient:
     def __init__(self, username: str, project_id: str, max_reconnect = None, reconnect_cooldown = 10, encoder = None, decoder = None):
@@ -56,7 +71,6 @@ class CloudClient:
                 loop.run_until_complete(self.close())
                 break
             except (ConnectionClosedError, ConnectionError, requests.exceptions.ConnectionError, TimeoutError) as e:
-                print(e)
                 # If connection closed, reconnect
 
                 loop.create_task(self.on_disconnect_task())
