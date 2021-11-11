@@ -8,27 +8,31 @@ import time
 from websockets.exceptions import ConnectionClosedError
 
 class CloudChange:
-    def __init__(self, name: str, value: str, previous_value: str = None):
+    def __init__(self, name: str, value: str, previous_value: str = None, sender = None):
         self.name = name
         self.value = value
         self.previous_value = previous_value
-        self.recieve_time: float = time.time()
+        self.recieved_at: float = time.time()
+        self.sender = sender
 
     def __gt__(self, other):
         if not isinstance(other, CloudChange):
             raise TypeError(f'CloudChange cannot be compared to type {type(other)}')
         
-        return self.recieve_time > other.recieve_time
+        return self.recieved_at > other.recieved_at
     
     def __lt__(self, other):
         if not isinstance(other, CloudChange):
             raise TypeError(f'CloudChange cannot be compared to type {type(other)}')
         
-        return self.recieve_time < other.recieve_time
-    
+        return self.recieved_at < other.recieved_at
 
     def __repr__(self):
-        return f'<CloudChange: name={self.name}, value={self.value}, previous_value={self.previous_value}>'
+        return f'<CloudChange: name={self.name}, value={self.value}, previous_value={self.previous_value}, recieved_at={self.recieved_at}, sender={self.sender}>'
+
+class RawCloudChange(CloudChange):
+    def __repr__(self):
+        return f'<RawCloudChange: name={self.name}, value={self.value}, previous_value={self.previous_value}, recieved_at={self.recieved_at}, sender={self.sender}>'
 
 class CloudClient:
     def __init__(self, username: str, project_id: str, max_reconnect = None, reconnect_cooldown = 10, encoder = None, decoder = None):
@@ -49,6 +53,7 @@ class CloudClient:
         self.encoder = encoder
 
         self.cloud_variables = {}
+        self.cloud_cache = []
 
         self.commands = []
         self.cloud_events = {}
@@ -177,12 +182,17 @@ class CloudClient:
         async for data in self.ws:
             for name, value in self.parse_raw_cloud(data).items():
                 
+                if name in self.cloud_variables:
+                    prev_val = self.cloud_variables[name]
+                else:
+                    prev_val = None
+
+                cloud = CloudChange(name, value, prev_val)
                 self.cloud_variables.update({name: value})
-                cloud = CloudChange(name, value)
+                self.cloud_cache.append(RawCloudChange(name, value, prev_val))
 
                 for func_name, cloud_event_name in self.cloud_events.items():
                     if cloud_event_name == name:
-                        
                         try:
                             if self.decoder:
                                 cloud.value = self.decoder(value)
@@ -272,7 +282,8 @@ class CloudClient:
         if self.encoder and encode:
             value = self.encoder(value)
         
-        assert value.isdigit(), 'Cloud value must be digits'
+        if not (value.isdigit() or value == ''):
+            raise TypeError('Cloud value must be digits')
 
         assert len(value) <= 256, 'Cloud value length must be under or equal to 256 digits.'
         
@@ -285,6 +296,13 @@ class CloudClient:
         }
 
         await self.ws_send(payload)
+        if name in self.cloud_variables:
+            prev = self.cloud_variables[name]
+        else:
+            prev = None
+
+        self.cloud_cache.append(RawCloudChange(name, value, prev, self.username))
+        self.cloud_variables.update({name: value})
 
     def parse_raw_cloud(self, raw_data: str) -> dict:
 
