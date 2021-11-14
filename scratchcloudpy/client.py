@@ -8,6 +8,8 @@ import time
 from typing import Callable
 from websockets.exceptions import ConnectionClosedError
 
+class SizeError(Exception): pass
+
 class CloudChange:
     def __init__(self, name: str, value: str, previous_value: str = None, sender = None):
         self.name = name
@@ -154,7 +156,8 @@ class CloudClient:
         }
 
         with session.post("https://scratch.mit.edu/login/", data=json.dumps(data), headers=headers) as p:
-            assert p.status_code == 200, 'Login Error: Not 200 login status!'
+            if p.status_code != 200:
+                raise ConnectionError('Login Error: Not 200 login status!')
 
         cookies = session.cookies.get_dict()
 
@@ -295,7 +298,8 @@ class CloudClient:
         if not (value.isdigit() or value == ''):
             raise TypeError('Cloud value must be digits')
 
-        assert len(value) <= 256, 'Cloud value length must be under or equal to 256 digits.'
+        if len(value) > 256:
+            raise SizeError('Cloud value length must be under or equal to 256 digits.')
         
         payload = {
             'method': 'set',
