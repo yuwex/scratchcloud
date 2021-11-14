@@ -1,17 +1,14 @@
 from __future__ import annotations
+from typing import List
 
 from ..client import CloudClient
+
 from datetime import datetime
 import asyncio
 import aiohttp
-import time
-import json
 from enum import Enum
 
-from typing import List
-
 class NotFound(): pass
-
 class NotFoundError(Exception): pass
 
 def get_keys(d: dict, keys: list, if_not_found = NotFound()):
@@ -179,7 +176,7 @@ class Comment(BaseScratchObject):
 
         self.author = Author(self.client, **get_keys(data, ['author']))
     
-    async def fetch_replies(self, offset: int = 0, limit: int = 20) -> List[Reply]:
+    async def fetch_replies(self, limit: int = 20, offset: int = 0) -> List[Reply]:
         if self.comment_type.value == 0: # Project type
             PATH = f'https://api.scratch.mit.edu/users/{self.project.author.name}/projects/{self.project.id}/comments/{self.id}/replies?offset={offset}&limit={limit}'
         elif self.comment_type.value == 1: # Studio type
@@ -248,7 +245,7 @@ class Project(BaseScratchObject):
         data = await data.json()
         self._update_all(data)
     
-    async def fetch_comments(self, offset: int = 0, limit: int = 20) -> List[Comment]:
+    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
         PATH = f'https://api.scratch.mit.edu/users/{self.author.name}/projects/{self.id}/comments?offset={offset}&limit={limit}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -323,7 +320,7 @@ class Studio(BaseScratchObject):
         data = await data.json
         self._update_all(data)
 
-    async def fetch_projects(self, offset: int = 0, limit: int = 24):
+    async def fetch_projects(self, limit: int = 24, offset: int = 0) -> List[StudioProject]:
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/projects/'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -344,7 +341,7 @@ class Studio(BaseScratchObject):
         
         return projects
 
-    async def fetch_comments(self, offset: int = 0, limit: int = 20):
+    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/comments?offset={offset}&limit={limit}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -356,7 +353,6 @@ class Studio(BaseScratchObject):
         return comments
 
 # TODO
-# Change ClientSession uses to APIClient
-# Add Regex for site-api (followers#, following#, etc)
+# Add Regex or bs4 for site-api (followers#, following#, etc)
 # Add /site-api/ methods
-# Add ValidateCloud
+# Add project.fetch_cloud() and ValidateCloud: https://clouddata.scratch.mit.edu/logs?projectid=id&limit=100&offset=0
