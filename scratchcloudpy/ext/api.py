@@ -140,6 +140,9 @@ class User(BaseScratchObject):
 class Author(User):
     pass
 
+class StudioUser(User):
+    pass
+
 class CommentType(Enum):
     Project = 0
     Studio = 1
@@ -342,7 +345,7 @@ class Studio(BaseScratchObject):
         return projects
 
     async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
-        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/comments?offset={offset}&limit={limit}'
+        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/comments?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
 
@@ -351,6 +354,28 @@ class Studio(BaseScratchObject):
             comments.append(Comment(self.client, CommentType(1), studio = self, **comment))
         
         return comments
+
+    async def fetch_managers(self, limit: int = 40, offset: int = 0) -> List[StudioUser]:
+        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/managers/?limit={limit}&offset={offset}'
+        data = await self.client.http_session.get(PATH)
+        data = await data.json()
+
+        users = []
+        for user in data:
+            users.append(StudioUser(self.client, **user))
+        
+        return users
+    
+    async def fetch_curators(self, limit: int = 40, offset: int = 0) -> List[StudioUser]:
+        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/curators/?limit={limit}&offset={offset}'
+        data = await self.client.http_session.get(PATH)
+        data = await data.json()
+
+        users = []
+        for user in data:
+            users.append(StudioUser(self.client, **user))
+        
+        return users
 
 # TODO
 # Add Regex or bs4 for site-api (followers#, following#, etc)
