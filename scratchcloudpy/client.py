@@ -5,6 +5,7 @@ import json
 import aiohttp
 import time
 
+from typing import Callable
 from websockets.exceptions import ConnectionClosedError
 
 class CloudChange:
@@ -28,17 +29,17 @@ class CloudChange:
         return self.recieved_at < other.recieved_at
 
     def __repr__(self):
-        return f'<CloudChange: name={self.name}, value={self.value}, previous_value={self.previous_value}, recieved_at={self.recieved_at}, sender={self.sender}>'
+        return f'<{type(self)}: name={self.name}, value={self.value}, previous_value={self.previous_value}, recieved_at={self.recieved_at}, sender={self.sender}>'
 
 class RawCloudChange(CloudChange):
-    def __repr__(self):
-        return f'<RawCloudChange: name={self.name}, value={self.value}, previous_value={self.previous_value}, recieved_at={self.recieved_at}, sender={self.sender}>'
+    pass
 
 class CloudClient:
-    def __init__(self, username: str, project_id: str, max_reconnect = None, reconnect_cooldown = 10, encoder = None, decoder = None):
+    def __init__(self, username: str, project_id: str, max_reconnect: int = None, reconnect_cooldown: int = 10, encoder: Callable[[str], str] = None, decoder: Callable[[str], str] = None, disconnect_messages: bool = False):
 
         self.username = username
         self.project_id = project_id
+
         self.loop = asyncio.get_event_loop()
         self.http_session = None
         self.cookies = None
@@ -46,8 +47,10 @@ class CloudClient:
         self.logged_in = False
         self.ws = None
         self.connected = False
+
         self.max_reconnect = max_reconnect
         self.reconnect_cooldown = reconnect_cooldown
+        self.disconnect_messages = disconnect_messages
 
         self.decoder = decoder
         self.encoder = encoder
@@ -76,21 +79,28 @@ class CloudClient:
                 loop.run_until_complete(self.close())
                 break
             except (ConnectionClosedError, ConnectionError, requests.exceptions.ConnectionError, TimeoutError) as e:
-                # If connection closed, reconnect
-
-                loop.create_task(self.on_disconnect_task())
-                loop.run_until_complete(self.close())
-                time.sleep(self.reconnect_cooldown)
-
+                if self.disconnect_messages:
+                    print(f'Disconnected due to type: {type(e)}\n{e}')
+                
+                # If previously connected, run disconnect task and reconnect again.
                 if self.connected:
                     restart = True
                     reconnects = 0
                 else:
                     reconnects += 1
 
-                # Don't reconnect if first time
+                # If previously connected, run disconnect task
+                if restart:
+                    loop.create_task(self.on_disconnect_task())
+
+                # Close everything :)
+                loop.run_until_complete(self.close())
+
+                # If never previously connected, raise error.
                 if not restart:
                     raise e
+                
+                time.sleep(self.reconnect_cooldown)
                 
                 if reconnects == self.max_reconnect:
                     print(f'Reconnection failed {reconnects} times. Stopping...')
@@ -173,8 +183,8 @@ class CloudClient:
         try:
             data = await asyncio.wait_for(self.ws.recv(), 5)
         except:
-            self.close()
-            raise Exception('No Cloud Variables Found!')
+            await self.close()
+            raise ConnectionError('No Cloud Variables Found!')
         self.cloud_variables.update(self.parse_raw_cloud(data))
 
     # TASKS
