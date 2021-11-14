@@ -4,8 +4,8 @@ class EncodeError(Exception): pass
 class DecodeError(Exception): pass
 
 class BaseCodec:
-    def __init__(self):
-        self.plainalpha = list('abcdefghijklmnopqrstuvwxyz1234567890 -=[]\\;\',./!@#$%^&*()_+{}|:\"<>?')
+    def __init__(self, alphabet: str = 'abcdefghijklmnopqrstuvwxyz1234567890 -=[]\\;\',./!@#$%^&*()_+{}|:\"<>?'):
+        self.plainalpha = list(alphabet)
         
         cipher_ints = list(range(10, len(self.plainalpha) + 10))
         self.cipheralpha = [str(v) for v in cipher_ints]
@@ -17,8 +17,8 @@ class BaseCodec:
                 letter = self.cipheralpha[self.plainalpha.index(letter)]
                 encoded.append(letter)
             return ''.join(encoded)
-        except:
-            raise EncodeError(f'Unable to encode: {plaintext}')
+        except Exception as e:
+            raise EncodeError(f'Unable to encode: {plaintext} due to \n{e}')
 
     def decode(self, ciphertext: str) -> str:
         try:
@@ -27,6 +27,6 @@ class BaseCodec:
                 letter = self.plainalpha[self.cipheralpha.index(letter)]
                 decoded.append(letter)
             return ''.join(decoded)
-        except:
-            raise DecodeError(f'Unable to decode: {ciphertext}')
+        except Exception as e:
+            raise DecodeError(f'Unable to decode: {ciphertext} due to \n{e}')
 
