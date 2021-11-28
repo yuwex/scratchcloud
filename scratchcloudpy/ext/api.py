@@ -20,10 +20,22 @@ def get_keys(d: dict, keys: list, if_not_found = NotFound()):
     return d
 
 class APIClient (CloudClient):
+    """A wrapper for CloudClient that interfaces with the scratch API.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
     async def fetch_user(self, username: str) -> 'User':
+        """A coroutine that fetches a user from the API.
+        
+        :param username: The user's name that will be fetched
+        :type username: str
+
+        :raises NotFoundError: If the data couldn't be accessed by the scratch API
+
+        :rtype: :class:`ext.api.User`
+        """
         PATH = f'https://api.scratch.mit.edu/users/{username}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -34,6 +46,17 @@ class APIClient (CloudClient):
         return User(self, **data)
     
     async def fetch_project(self, owner_username: str, project_id: str) -> 'Project':
+        """A coroutine that fetches a project from the API.
+        
+        :param owner_username: The username of the owner of the project
+        :type owner_username: str
+        :param project_id: The id of the project
+        :type project_id: str
+
+        :raises NotFoundError: If the data couldn't be accessed by the scratch API
+
+        :rtype: :class:`ext.api.Project`
+        """
         PATH = f'https://api.scratch.mit.edu/users/{owner_username}/projects/{project_id}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -44,6 +67,15 @@ class APIClient (CloudClient):
         return Project(self, **data)
         
     async def fetch_studio(self, studio_id: str) -> 'Studio':
+        """A coroutine that fetches a studio from the API.
+        
+        :param studio_id: The studio id
+        :type studio_id: str
+
+        :raises NotFoundError: If the data couldn't be accessed by the scratch API
+
+        :rtype: :class:`ext.api.Studio`
+        """
         PATH = f'https://api.scratch.mit.edu/{studio_id}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -53,12 +85,42 @@ class APIClient (CloudClient):
         
         return Studio(self, **data)
 
+    async def fetch_message_count(self, username: str) -> int:
+        """Fetches message count of a specific user from the api.
+        
+        :param username: The username of the user to search
+        :type username: str
+
+        :raises NotFoundError: If the data couldn't be accessed by the scratch API
+
+        :rtype: int
+        """
+        PATH = f'https://api.scratch.mit.edu/users/{username}/messages/count'
+        data = await self.http_session.get(PATH)
+        data = await data.json()
+        if 'code' in data:
+            if data['code'] == 'NotFound':
+                raise NotFoundError()
+
+        return data['count']
+
 class BaseScratchObject():
+    """A base for scratch objects.
+    If data is not found, it is replaced with the NotFound class.
+    """
     def __setattr__(self, name: str, value) -> None:
         if not (isinstance(value, NotFound) and name in self.__dict__.keys()):
             self.__dict__[name] = value  
 
 class User(BaseScratchObject):
+    """A scratch user object.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+
     def __init__(self, client: APIClient, **kwargs):
         self.client = client
         self._update_all(kwargs)
@@ -82,16 +144,12 @@ class User(BaseScratchObject):
         self.country = get_keys(data, ['profile', 'country'])
 
     async def fetch_api(self):
+        """Fetches data from the API and updates self attributes.
+        """
         PATH = f'https://api.scratch.mit.edu/users/{self.name}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
         self._update_all(data)
-    
-    async def fetch_message_count(self) -> int:
-        PATH = f'https://api.scratch.mit.edu/users/{self.name}/messages/count'
-        data = await self.client.http_session.get(PATH)
-        data = await data.json()
-        return data['count']
     
     async def fetch_favorites(self, limit: int = 20, offset: int = 0) -> List[Project]:
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/favorites?limit={limit}&offset={offset}'
@@ -379,5 +437,4 @@ class Studio(BaseScratchObject):
 
 # TODO
 # Add Regex or bs4 for site-api (followers#, following#, etc)
-# Add /site-api/ methods
 # Add project.fetch_cloud() and ValidateCloud: https://clouddata.scratch.mit.edu/logs?projectid=id&limit=100&offset=0
