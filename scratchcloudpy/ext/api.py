@@ -36,6 +36,7 @@ class APIClient (CloudClient):
 
         :rtype: :class:`ext.api.User`
         """
+
         PATH = f'https://api.scratch.mit.edu/users/{username}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -57,6 +58,7 @@ class APIClient (CloudClient):
 
         :rtype: :class:`ext.api.Project`
         """
+
         PATH = f'https://api.scratch.mit.edu/users/{owner_username}/projects/{project_id}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -76,6 +78,7 @@ class APIClient (CloudClient):
 
         :rtype: :class:`ext.api.Studio`
         """
+
         PATH = f'https://api.scratch.mit.edu/{studio_id}'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -95,6 +98,7 @@ class APIClient (CloudClient):
 
         :rtype: int
         """
+
         PATH = f'https://api.scratch.mit.edu/users/{username}/messages/count'
         data = await self.http_session.get(PATH)
         data = await data.json()
@@ -108,12 +112,13 @@ class BaseScratchObject():
     """A base for scratch objects.
     If data is not found, it is replaced with the NotFound class.
     """
+
     def __setattr__(self, name: str, value) -> None:
         if not (isinstance(value, NotFound) and name in self.__dict__.keys()):
             self.__dict__[name] = value  
 
 class User(BaseScratchObject):
-    """A scratch user object.
+    """A scratch User object.
     
     :param client: The client that the user belongs to
     :type client: :class:`ext.api.APIClient`
@@ -146,12 +151,25 @@ class User(BaseScratchObject):
     async def fetch_api(self):
         """Fetches data from the API and updates self attributes.
         """
+
         PATH = f'https://api.scratch.mit.edu/users/{self.name}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
         self._update_all(data)
     
     async def fetch_favorites(self, limit: int = 20, offset: int = 0) -> List[Project]:
+        """Fetches the user's favorite projects from the api.
+        
+        :param limit: The maximum number of return values,
+            default 20
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.Project`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/favorites?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -163,6 +181,18 @@ class User(BaseScratchObject):
         return projects
 
     async def fetch_followers(self, limit: int = 20, offset: int = 0) -> List[User]:
+        """Fetches the user's followers from the api.
+        
+        :param limit: The maximum number of return values,
+            default 20
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.User`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/followers?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -174,6 +204,18 @@ class User(BaseScratchObject):
         return users
 
     async def fetch_following(self, limit: int = 20, offset: int = 0) -> List[User]:
+        """Fetches who the user is following from the api.
+        
+        :param limit: The maximum number of return values,
+            default 20
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.User`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/following?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -185,6 +227,18 @@ class User(BaseScratchObject):
         return users
 
     async def fetch_projects(self, limit: int = 20, offset: int = 0) -> List[Project]:
+        """Fetches the user's projects from the api.
+        
+        :param limit: The maximum number of return values,
+            default 20
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.Project`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/users/{self.name}/projects?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -196,17 +250,44 @@ class User(BaseScratchObject):
         return projects
 
 class Author(User):
+    """A scratch Author object. Identical to User but may have less data at inception.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+
     pass
 
 class StudioUser(User):
+    """A scratch StudioUser object. Identical to User but may have less data at inception.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+
     pass
 
 class CommentType(Enum):
+    """Enum for comments.
+    """
+
     Project = 0
     Studio = 1
     Profile = 2
 
 class Comment(BaseScratchObject):
+    """A scratch Comment object.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+
     def __init__(self, client: APIClient, comment_type: CommentType, **kwargs):
         self.client = client
         self.comment_type = comment_type
@@ -238,6 +319,18 @@ class Comment(BaseScratchObject):
         self.author = Author(self.client, **get_keys(data, ['author']))
     
     async def fetch_replies(self, limit: int = 20, offset: int = 0) -> List[Reply]:
+        """Fetches the comment's replies from the api.
+        
+        :param limit: The maximum number of return values,
+            default 20
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.Reply`]
+        """
+
         if self.comment_type.value == 0: # Project type
             PATH = f'https://api.scratch.mit.edu/users/{self.project.author.name}/projects/{self.project.id}/comments/{self.id}/replies?offset={offset}&limit={limit}'
         elif self.comment_type.value == 1: # Studio type
@@ -256,9 +349,25 @@ class Comment(BaseScratchObject):
         return comments
 
 class Reply(Comment):
+    """A scratch Reply object.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+    
     pass
 
 class Project(BaseScratchObject):
+    """A scratch Project object.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+   
     def __init__(self, client: APIClient, **kwargs):
         self.client = client
         self.project_json = None
@@ -301,12 +410,27 @@ class Project(BaseScratchObject):
         self.remix_root = get_keys(data, ['remix', 'root'])
 
     async def fetch_api(self):
+        """Fetches data from the API and updates self attributes.
+        """
+
         PATH = f'https://api.scratch.mit.edu/projects/{self.id}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
         self._update_all(data)
     
     async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+        """Fetches the project's comments from the api.
+        
+        :param limit: The maximum number of return values,
+            default 20
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.Comment`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/users/{self.author.name}/projects/{self.id}/comments?offset={offset}&limit={limit}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -317,7 +441,12 @@ class Project(BaseScratchObject):
         
         return comments
     
-    async def fetch_project_json(self):
+    async def fetch_project_json(self) -> dict:
+        """Fetches the project's json from the api.
+
+        :rtype: dict
+        """
+
         PATH = f'https://projects.scratch.mit.edu/{self.id}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -325,7 +454,12 @@ class Project(BaseScratchObject):
         self.project_json = data
         return data
 
-    async def fetch_block_count(self):
+    async def fetch_block_count(self) -> int:
+        """Fetches the project's block count from the project api.
+        
+        :rtype: int
+        """
+
         project = await self.fetch_project_json()
 
         blocks = 0
@@ -334,19 +468,36 @@ class Project(BaseScratchObject):
     
         return blocks
     
-    async def fetch_sprite_count(self):
+    async def fetch_sprite_count(self) -> int:
+        """Fetches the project's sprite count from the project api.
+
+        :rtype: int
+        """
+
         project = await self.fetch_project_json()
 
-        sprites = 0
-        for sprite in project['targets']:
-            sprites += 1
-    
-        return sprites
+        return len(project['targets'])
 
 class StudioProject(Project):
+    """A scratch StudioProject object. Identical to User but may have less data at inception.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+   
     pass
 
 class Studio(BaseScratchObject):
+    """A scratch Studio object.
+    
+    :param client: The client that the user belongs to
+    :type client: :class:`ext.api.APIClient`
+    :param kwargs: The data received from the API
+    :type kwargs: dict
+    """
+
     def __init__(self, client: APIClient, **kwargs):
         self.client = client
         self._update_all(kwargs)
@@ -376,13 +527,28 @@ class Studio(BaseScratchObject):
         self.num_projects = get_keys(data, ['projects'])
 
     async def fetch_api(self):
+        """Fetches data from the API and updates self attributes.
+        """
+
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}'
         data = await self.client.http_session.get(PATH)
         data = await data.json
         self._update_all(data)
 
     async def fetch_projects(self, limit: int = 24, offset: int = 0) -> List[StudioProject]:
-        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/projects/'
+        """Fetches the studio's projects from the api.
+        
+        :param limit: The maximum number of return values,
+            default 24
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.StudioProject`]
+        """
+
+        PATH = f'https://api.scratch.mit.edu/studios/{self.id}/projects/?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
         projects = []
@@ -397,12 +563,23 @@ class Studio(BaseScratchObject):
                     author = {
                         'id': proj['creator_id'],
                         'username': proj['username']
-                    }
-            ))
+                    }))
         
         return projects
 
     async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+        """Fetches the studio's comments from the api.
+        
+        :param limit: The maximum number of return values,
+            default 20
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.Comment`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/comments?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -414,6 +591,18 @@ class Studio(BaseScratchObject):
         return comments
 
     async def fetch_managers(self, limit: int = 40, offset: int = 0) -> List[StudioUser]:
+        """Fetches the studio's managers from the api.
+        
+        :param limit: The maximum number of return values,
+            default 40
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.StudioUser`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/managers/?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
@@ -425,6 +614,18 @@ class Studio(BaseScratchObject):
         return users
     
     async def fetch_curators(self, limit: int = 40, offset: int = 0) -> List[StudioUser]:
+        """Fetches the studio's curators from the api.
+        
+        :param limit: The maximum number of return values,
+            default 40
+        :type limit: int, optional
+        :param offset: The offset for return values,
+            default 0
+        :type offset: int, optional
+
+        :rtype: List[:class:`ext.api.StudioUser`]
+        """
+
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/curators/?limit={limit}&offset={offset}'
         data = await self.client.http_session.get(PATH)
         data = await data.json()
