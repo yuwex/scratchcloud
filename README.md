@@ -1,14 +1,20 @@
-# scratchcloudpy
-An asynchronous Pythonic wrapper for scratch.mit.edu cloud variables.
+# scratchcloud
+An asynchronous pythonic wrapper for the scratch.mit.edu cloud websocket connection.
 
 ## Features
  * Event-based handling
  * Pythonic `async` and `await` syntax
  * Built-in reconnecting
 
+## Extensions
+ * Fetching data from the Scratch API
+ * Easy encoding and decoding of variables
+ * Sending and receiving large cloud payloads
+ * Finding who changed a cloud variable
+
 ## Example
 ```python
-from scratchcloudpy.client import CloudClient, CloudChange
+from scratchcloud import CloudClient, CloudChange
 
 client = CloudClient('SS-2', '588579111')
 
