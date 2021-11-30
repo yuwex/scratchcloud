@@ -15,20 +15,24 @@ class CloudChange:
     
     :param name: the cloud variable's name excluding "☁️ "
     :type name: str
-    :param value: the cloud variable's value.
+    :param value: the cloud variable's value
         If an encoder is specified in :class:`client.CloudClient` this value will be encoded
     :type value: str
-    :param previous_value: the cloud variable's previous value.
+    :param id: the cloud variable's id
+    :type id: int
+    :param previous_value: the cloud variable's previous value
         Never encoded. None if not found
     :type previous_value: str, optional
-    :param sender: the cloud variable's sender.
+    :param sender: the cloud variable's sender
         If sent from the client, will default to the username attribute of :class:`client.CloudClient`. None otherwise
     :param sender: str
     """
 
-    def __init__(self, name: str, value: str, previous_value: str = None, sender = None):
+    def __init__(self, name: str, value: str, id: int, previous_value: str = None, sender = None):
         self.name = name
         self.value = value
+        self.id = id
+
         self.previous_value = previous_value
         self.received_at: float = time.time()
         self.sender = sender
@@ -46,7 +50,7 @@ class CloudChange:
         return self.received_at < other.received_at
 
     def __repr__(self):
-        return f'<{type(self)}: name={self.name}, value={self.value}, previous_value={self.previous_value}, received_at={self.received_at}, sender={self.sender}>'
+        return f'<{type(self)}: name={self.name}, value={self.value}, id={self.id}, previous_value={self.previous_value}, received_at={self.received_at}, sender={self.sender}>'
 
 class RawCloudChange(CloudChange):
     """A subclass of :class:`client.CloudChange`.
@@ -284,9 +288,11 @@ class CloudClient:
                 else:
                     prev_val = None
 
-                cloud = CloudChange(name, value, prev_val)
+                current_id = len(self.cloud_cache)
+
+                cloud = CloudChange(name, value, current_id, previous_value = prev_val)
                 self.cloud_variables.update({name: value})
-                self.cloud_cache.append(RawCloudChange(name, value, prev_val))
+                self.cloud_cache.append(RawCloudChange(name, value, current_id, previous_value = prev_val))
 
                 for func_name, cloud_event_name in self.cloud_events.items():
                     if cloud_event_name == name:
@@ -443,7 +449,8 @@ class CloudClient:
         else:
             prev = None
 
-        self.cloud_cache.append(RawCloudChange(name, value, prev, self.username))
+        current_id = len(self.cloud_cache)
+        self.cloud_cache.append(RawCloudChange(name, value, current_id, previous_value=prev, sender='@CLIENT'))
         self.cloud_variables.update({name: value})
 
     def parse_raw_cloud(self, raw_data: str) -> dict:
