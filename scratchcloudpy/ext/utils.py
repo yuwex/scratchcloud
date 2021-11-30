@@ -2,9 +2,11 @@ from typing import List
 from textwrap import wrap
 import asyncio
 
-from ..client import CloudClient, SizeError
+from ..client import CloudClient, SizeError, CloudChange
 
 class MissingCloudVariable(Exception): pass
+
+class UnableToValidate(Exception): pass
 
 class SegmentDump:
     """A utility for sending and reading large data.
@@ -52,7 +54,6 @@ class SegmentDump:
         :raises SizeError: If the data that will be sent is larger than the maximum length
         """
 
-        
         if self.client.encoder and encode_data:
             data = self.client.encoder(data)
 
@@ -96,7 +97,6 @@ class SegmentDump:
         :rtype: str
         """
 
-        
         payload = ''
         if self.client.encoder and encode_end:
             end_var_value = self.client.encoder(end_var_value)
@@ -112,4 +112,38 @@ class SegmentDump:
         
         return payload
         
+class CloudValidator:
+    
+    def __init__(self, client: CloudClient):
+        self.client = client
         
+    async def validate_cloud(self, cloud: CloudChange):
+        PATH = f'https://clouddata.scratch.mit.edu/logs?projectid={self.client.project_id}&limit=50&offset=0'
+        data = await self.client.http_session.get(PATH)
+        data = await data.json()
+
+        clouddata = []
+        for event in data:
+            if event['verb'] == 'set_var':
+                clouddata.append(event)
+        
+        current_cache = self.client.cloud_cache.copy()
+
+        index = None
+        for count, cached_cloud in enumerate(current_cache):
+            if cached_cloud.id == cloud.id:
+                raw_cloud = cached_cloud
+                index = len(current_cache) - count - 1
+                break
+        
+        if index is None:
+            raise UnableToValidate('CloudChange could not be found in cache')
+        
+        try:
+            sender = clouddata[index]['user']
+        except:
+            raise UnableToValidate('CloudChange could not be found in clouddata api')
+
+        cloud.sender = sender
+    
+        # TODO: More tests when this is under a lot of stress. Ratelimiting is super important too but sephamores seem like a pain
