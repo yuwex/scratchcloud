@@ -119,6 +119,9 @@ class CloudValidator:
         
     async def validate_cloud(self, cloud: CloudChange):
         PATH = f'https://clouddata.scratch.mit.edu/logs?projectid={self.client.project_id}&limit=50&offset=0'
+        
+        current_cache = self.client.cloud_cache.copy()
+        
         data = await self.client.http_session.get(PATH)
         data = await data.json()
 
@@ -127,8 +130,6 @@ class CloudValidator:
             if event['verb'] == 'set_var':
                 clouddata.append(event)
         
-        current_cache = self.client.cloud_cache.copy()
-
         index = None
         for count, cached_cloud in enumerate(current_cache):
             if cached_cloud.id == cloud.id:
@@ -138,12 +139,12 @@ class CloudValidator:
         
         if index is None:
             raise UnableToValidate('CloudChange could not be found in cache')
-        
-        try:
-            sender = clouddata[index]['user']
-        except:
-            raise UnableToValidate('CloudChange could not be found in clouddata api')
+
+        api_data = clouddata[index]
+        if not api_data['value'] == raw_cloud.value:
+            raise UnableToValidate('CloudChange value was different from cloud api value')
+
+        sender = clouddata[index]['user']
 
         cloud.sender = sender
-    
-        # TODO: More tests when this is under a lot of stress. Ratelimiting is super important too but sephamores seem like a pain
+        return sender
