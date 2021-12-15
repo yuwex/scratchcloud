@@ -5,6 +5,8 @@ import json
 import aiohttp
 import time
 
+print("INDEV")
+
 from typing import Callable
 from websockets.exceptions import ConnectionClosedError
 
@@ -213,12 +215,11 @@ class CloudClient:
         :type token: str 
         """
 
-
         headers = {
             "X-CSRFToken": "None",
             "X-Requested-With": "XMLHttpRequest",
             "Referer": "https://scratch.mit.edu",
-            "User-Agent": "None"
+            "User-Agent": "scratchcloud"
         }
         
         session = requests.Session()
@@ -260,6 +261,7 @@ class CloudClient:
         
         :raises `client.ConnectionError`: If no cloud variables are found in the project
         """
+
         payload = {
             'method': 'handshake',
             'user': self.username,
@@ -279,7 +281,6 @@ class CloudClient:
         """A coroutine that receives data from the cloud connection and calls event functions.
         """
 
-
         async for data in self.ws:
             for name, value in self.parse_raw_cloud(data).items():
                 
@@ -294,29 +295,35 @@ class CloudClient:
                 self.cloud_variables.update({name: value})
                 self.cloud_cache.append(RawCloudChange(name, value, current_id, previous_value = prev_val))
 
+                cloud_event_future = None
+
                 for func_name, cloud_event_name in self.cloud_events.items():
                     if cloud_event_name == name:
                         try:
                             if self.decoder:
                                 cloud.value = self.decoder(value)
-                            await getattr(self, f'{func_name}')(cloud)
+                            cloud_event_future = getattr(self, f'{func_name}')(cloud)
                         except Exception as e:
                             if name in self.cloud_event_errors.keys():
-                                await getattr(self, f'{self.cloud_event_errors[name]}')(cloud, e)
+                                cloud_event_future = getattr(self, f'{self.cloud_event_errors[name]}')(cloud, e)
                             else:
                                 raise e
                 
-                               
-                await self.on_message(cloud)
+                if cloud_event_future:
+                    asyncio.ensure_future(asyncio.gather(self.on_message(cloud), cloud_event_future))
+                else:
+                    asyncio.ensure_future(self.on_message(cloud))
                   
     async def on_connect_task(self):
         """A coroutine that calls on_connect.
         """
+
         await self.on_connect()
 
     async def on_disconnect_task(self):
         """A coroutine that calls on_disconnect.
         """
+
         await self.on_disconnect()
 
     # EVENTS
@@ -326,6 +333,7 @@ class CloudClient:
         :param func: A function that will be registered. Must have an identical name to an event
         :param func: Callable
         """
+
         f_name = func.__name__
         
         def wrap(*args, **kwargs):
@@ -351,6 +359,7 @@ class CloudClient:
 
         :raises KeyError: If the cloud variable has already been registered
         """
+
         def decorator(func):
             f_name = func.__name__
             c_name = f'_cloud_event_{f_name}'
@@ -375,6 +384,7 @@ class CloudClient:
 
         :raises KeyError: If the cloud variable has already been registered
         """
+
         def decorator(func):
             f_name = func.__name__
             c_name = f'_cloud_event_error_{f_name}'
@@ -397,16 +407,19 @@ class CloudClient:
         :param content: A cloudchange object that stores data from on_recv
         :type content: :class:`client.CloudChange`
         """
+
         pass
 
     async def on_connect(self):
         """The default value for on_connect.
         """
+
         pass
 
     async def on_disconnect(self):
         """The default value for on_disconnect.
         """
+
         pass
 
     ### CLOUD VARIABLES
