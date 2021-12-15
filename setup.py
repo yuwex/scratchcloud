@@ -5,15 +5,15 @@ def readme():
         return fin.read()
 
 packages = [
-    'scratchcloudpy',
-    'scratchcloudpy.ext',
+    'scratchcloud',
+    'scratchcloud.ext',
 ]
 
 setup(
     name='scratchcloudpy',
     version='1.0.0',
     author='yuwex',
-    url='https://github.com/yuwex/scratchcloudpy',
+    url='https://github.com/yuwex/scratchcloud',
     description='An asynchronous wrapper for scratch.mit.edu cloud variables',
     long_description=readme(),
     long_description_type='text/markdown',
