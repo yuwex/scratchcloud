@@ -7,8 +7,7 @@ import time
 
 from typing import Callable
 from websockets.exceptions import ConnectionClosedError
-
-class SizeError(Exception): pass
+from .errors import SizeError, MissingCloudVariable
 
 class CloudChange:
     """This is a class that stores cloud data received from :class:`client.CloudClient`.
@@ -257,7 +256,7 @@ class CloudClient:
     async def ws_handshake(self):
         """A coroutine that performs a handshake with the websocket connection.
         
-        :raises `client.ConnectionError`: If no cloud variables are found in the project
+        :raises `errors.MissingCloudVariable`: If no cloud variables are found in the project
         """
 
         payload = {
@@ -271,7 +270,7 @@ class CloudClient:
             data = await asyncio.wait_for(self.ws.recv(), 5)
         except:
             await self.close()
-            raise ConnectionError('No Cloud Variables Found!')
+            raise MissingCloudVariable('No Cloud Variables Found!')
         self.cloud_variables.update(self.parse_raw_cloud(data))
 
     # TASKS
