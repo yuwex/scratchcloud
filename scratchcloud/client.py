@@ -5,8 +5,6 @@ import json
 import aiohttp
 import time
 
-print("INDEV")
-
 from typing import Callable
 from websockets.exceptions import ConnectionClosedError
 
