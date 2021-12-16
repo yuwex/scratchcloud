@@ -3,10 +3,7 @@ from textwrap import wrap
 import asyncio
 
 from ..client import CloudClient, SizeError, CloudChange
-
-class MissingCloudVariable(Exception): pass
-
-class UnableToValidate(Exception): pass
+from ..errors import MissingCloudVariable, UnableToValidate
 
 class SegmentDump:
     """A utility for sending and reading large data.

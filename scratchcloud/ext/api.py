@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import List
 
 from ..client import CloudClient
+from ..errors import NotFoundError
 
 from datetime import datetime
 import asyncio
@@ -9,7 +10,6 @@ import aiohttp
 from enum import Enum
 
 class NotFound(): pass
-class NotFoundError(Exception): pass
 
 def get_keys(d: dict, keys: list, if_not_found = NotFound()):
     for key in keys:

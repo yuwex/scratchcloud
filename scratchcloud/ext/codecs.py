@@ -1,7 +1,5 @@
 from textwrap import wrap
-
-class EncodeError(Exception): pass
-class DecodeError(Exception): pass
+from ..errors import EncodeError, DecodeError
 
 class BaseCodec:
     def __init__(self, alphabet: str = 'abcdefghijklmnopqrstuvwxyz1234567890 -=[]\\;\',./!@#$%^&*()_+{}|:\"<>?'):
