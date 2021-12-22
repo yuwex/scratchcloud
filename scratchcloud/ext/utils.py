@@ -110,11 +110,27 @@ class SegmentDump:
         return payload
         
 class CloudValidator:
+    """A utility for getting the sender of CloudChange objects.
+    This class validates a CloudChange variable adding the sender attribute.
     
+    :param client: The client that will be used for operations
+    :type client: :class:`client.CloudClient`
+    """
+
     def __init__(self, client: CloudClient):
         self.client = client
         
     async def validate_cloud(self, cloud: CloudChange):
+        """A method to validate and return the sender of a CloudChange object.
+        
+        :param cloud: A CloudChange object that will be validated
+        :type cloud: `client.CloudChange`
+
+        :raises UnableToValidate: If the CloudChange object could not be validated
+
+        :rtype: str
+        """
+
         PATH = f'https://clouddata.scratch.mit.edu/logs?projectid={self.client.project_id}&limit=50&offset=0'
         
         current_cache = self.client.cloud_cache.copy()
