@@ -10,7 +10,7 @@ packages = [
 ]
 
 setup(
-    name='scratchcloudpy',
+    name='scratchcloud',
     version='1.0.0',
     author='yuwex',
     url='https://github.com/yuwex/scratchcloud',
