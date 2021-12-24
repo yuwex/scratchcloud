@@ -1,5 +1,6 @@
 **/__pycache__/
-runner.py
 
 *.egg-info/
 build/
+
+.DS_Store
