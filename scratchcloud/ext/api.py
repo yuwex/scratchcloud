@@ -479,9 +479,9 @@ class Project(BaseScratchObject):
         return len(project['targets'])
 
 class StudioProject(Project):
-    """A scratch StudioProject object. Identical to User but may have less data at inception.
+    """A scratch StudioProject object. Identical to Project but may have less data at inception.
     
-    :param client: The client that the user belongs to
+    :param client: The client that the project belongs to
     :type client: :class:`ext.api.APIClient`
     :param kwargs: The data received from the API
     :type kwargs: dict
