@@ -25,7 +25,7 @@ Add these lines:
 .. code-block:: python
    :emphasize-lines: 1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
 
-   from scratchcloud import CloudClient
+   from scratchcloud import CloudClient, CloudChange
 
    client = CloudClient(username='yuwe', project_id='588579111')
 
@@ -54,7 +54,7 @@ Finally, we just have to run our client. Add this line with your password:
 .. code-block:: python
    :emphasize-lines: 17
    
-   from scratchcloud import CloudClient
+   from scratchcloud import CloudClient, CloudChange
 
    client = CloudClient(username='yuwe', project_id='588579111')
 
@@ -105,7 +105,7 @@ Let's create a simple cloud event:
 .. code-block:: python
    :emphasize-lines: 4, 5, 6, 7
 
-   from scratchcloud import CloudClient
+   from scratchcloud import CloudClient, CloudChange
    client = CloudClient(username='yuwe', project_id='588579111')
 
    @client.cloud_event('REQUEST')
@@ -122,7 +122,7 @@ We can also catch errors in cloud events:
 .. code-block:: python
    :emphasize-lines: 11, 12, 13, 14, 15, 16
 
-   from scratchcloud import CloudClient
+   from scratchcloud import CloudClient, CloudChange
    client = CloudClient(username='yuwe', project_id='588579111')
 
    @client.cloud_event('REQUEST')
