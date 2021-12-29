@@ -216,7 +216,7 @@ class CloudClient:
             "X-CSRFToken": "None",
             "X-Requested-With": "XMLHttpRequest",
             "Referer": "https://scratch.mit.edu",
-            "User-Agent": "scratchcloud"
+            "User-Agent": "ScratchCloud"
         }
         
         session = requests.Session()

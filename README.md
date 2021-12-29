@@ -1,4 +1,4 @@
-# scratchcloud
+# ScratchCloud
 An asynchronous pythonic wrapper for the scratch.mit.edu cloud websocket connection.
 
 ## Features
@@ -14,7 +14,7 @@ An asynchronous pythonic wrapper for the scratch.mit.edu cloud websocket connect
 
 ## Example
 ```python
-from scratchcloud import CloudClient, CloudChange
+from ScratchCloud import CloudClient, CloudChange
 
 client = CloudClient('SS-2', '588579111')
 
@@ -35,5 +35,6 @@ client.run("SuperSecretPassword22")
 ```
 
 ## Links
+ * [Docs](https://yuwex.github.io/ScratchCloud)
  * [Scratch](https://scratch.mit.edu)
  * [Python Asyncio](https://docs.python.org/3/library/asyncio.html)

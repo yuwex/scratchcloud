@@ -1,18 +1,18 @@
-scratchcloud docs
+ScratchCloud docs
 ====================
 
-scratchcloud.client module
+ScratchCloud.client module
 --------------------------
 
-.. automodule:: scratchcloud.client
+.. automodule:: ScratchCloud.client
    :members:
    :undoc-members:
    :show-inheritance:
 
-scratchcloud.errors module
+ScratchCloud.errors module
 --------------------------
 
-.. automodule:: scratchcloud.errors
+.. automodule:: ScratchCloud.errors
    :members:
    :undoc-members:
    :show-inheritance:

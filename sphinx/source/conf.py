@@ -13,12 +13,12 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
-sys.path.append(os.path.abspath('../../scratchcloud'))
+sys.path.append(os.path.abspath('../../ScratchCloud'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'scratchcloud'
+project = 'ScratchCloud'
 copyright = '2021, yuwex'
 author = 'yuwex'
 

@@ -1,26 +1,26 @@
 extensions docs
 ========================
 
-scratchcloud.ext.api module
+ScratchCloud.ext.api module
 ---------------------------
 
-.. automodule:: scratchcloud.ext.api
+.. automodule:: ScratchCloud.ext.api
    :members:
    :undoc-members:
    :show-inheritance:
 
-scratchcloud.ext.codecs module
+ScratchCloud.ext.codecs module
 ------------------------------
 
-.. automodule:: scratchcloud.ext.codecs
+.. automodule:: ScratchCloud.ext.codecs
    :members:
    :undoc-members:
    :show-inheritance:
 
-scratchcloud.ext.utils module
+ScratchCloud.ext.utils module
 -----------------------------
 
-.. automodule:: scratchcloud.ext.utils
+.. automodule:: ScratchCloud.ext.utils
    :members:
    :undoc-members:
    :show-inheritance:
