@@ -5,8 +5,6 @@ from ..client import CloudClient
 from ..errors import NotFoundError
 
 from datetime import datetime
-import asyncio
-import aiohttp
 from enum import Enum
 
 class NotFound(): pass
