@@ -17,7 +17,7 @@ setup(
     description='An asynchronous wrapper for scratch.mit.edu cloud variables',
     long_description=readme(),
     long_description_type='text/markdown',
-    install_requires=['aiohttp', 'requests', 'websockets'],
+    install_requires=['aiohttp', 'websockets'],
     keywords=['core', 'package'],
     packages=packages,
 )
