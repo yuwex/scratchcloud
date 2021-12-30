@@ -88,26 +88,6 @@ class APIClient (CloudClient):
         
         return Studio(self, **data)
 
-    async def fetch_message_count(self, username: str) -> int:
-        """Fetches message count of a specific user from the api.
-        
-        :param username: The username of the user to search
-        :type username: str
-
-        :raises NotFoundError: If the data couldn't be accessed by the scratch API
-
-        :rtype: int
-        """
-
-        PATH = f'https://api.scratch.mit.edu/users/{username}/messages/count'
-        data = await self.http_session.get(PATH)
-        data = await data.json()
-        if 'code' in data:
-            if data['code'] == 'NotFound':
-                raise NotFoundError()
-
-        return data['count']
-
 class BaseScratchObject():
     """A base for scratch objects.
     If data is not found, it is replaced with the NotFound class.
@@ -248,6 +228,26 @@ class User(BaseScratchObject):
             projects.append(Project(client=self.client, **project))
         
         return projects
+
+    async def fetch_message_count(self) -> int:
+        """Fetches message count of a specific user from the api.
+        
+        :param username: The username of the user to search
+        :type username: str
+
+        :raises NotFoundError: If the data couldn't be accessed by the scratch API
+
+        :rtype: int
+        """
+
+        PATH = f'https://api.scratch.mit.edu/users/{self.name}/messages/count'
+        data = await self.http_session.get(PATH)
+        data = await data.json()
+        if 'code' in data:
+            if data['code'] == 'NotFound':
+                raise NotFoundError()
+
+        return data['count']
 
 class Author(User):
     """A scratch Author object. Identical to User but may have less data at inception.
@@ -635,7 +635,3 @@ class Studio(BaseScratchObject):
             users.append(StudioUser(self.client, **user))
         
         return users
-
-# TODO
-# Add Regex or bs4 for site-api (followers#, following#, etc)
-# Add project.fetch_cloud() and ValidateCloud: https://clouddata.scratch.mit.edu/logs?projectid=id&limit=100&offset=0
