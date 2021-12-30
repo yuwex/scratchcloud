@@ -1,5 +1,4 @@
 import asyncio
-import requests
 import websockets
 import json
 import aiohttp
@@ -134,7 +133,7 @@ class CloudClient:
                 loop.create_task(self.on_disconnect_task())
                 loop.run_until_complete(self.close())
                 break
-            except (ConnectionClosedError, ConnectionError, requests.exceptions.ConnectionError, TimeoutError) as e:
+            except (ConnectionClosedError, ConnectionError, TimeoutError) as e:
                 if self.disconnect_messages:
                     print(f'Disconnected due to type: {type(e)}\n{e}')
                 
@@ -219,23 +218,28 @@ class CloudClient:
             "User-Agent": "ScratchCloud"
         }
         
-        session = requests.Session()
-        
-        with session.get("https://scratch.mit.edu/csrf_token/", headers=headers) as r:
-            csrf = r.cookies['scratchcsrftoken']
-        
-        headers['X-CSRFToken'] = csrf
+        cookies = {}
 
-        data = {
-            'username': self.username,
-            'password': token
-        }
+        async with aiohttp.ClientSession(headers=headers) as session:
+            async with session.get('https://scratch.mit.edu/csrf_token/'):
+                filtered = session.cookie_jar.filter_cookies('https://scratch.mit.edu')
+                csrf = filtered['scratchcsrftoken'].value
 
-        with session.post("https://scratch.mit.edu/login/", data=json.dumps(data), headers=headers) as p:
-            if p.status_code != 200:
-                raise ConnectionError('Login Error: Not 200 login status!')
+                headers['X-CSRFToken'] = csrf
+                cookies['scratchcsrftoken'] = csrf
 
-        cookies = session.cookies.get_dict()
+            data = {
+                'username': self.username,
+                'password': token,
+            }
+
+            async with session.post('https://scratch.mit.edu/login/', data=json.dumps(data), headers=headers) as p:
+                if p.status != 200:
+                    raise ConnectionError(f'Login Error: Not 200 login status! Got {p.status}')
+
+                filtered = session.cookie_jar.filter_cookies('https://scratch.mit.edu')
+
+                cookies['scratchsessionsid'] = filtered['scratchsessionsid'].value
 
         self.http_session = aiohttp.ClientSession(cookies=cookies, headers=headers)
         self.cookies = cookies
