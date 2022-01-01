@@ -113,7 +113,7 @@ class User(BaseScratchObject):
         self.name = get_keys(data, ['username'])
         self.scratchteam = get_keys(data, ['scratchteam'])
         self.joined_at = get_keys(data, ['history', 'joined'])
-        if type(self.joined_at) == 'str':
+        if isinstance(self.joined_at, str):
             self.joined_at = datetime.strptime(self.joined_at, "%Y-%m-%dT%H:%M:%S.%f%z")
         
         self.image_90x90 = get_keys(data, ['profile', 'images', '90x90'])
@@ -304,11 +304,11 @@ class Comment(BaseScratchObject):
         self.content = get_keys(data, ['content'])
 
         self.created_at = get_keys(data, ['datetime_created'])
-        if type(self.created_at) == 'str':
+        if isinstance(self.created_at, str):
             self.created_at = datetime.strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f%z")
 
         self.modified_at = get_keys(data, ['datetime_modified'])
-        if type(self.modified_at) == 'str':
+        if isinstance(self.modified_at, str):
             self.modified_at = datetime.strptime(self.modified_at, "%Y-%m-%dT%H:%M:%S.%f%z")
 
         self.visibility = get_keys(data, ['visibility'])
@@ -386,15 +386,15 @@ class Project(BaseScratchObject):
 
         self.image = get_keys(data, ['image'])
         self.created_at = get_keys(data, ['history', 'created'])
-        if type(self.created_at) == 'str':
+        if isinstance(self.created_at, str):
             self.created_at = datetime.strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f%z")
 
         self.modified_at = get_keys(data, ['history', 'modified'])
-        if type(self.modified_at) == 'str':
+        if isinstance(self.modified_at, str):
             self.modified_at = datetime.strptime(self.modified_at, "%Y-%m-%dT%H:%M:%S.%f%z")
 
         self.shared_at = get_keys(data, ['history', 'shared'])
-        if type(self.shared_at) == 'str':
+        if isinstance(self.shared_at, str):
             self.shared_at = datetime.strptime(self.shared_at, "%Y-%m-%dT%H:%M:%S.%f%z")
          
 
@@ -512,11 +512,11 @@ class Studio(BaseScratchObject):
         self.image = get_keys(data, ['image'])
 
         self.created_at = get_keys(data, ['created'])
-        if type(self.created_at) == 'str':
+        if isinstance(self.created_at, str):
             self.created_at = datetime.strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f%z")
 
         self.modified_at = get_keys(data, ['modified'])
-        if type(self.modified_at) == 'str':
+        if isinstance(self.modified_at, str):
             self.modified_at = datetime.strptime(self.modified_at, "%Y-%m-%dT%H:%M:%S.%f%z")
 
         self.num_comments = get_keys(data, ['comments'])
