@@ -4,7 +4,7 @@ ScratchCloud docs
 ScratchCloud.client module
 --------------------------
 
-.. automodule:: ScratchCloud.client
+.. automodule:: scratchcloud.client
    :members:
    :undoc-members:
    :show-inheritance:
@@ -12,7 +12,7 @@ ScratchCloud.client module
 ScratchCloud.errors module
 --------------------------
 
-.. automodule:: ScratchCloud.errors
+.. automodule:: scratchcloud.errors
    :members:
    :undoc-members:
    :show-inheritance:

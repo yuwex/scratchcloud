@@ -44,9 +44,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ScratchCloud.html">ScratchCloud</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ScratchCloud extensions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-ScratchCloud.ext.api">ScratchCloud.ext.api module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ScratchCloud.ext.codecs">ScratchCloud.ext.codecs module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ScratchCloud.ext.utils">ScratchCloud.ext.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scratchcloud.ext.api">ScratchCloud.ext.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scratchcloud.ext.codecs">ScratchCloud.ext.codecs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scratchcloud.ext.utils">ScratchCloud.ext.utils module</a></li>
 </ul>
 </li>
 </ul>
@@ -77,33 +77,16 @@
              
   <section id="extensions-docs">
 <h1>extensions docs<a class="headerlink" href="#extensions-docs" title="Permalink to this headline"></a></h1>
-<section id="module-ScratchCloud.ext.api">
-<span id="scratchcloud-ext-api-module"></span><h2>ScratchCloud.ext.api module<a class="headerlink" href="#module-ScratchCloud.ext.api" title="Permalink to this headline"></a></h2>
+<section id="module-scratchcloud.ext.api">
+<span id="scratchcloud-ext-api-module"></span><h2>ScratchCloud.ext.api module<a class="headerlink" href="#module-scratchcloud.ext.api" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.APIClient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">APIClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.APIClient" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="ScratchCloud.html#ScratchCloud.client.CloudClient" title="ScratchCloud.client.CloudClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.client.CloudClient</span></code></a></p>
-<p>A wrapper for CloudClient that interfaces with the scratch API.</p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.APIConnection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">APIConnection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ScratchCloud.html#scratchcloud.client.CloudClient" title="scratchcloud.client.CloudClient"><span class="pre">scratchcloud.client.CloudClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.APIConnection" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An interface that connects to the base scratch API.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.APIClient.fetch_message_count">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_message_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.APIClient.fetch_message_count" title="Permalink to this definition"></a></dt>
-<dd><p>Fetches message count of a specific user from the api.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – The username of the user to search</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#ScratchCloud.errors.NotFoundError" title="ScratchCloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.APIClient.fetch_project">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">owner_username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ScratchCloud.ext.api.Project" title="ScratchCloud.ext.api.Project"><span class="pre">ScratchCloud.ext.api.Project</span></a></span></span><a class="headerlink" href="#ScratchCloud.ext.api.APIClient.fetch_project" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.APIConnection.fetch_project">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">owner_username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scratchcloud.ext.api.Project" title="scratchcloud.ext.api.Project"><span class="pre">scratchcloud.ext.api.Project</span></a></span></span><a class="headerlink" href="#scratchcloud.ext.api.APIConnection.fetch_project" title="Permalink to this definition"></a></dt>
 <dd><p>A coroutine that fetches a project from the API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -113,7 +96,7 @@
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#ScratchCloud.errors.NotFoundError" title="ScratchCloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
+<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#scratchcloud.errors.NotFoundError" title="scratchcloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.Project</span></code></p>
@@ -122,15 +105,15 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.APIClient.fetch_studio">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_studio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">studio_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ScratchCloud.ext.api.Studio" title="ScratchCloud.ext.api.Studio"><span class="pre">ScratchCloud.ext.api.Studio</span></a></span></span><a class="headerlink" href="#ScratchCloud.ext.api.APIClient.fetch_studio" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.APIConnection.fetch_studio">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_studio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">studio_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scratchcloud.ext.api.Studio" title="scratchcloud.ext.api.Studio"><span class="pre">scratchcloud.ext.api.Studio</span></a></span></span><a class="headerlink" href="#scratchcloud.ext.api.APIConnection.fetch_studio" title="Permalink to this definition"></a></dt>
 <dd><p>A coroutine that fetches a studio from the API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>studio_id</strong> (<em>str</em>) – The studio id</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#ScratchCloud.errors.NotFoundError" title="ScratchCloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
+<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#scratchcloud.errors.NotFoundError" title="scratchcloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.Studio</span></code></p>
@@ -139,15 +122,15 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.APIClient.fetch_user">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ScratchCloud.ext.api.User" title="ScratchCloud.ext.api.User"><span class="pre">ScratchCloud.ext.api.User</span></a></span></span><a class="headerlink" href="#ScratchCloud.ext.api.APIClient.fetch_user" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.APIConnection.fetch_user">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scratchcloud.ext.api.User" title="scratchcloud.ext.api.User"><span class="pre">scratchcloud.ext.api.User</span></a></span></span><a class="headerlink" href="#scratchcloud.ext.api.APIConnection.fetch_user" title="Permalink to this definition"></a></dt>
 <dd><p>A coroutine that fetches a user from the API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – The user’s name that will be fetched</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#ScratchCloud.errors.NotFoundError" title="ScratchCloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
+<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#scratchcloud.errors.NotFoundError" title="scratchcloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.User</span></code></p>
@@ -158,14 +141,14 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Author">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Author</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.Author" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.User" title="ScratchCloud.ext.api.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.User</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Author">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Author</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.Author" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.User" title="scratchcloud.ext.api.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.User</span></code></a></p>
 <p>A scratch Author object. Identical to User but may have less data at inception.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the user belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the user belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
@@ -173,29 +156,29 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.BaseScratchObject">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">BaseScratchObject</span></span><a class="headerlink" href="#ScratchCloud.ext.api.BaseScratchObject" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.BaseScratchObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">BaseScratchObject</span></span><a class="headerlink" href="#scratchcloud.ext.api.BaseScratchObject" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A base for scratch objects.
 If data is not found, it is replaced with the NotFound class.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Comment">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.CommentType" title="ScratchCloud.ext.api.CommentType"><span class="pre">ScratchCloud.ext.api.CommentType</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.Comment" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.BaseScratchObject" title="ScratchCloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.BaseScratchObject</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Comment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.CommentType" title="scratchcloud.ext.api.CommentType"><span class="pre">scratchcloud.ext.api.CommentType</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.Comment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.BaseScratchObject" title="scratchcloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.BaseScratchObject</span></code></a></p>
 <p>A scratch Comment object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the user belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the user belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Comment.fetch_replies">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_replies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.Reply" title="ScratchCloud.ext.api.Reply"><span class="pre">ScratchCloud.ext.api.Reply</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Comment.fetch_replies" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Comment.fetch_replies">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_replies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.Reply" title="scratchcloud.ext.api.Reply"><span class="pre">scratchcloud.ext.api.Reply</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Comment.fetch_replies" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the comment’s replies from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -215,55 +198,55 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.CommentType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">CommentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.CommentType" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.CommentType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">CommentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.CommentType" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Enum for comments.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.CommentType.Profile">
-<span class="sig-name descname"><span class="pre">Profile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#ScratchCloud.ext.api.CommentType.Profile" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.CommentType.Profile">
+<span class="sig-name descname"><span class="pre">Profile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scratchcloud.ext.api.CommentType.Profile" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.CommentType.Project">
-<span class="sig-name descname"><span class="pre">Project</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#ScratchCloud.ext.api.CommentType.Project" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.CommentType.Project">
+<span class="sig-name descname"><span class="pre">Project</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scratchcloud.ext.api.CommentType.Project" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.CommentType.Studio">
-<span class="sig-name descname"><span class="pre">Studio</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#ScratchCloud.ext.api.CommentType.Studio" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.CommentType.Studio">
+<span class="sig-name descname"><span class="pre">Studio</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scratchcloud.ext.api.CommentType.Studio" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.NotFound">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">NotFound</span></span><a class="headerlink" href="#ScratchCloud.ext.api.NotFound" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.NotFound">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">NotFound</span></span><a class="headerlink" href="#scratchcloud.ext.api.NotFound" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Project">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.Project" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.BaseScratchObject" title="ScratchCloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.BaseScratchObject</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Project">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.Project" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.BaseScratchObject" title="scratchcloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.BaseScratchObject</span></code></a></p>
 <p>A scratch Project object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the user belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the user belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Project.fetch_api">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.Project.fetch_api" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Project.fetch_api">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.Project.fetch_api" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches data from the API and updates self attributes.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Project.fetch_block_count">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_block_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Project.fetch_block_count" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Project.fetch_block_count">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_block_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Project.fetch_block_count" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the project’s block count from the project api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -273,8 +256,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Project.fetch_comments">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.Comment" title="ScratchCloud.ext.api.Comment"><span class="pre">ScratchCloud.ext.api.Comment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Project.fetch_comments" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Project.fetch_comments">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.Comment" title="scratchcloud.ext.api.Comment"><span class="pre">scratchcloud.ext.api.Comment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Project.fetch_comments" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the project’s comments from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -292,8 +275,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Project.fetch_project_json">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_project_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Project.fetch_project_json" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Project.fetch_project_json">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_project_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Project.fetch_project_json" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the project’s json from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -303,8 +286,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Project.fetch_sprite_count">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_sprite_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Project.fetch_sprite_count" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Project.fetch_sprite_count">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_sprite_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Project.fetch_sprite_count" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the project’s sprite count from the project api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -316,14 +299,14 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Reply">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Reply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.CommentType" title="ScratchCloud.ext.api.CommentType"><span class="pre">ScratchCloud.ext.api.CommentType</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.Reply" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.Comment" title="ScratchCloud.ext.api.Comment"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.Comment</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Reply">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Reply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.CommentType" title="scratchcloud.ext.api.CommentType"><span class="pre">scratchcloud.ext.api.CommentType</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.Reply" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.Comment" title="scratchcloud.ext.api.Comment"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.Comment</span></code></a></p>
 <p>A scratch Reply object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the user belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the user belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
@@ -331,27 +314,27 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Studio">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Studio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.Studio" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.BaseScratchObject" title="ScratchCloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.BaseScratchObject</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Studio">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">Studio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.Studio" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.BaseScratchObject" title="scratchcloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.BaseScratchObject</span></code></a></p>
 <p>A scratch Studio object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the user belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the user belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Studio.fetch_api">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.Studio.fetch_api" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Studio.fetch_api">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.Studio.fetch_api" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches data from the API and updates self attributes.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Studio.fetch_comments">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.Comment" title="ScratchCloud.ext.api.Comment"><span class="pre">ScratchCloud.ext.api.Comment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Studio.fetch_comments" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Studio.fetch_comments">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.Comment" title="scratchcloud.ext.api.Comment"><span class="pre">scratchcloud.ext.api.Comment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Studio.fetch_comments" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the studio’s comments from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -369,8 +352,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Studio.fetch_curators">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_curators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.StudioUser" title="ScratchCloud.ext.api.StudioUser"><span class="pre">ScratchCloud.ext.api.StudioUser</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Studio.fetch_curators" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Studio.fetch_curators">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_curators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.StudioUser" title="scratchcloud.ext.api.StudioUser"><span class="pre">scratchcloud.ext.api.StudioUser</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Studio.fetch_curators" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the studio’s curators from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -388,8 +371,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Studio.fetch_managers">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_managers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.StudioUser" title="ScratchCloud.ext.api.StudioUser"><span class="pre">ScratchCloud.ext.api.StudioUser</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Studio.fetch_managers" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Studio.fetch_managers">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_managers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.StudioUser" title="scratchcloud.ext.api.StudioUser"><span class="pre">scratchcloud.ext.api.StudioUser</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Studio.fetch_managers" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the studio’s managers from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -407,8 +390,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.Studio.fetch_projects">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.StudioProject" title="ScratchCloud.ext.api.StudioProject"><span class="pre">ScratchCloud.ext.api.StudioProject</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.Studio.fetch_projects" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Studio.fetch_projects">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.StudioProject" title="scratchcloud.ext.api.StudioProject"><span class="pre">scratchcloud.ext.api.StudioProject</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.Studio.fetch_projects" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the studio’s projects from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -428,14 +411,14 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.StudioProject">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">StudioProject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.StudioProject" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.Project" title="ScratchCloud.ext.api.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.Project</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.StudioProject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">StudioProject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.StudioProject" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.Project" title="scratchcloud.ext.api.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.Project</span></code></a></p>
 <p>A scratch StudioProject object. Identical to Project but may have less data at inception.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the project belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the project belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
@@ -443,14 +426,14 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.StudioUser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">StudioUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.StudioUser" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.User" title="ScratchCloud.ext.api.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.User</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.StudioUser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">StudioUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.StudioUser" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.User" title="scratchcloud.ext.api.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.User</span></code></a></p>
 <p>A scratch StudioUser object. Identical to User but may have less data at inception.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the user belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the user belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
@@ -458,27 +441,27 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.User">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ScratchCloud.ext.api.APIClient" title="ScratchCloud.ext.api.APIClient"><span class="pre">ScratchCloud.ext.api.APIClient</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.User" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ScratchCloud.ext.api.BaseScratchObject" title="ScratchCloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScratchCloud.ext.api.BaseScratchObject</span></code></a></p>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.User">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.ext.api.APIConnection" title="scratchcloud.ext.api.APIConnection"><span class="pre">scratchcloud.ext.api.APIConnection</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.User" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scratchcloud.ext.api.BaseScratchObject" title="scratchcloud.ext.api.BaseScratchObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api.BaseScratchObject</span></code></a></p>
 <p>A scratch User object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIClient</span></code>) – The client that the user belongs to</p></li>
+<li><p><strong>client</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ext.api.APIConnection</span></code>) – The client that the user belongs to</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – The data received from the API</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.User.fetch_api">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.User.fetch_api" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.User.fetch_api">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.User.fetch_api" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches data from the API and updates self attributes.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.User.fetch_favorites">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_favorites</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.Project" title="ScratchCloud.ext.api.Project"><span class="pre">ScratchCloud.ext.api.Project</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.User.fetch_favorites" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.User.fetch_favorites">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_favorites</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.Project" title="scratchcloud.ext.api.Project"><span class="pre">scratchcloud.ext.api.Project</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.User.fetch_favorites" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the user’s favorite projects from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -496,8 +479,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.User.fetch_followers">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_followers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.User" title="ScratchCloud.ext.api.User"><span class="pre">ScratchCloud.ext.api.User</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.User.fetch_followers" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.User.fetch_followers">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_followers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.User" title="scratchcloud.ext.api.User"><span class="pre">scratchcloud.ext.api.User</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.User.fetch_followers" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the user’s followers from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -515,8 +498,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.User.fetch_following">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_following</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.User" title="ScratchCloud.ext.api.User"><span class="pre">ScratchCloud.ext.api.User</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.User.fetch_following" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.User.fetch_following">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_following</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.User" title="scratchcloud.ext.api.User"><span class="pre">scratchcloud.ext.api.User</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.User.fetch_following" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches who the user is following from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -534,8 +517,25 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.User.fetch_projects">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ScratchCloud.ext.api.Project" title="ScratchCloud.ext.api.Project"><span class="pre">ScratchCloud.ext.api.Project</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ScratchCloud.ext.api.User.fetch_projects" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.User.fetch_message_count">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_message_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#scratchcloud.ext.api.User.fetch_message_count" title="Permalink to this definition"></a></dt>
+<dd><p>Fetches message count of a specific user from the api.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – The username of the user to search</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#scratchcloud.errors.NotFoundError" title="scratchcloud.errors.NotFoundError"><strong>NotFoundError</strong></a> – If the data couldn’t be accessed by the scratch API</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scratchcloud.ext.api.User.fetch_projects">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scratchcloud.ext.api.Project" title="scratchcloud.ext.api.Project"><span class="pre">scratchcloud.ext.api.Project</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scratchcloud.ext.api.User.fetch_projects" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the user’s projects from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -555,35 +555,35 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="ScratchCloud.ext.api.get_keys">
-<span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">get_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d:</span> <span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys:</span> <span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_not_found=&lt;ScratchCloud.ext.api.NotFound</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.api.get_keys" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.get_keys">
+<span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.api.</span></span><span class="sig-name descname"><span class="pre">get_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d:</span> <span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys:</span> <span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_not_found=&lt;scratchcloud.ext.api.NotFound</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.api.get_keys" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
-<section id="module-ScratchCloud.ext.codecs">
-<span id="scratchcloud-ext-codecs-module"></span><h2>ScratchCloud.ext.codecs module<a class="headerlink" href="#module-ScratchCloud.ext.codecs" title="Permalink to this headline"></a></h2>
+<section id="module-scratchcloud.ext.codecs">
+<span id="scratchcloud-ext-codecs-module"></span><h2>ScratchCloud.ext.codecs module<a class="headerlink" href="#module-scratchcloud.ext.codecs" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.codecs.BaseCodec">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.codecs.</span></span><span class="sig-name descname"><span class="pre">BaseCodec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alphabet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'abcdefghijklmnopqrstuvwxyz1234567890</span> <span class="pre">-=[]\\;\',./!&#64;#$%^&amp;*()_+{}|:&quot;&lt;&gt;?'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.codecs.BaseCodec" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.codecs.BaseCodec">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.codecs.</span></span><span class="sig-name descname"><span class="pre">BaseCodec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alphabet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'abcdefghijklmnopqrstuvwxyz1234567890</span> <span class="pre">-=[]\\;\',./!&#64;#$%^&amp;*()_+{}|:&quot;&lt;&gt;?'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.codecs.BaseCodec" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.codecs.BaseCodec.decode">
-<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ScratchCloud.ext.codecs.BaseCodec.decode" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.codecs.BaseCodec.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scratchcloud.ext.codecs.BaseCodec.decode" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.codecs.BaseCodec.encode">
-<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plaintext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ScratchCloud.ext.codecs.BaseCodec.encode" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.codecs.BaseCodec.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plaintext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scratchcloud.ext.codecs.BaseCodec.encode" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-ScratchCloud.ext.utils">
-<span id="scratchcloud-ext-utils-module"></span><h2>ScratchCloud.ext.utils module<a class="headerlink" href="#module-ScratchCloud.ext.utils" title="Permalink to this headline"></a></h2>
+<section id="module-scratchcloud.ext.utils">
+<span id="scratchcloud-ext-utils-module"></span><h2>ScratchCloud.ext.utils module<a class="headerlink" href="#module-scratchcloud.ext.utils" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.utils.CloudValidator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.utils.</span></span><span class="sig-name descname"><span class="pre">CloudValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ScratchCloud.html#ScratchCloud.client.CloudClient" title="ScratchCloud.client.CloudClient"><span class="pre">ScratchCloud.client.CloudClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.utils.CloudValidator" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.utils.CloudValidator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.utils.</span></span><span class="sig-name descname"><span class="pre">CloudValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ScratchCloud.html#scratchcloud.client.CloudClient" title="scratchcloud.client.CloudClient"><span class="pre">scratchcloud.client.CloudClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.utils.CloudValidator" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A utility for getting the sender of CloudChange objects.
 This class validates a CloudChange variable adding the sender attribute.</p>
@@ -593,15 +593,15 @@ This class validates a CloudChange variable adding the sender attribute.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.utils.CloudValidator.validate_cloud">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cloud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ScratchCloud.html#ScratchCloud.client.CloudChange" title="ScratchCloud.client.CloudChange"><span class="pre">ScratchCloud.client.CloudChange</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.utils.CloudValidator.validate_cloud" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.utils.CloudValidator.validate_cloud">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cloud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ScratchCloud.html#scratchcloud.client.CloudChange" title="scratchcloud.client.CloudChange"><span class="pre">scratchcloud.client.CloudChange</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.utils.CloudValidator.validate_cloud" title="Permalink to this definition"></a></dt>
 <dd><p>A method to validate and return the sender of a CloudChange object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>cloud</strong> (<cite>client.CloudChange</cite>) – A CloudChange object that will be validated</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#ScratchCloud.errors.UnableToValidate" title="ScratchCloud.errors.UnableToValidate"><strong>UnableToValidate</strong></a> – If the CloudChange object could not be validated</p>
+<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#scratchcloud.errors.UnableToValidate" title="scratchcloud.errors.UnableToValidate"><strong>UnableToValidate</strong></a> – If the CloudChange object could not be validated</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -612,8 +612,8 @@ This class validates a CloudChange variable adding the sender attribute.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ScratchCloud.ext.utils.SegmentDump">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ScratchCloud.ext.utils.</span></span><span class="sig-name descname"><span class="pre">SegmentDump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ScratchCloud.html#ScratchCloud.client.CloudClient" title="ScratchCloud.client.CloudClient"><span class="pre">ScratchCloud.client.CloudClient</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.utils.SegmentDump" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.utils.SegmentDump">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.ext.utils.</span></span><span class="sig-name descname"><span class="pre">SegmentDump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ScratchCloud.html#scratchcloud.client.CloudClient" title="scratchcloud.client.CloudClient"><span class="pre">scratchcloud.client.CloudClient</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloud_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.utils.SegmentDump" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A utility for sending and reading large data.
 This class reads large data by breaks it into segments.</p>
@@ -625,17 +625,17 @@ This class reads large data by breaks it into segments.</p>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#ScratchCloud.errors.MissingCloudVariable" title="ScratchCloud.errors.MissingCloudVariable"><strong>MissingCloudVariable</strong></a> – If not all cloud_names are found in the cached cloud variables</p>
+<dd class="field-even"><p><a class="reference internal" href="ScratchCloud.html#scratchcloud.errors.MissingCloudVariable" title="scratchcloud.errors.MissingCloudVariable"><strong>MissingCloudVariable</strong></a> – If not all cloud_names are found in the cached cloud variables</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.utils.SegmentDump.dict_has_all_keys">
-<span class="sig-name descname"><span class="pre">dict_has_all_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.utils.SegmentDump.dict_has_all_keys" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.utils.SegmentDump.dict_has_all_keys">
+<span class="sig-name descname"><span class="pre">dict_has_all_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.utils.SegmentDump.dict_has_all_keys" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.utils.SegmentDump.dump">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_empty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ScratchCloud.ext.utils.SegmentDump.dump" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.utils.SegmentDump.dump">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_empty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.ext.utils.SegmentDump.dump" title="Permalink to this definition"></a></dt>
 <dd><p>A asynchronous method to dump data to several variables at once.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -654,15 +654,15 @@ default False</p></li>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>ValueError</strong> – If the value that will be encoded is not digits</p></li>
-<li><p><a class="reference internal" href="ScratchCloud.html#ScratchCloud.errors.SizeError" title="ScratchCloud.errors.SizeError"><strong>SizeError</strong></a> – If the data that will be sent is larger than the maximum length</p></li>
+<li><p><a class="reference internal" href="ScratchCloud.html#scratchcloud.errors.SizeError" title="scratchcloud.errors.SizeError"><strong>SizeError</strong></a> – If the data that will be sent is larger than the maximum length</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ScratchCloud.ext.utils.SegmentDump.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decode_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_var_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ScratchCloud.ext.utils.SegmentDump.read" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.utils.SegmentDump.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decode_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_var_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scratchcloud.ext.utils.SegmentDump.read" title="Permalink to this definition"></a></dt>
 <dd><p>A method to read data from several variables at once.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
