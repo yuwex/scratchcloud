@@ -4,7 +4,7 @@ extensions docs
 ScratchCloud.ext.api module
 ---------------------------
 
-.. automodule:: ScratchCloud.ext.api
+.. automodule:: scratchcloud.ext.api
    :members:
    :undoc-members:
    :show-inheritance:
@@ -12,7 +12,7 @@ ScratchCloud.ext.api module
 ScratchCloud.ext.codecs module
 ------------------------------
 
-.. automodule:: ScratchCloud.ext.codecs
+.. automodule:: scratchcloud.ext.codecs
    :members:
    :undoc-members:
    :show-inheritance:
@@ -20,7 +20,7 @@ ScratchCloud.ext.codecs module
 ScratchCloud.ext.utils module
 -----------------------------
 
-.. automodule:: ScratchCloud.ext.utils
+.. automodule:: scratchcloud.ext.utils
    :members:
    :undoc-members:
    :show-inheritance:
