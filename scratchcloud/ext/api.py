@@ -17,12 +17,12 @@ def get_keys(d: dict, keys: list, if_not_found = NotFound()):
             return if_not_found
     return d
 
-class APIClient (CloudClient):
-    """A wrapper for CloudClient that interfaces with the scratch API.
+class APIConnection():
+    """An interface that connects to the base scratch API.
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, client: CloudClient):
+        self.client = client
     
     async def fetch_user(self, username: str) -> 'User':
         """A coroutine that fetches a user from the API.
@@ -36,12 +36,10 @@ class APIClient (CloudClient):
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{username}'
-        data = await self.http_session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         if 'code' in data:
-            if data['code'] == 'NotFound':
-                raise NotFoundError()
-        
+            raise NotFoundError()
         return User(self, **data)
     
     async def fetch_project(self, owner_username: str, project_id: str) -> 'Project':
@@ -58,11 +56,10 @@ class APIClient (CloudClient):
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{owner_username}/projects/{project_id}'
-        data = await self.http_session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         if 'code' in data:
-            if data['code'] == 'NotFound':
-                raise NotFoundError()
+            raise NotFoundError()
         
         return Project(self, **data)
         
@@ -78,11 +75,10 @@ class APIClient (CloudClient):
         """
 
         PATH = f'https://api.scratch.mit.edu/{studio_id}'
-        data = await self.http_session.get(PATH)
+        data = await self.client.http_session.get(PATH)
         data = await data.json()
         if 'code' in data:
-            if data['code'] == 'NotFound':
-                raise NotFoundError()
+            raise NotFoundError()
         
         return Studio(self, **data)
 
@@ -99,12 +95,12 @@ class User(BaseScratchObject):
     """A scratch User object.
     
     :param client: The client that the user belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
 
-    def __init__(self, client: APIClient, **kwargs):
+    def __init__(self, client: APIConnection, **kwargs):
         self.client = client
         self._update_all(kwargs)
 
@@ -251,7 +247,7 @@ class Author(User):
     """A scratch Author object. Identical to User but may have less data at inception.
     
     :param client: The client that the user belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
@@ -262,7 +258,7 @@ class StudioUser(User):
     """A scratch StudioUser object. Identical to User but may have less data at inception.
     
     :param client: The client that the user belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
@@ -281,12 +277,12 @@ class Comment(BaseScratchObject):
     """A scratch Comment object.
     
     :param client: The client that the user belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
 
-    def __init__(self, client: APIClient, comment_type: CommentType, **kwargs):
+    def __init__(self, client: APIConnection, comment_type: CommentType, **kwargs):
         self.client = client
         self.comment_type = comment_type
 
@@ -350,7 +346,7 @@ class Reply(Comment):
     """A scratch Reply object.
     
     :param client: The client that the user belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
@@ -361,12 +357,12 @@ class Project(BaseScratchObject):
     """A scratch Project object.
     
     :param client: The client that the user belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
    
-    def __init__(self, client: APIClient, **kwargs):
+    def __init__(self, client: APIConnection, **kwargs):
         self.client = client
         self.project_json = None
         
@@ -480,7 +476,7 @@ class StudioProject(Project):
     """A scratch StudioProject object. Identical to Project but may have less data at inception.
     
     :param client: The client that the project belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
@@ -491,12 +487,12 @@ class Studio(BaseScratchObject):
     """A scratch Studio object.
     
     :param client: The client that the user belongs to
-    :type client: :class:`ext.api.APIClient`
+    :type client: :class:`ext.api.APIConnection`
     :param kwargs: The data received from the API
     :type kwargs: dict
     """
 
-    def __init__(self, client: APIClient, **kwargs):
+    def __init__(self, client: APIConnection, **kwargs):
         self.client = client
         self._update_all(kwargs)
     
