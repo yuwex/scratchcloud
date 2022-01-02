@@ -26,7 +26,7 @@ class CloudChange:
     :param sender: str
     """
 
-    def __init__(self, name: str, value: str, id: int, previous_value: str = None, sender = None):
+    def __init__(self, name: str, value: str, id: int, previous_value: str = None, sender: str = None):
         self.name = name
         self.value = value
         self.id = id
@@ -34,6 +34,7 @@ class CloudChange:
         self.previous_value = previous_value
         self.received_at: float = time.time()
         self.sender = sender
+        self.decoded = False
 
     def __gt__(self, other):
         if not isinstance(other, CloudChange):
@@ -107,6 +108,8 @@ class CloudClient:
         self.cloud_events = {}
         self.cloud_event_errors = {}
 
+        self.on_message_registered = False
+
     # RUNNING CLIENT
     def run(self, token: str):
         """Functions as a blocking function to run the client with builtin reconnecting.
@@ -161,7 +164,7 @@ class CloudClient:
                     print(f'Reconnection failed {reconnects} times. Stopping...')
                     raise e
             except Exception as e:
-                print(f'Uncaught Exception with type: {e}')
+                print(f'ScratchCloud got uncaught Exception with type: {e}')
                 raise e
 
     async def start(self, token: str):
@@ -296,25 +299,43 @@ class CloudClient:
                 self.cloud_variables.update({name: value})
                 self.cloud_cache.append(RawCloudChange(name, value, current_id, previous_value = prev_val))
 
-                cloud_event_future = None
-
                 for func_name, cloud_event_name in self.cloud_events.items():
                     if cloud_event_name == name:
-                        try:
-                            if self.decoder:
-                                cloud.value = self.decoder(value)
-                            cloud_event_future = getattr(self, f'{func_name}')(cloud)
-                        except Exception as e:
-                            if name in self.cloud_event_errors.keys():
-                                cloud_event_future = getattr(self, f'{self.cloud_event_errors[name]}')(cloud, e)
-                            else:
-                                raise e
+                        cloud_event_task = self.cloud_event_task(cloud, func_name, name)
+                        task = asyncio.create_task(cloud_event_task)
+                        task.add_done_callback(self.raise_exc_callback)
                 
-                if cloud_event_future:
-                    asyncio.ensure_future(asyncio.gather(self.on_message(cloud), cloud_event_future))
-                else:
-                    asyncio.ensure_future(self.on_message(cloud))
-                  
+                task = asyncio.create_task(self.on_message_event_task(cloud))
+                task.add_done_callback(self.raise_exc_callback)
+
+    async def cloud_event_task(self, cloud: CloudChange, func_name: str, error_func_name: str = None):
+        try:
+            if not cloud.decoded and self.decoder:
+                cloud.value = self.decoder(cloud.value)
+                cloud.decoded = True
+            await getattr(self, f'{func_name}')(cloud)
+        except Exception as e:
+            if error_func_name in self.cloud_event_errors:
+                error_func = getattr(self, f'{self.cloud_event_errors[error_func_name]}')
+                await error_func(cloud, e)
+            else:
+                raise e
+
+    async def on_message_event_task(self, cloud: CloudChange):
+        try:
+            if not cloud.decoded and self.decoder:
+                cloud.value = self.decoder(cloud.value)
+                cloud.decoded = True
+            await self.on_message(cloud)
+        except Exception as e:
+            await self.on_message_error(cloud, e)
+            return
+
+    def raise_exc_callback(self, task: asyncio.Task):
+        exception = task.exception()
+        if exception:
+            raise exception
+
     async def on_connect_task(self):
         """A coroutine that calls on_connect.
         """
@@ -342,8 +363,13 @@ class CloudClient:
 
         if f_name == 'on_message':
             setattr(self, 'on_message', func)
+            self.on_message_registered = True
             return wrap
         
+        elif f_name == 'on_message_error':
+            setattr(self, 'on_message_error', func)
+            return wrap
+
         elif f_name == 'on_connect':
             setattr(self, 'on_connect', func)
             return wrap
@@ -402,14 +428,27 @@ class CloudClient:
             return wrap
         return decorator
 
-    async def on_message(self, content):
+    async def on_message(self, cloud: CloudChange):
         """The default value for on_message.
 
-        :param content: A cloudchange object that stores data from on_recv
-        :type content: :class:`client.CloudChange`
+        :param cloud: A cloudchange object that stores data from on_recv
+        :type cloud: :class:`client.CloudChange`
         """
 
         pass
+
+    async def on_message_error(self, cloud: CloudChange, error: Exception):
+        """The default value for on_message_error.
+
+        :param cloud: A cloudchange object that stores data from on_recv
+        :type cloud: :class:`client.CloudChange`
+
+        :param cloud: A cloudchange object that stores data from on_recv
+        :type cloud: :class:`client.CloudChange`
+        """
+        
+        if self.on_message_registered:
+            raise error
 
     async def on_connect(self):
         """The default value for on_connect.
