@@ -14,9 +14,9 @@ First, we need to import the ScratchCloud ``CloudClient`` object and create a ba
    
    from ScratchCloud import CloudClient
 
-   client = CloudClient(username='yuwe', project_id='588579111')
+   client = CloudClient(username='yuwe', project_id='622084628')
 
-In this code, we first import the ``CloudClient`` object. Then, using our username and the ID of the project we want to connect to, we create a new ``CloudClient`` object named client. The project id `588579111 <https://scratch.mit.edu/projects/588579111/>`_ is a basic test project.
+In this code, we first import the ``CloudClient`` object. Then, using our username and the ID of the project we want to connect to, we create a new ``CloudClient`` object named client. The project id `622084628 <https://scratch.mit.edu/projects/622084628/>`_ is a basic test project.
 
 Next, we're going to specify some events. ScratchCloud uses python decorators to define all event-based interactions.
 
@@ -27,7 +27,7 @@ Add these lines:
 
    from ScratchCloud import CloudClient, CloudChange
 
-   client = CloudClient(username='yuwe', project_id='588579111')
+   client = CloudClient(username='yuwe', project_id='622084628')
 
    @client.event
    async def on_connect():
@@ -56,7 +56,7 @@ Finally, we just have to run our client. Add this line with your password:
    
    from ScratchCloud import CloudClient, CloudChange
 
-   client = CloudClient(username='yuwe', project_id='588579111')
+   client = CloudClient(username='yuwe', project_id='622084628')
 
    @client.event
    async def on_connect():
@@ -74,7 +74,7 @@ Finally, we just have to run our client. Add this line with your password:
 
 The text that states ``'Your Password Here!'`` should be your actual password. The ``client.run`` method is the only blocking function in the library.
 
-If we hop over to the `project <https://scratch.mit.edu/projects/588579111/>`_ we connected to, click the cat, and change some variables, our ScratchCloud client will print the changes!
+If we hop over to the `project <https://scratch.mit.edu/projects/622084628/>`_ we connected to, click the cat, and change some variables, our ScratchCloud client will print the changes!
 
 Setting Cloud Variables
 -----------------------
@@ -93,7 +93,7 @@ Using the previous code, in our ``on_message`` event, lets change a cloud variab
 
 Our ``client.set_cloud`` requires two parameters: the name of the cloud variable we're going to set, and the value we're going to set it to. Using ``var.name`` and ``'200'``, we can "respond" to someone setting a variable by setting it ourselves. We need to include the ``await`` keyword before we set any variables to make sure that our code runs in order and continues to be async.
 
-If we run our client again and send another variable to the `project <https://scratch.mit.edu/projects/588579111/>`__, we will get a response back!
+If we run our client again and send another variable to the `project <https://scratch.mit.edu/projects/622084628/>`__, we will get a response back!
 
 Using Cloud Events
 ------------------
@@ -106,7 +106,7 @@ Let's create a simple cloud event:
    :emphasize-lines: 4, 5, 6, 7
 
    from ScratchCloud import CloudClient, CloudChange
-   client = CloudClient(username='yuwe', project_id='588579111')
+   client = CloudClient(username='yuwe', project_id='622084628')
 
    @client.cloud_event('REQUEST')
    async def on_request(var: CloudChange):
@@ -123,7 +123,7 @@ We can also catch errors in cloud events:
    :emphasize-lines: 11, 12, 13, 14, 15, 16
 
    from ScratchCloud import CloudClient, CloudChange
-   client = CloudClient(username='yuwe', project_id='588579111')
+   client = CloudClient(username='yuwe', project_id='622084628')
 
    @client.cloud_event('REQUEST')
    async def on_request(var: CloudChange):

@@ -85,15 +85,15 @@
 <p>First, we need to import the ScratchCloud <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object and create a basic client.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;588579111&#39;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In this code, we first import the <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object. Then, using our username and the ID of the project we want to connect to, we create a new <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object named client. The project id <a class="reference external" href="https://scratch.mit.edu/projects/588579111/">588579111</a> is a basic test project.</p>
+<p>In this code, we first import the <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object. Then, using our username and the ID of the project we want to connect to, we create a new <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object named client. The project id <a class="reference external" href="https://scratch.mit.edu/projects/622084628/">622084628</a> is a basic test project.</p>
 <p>Next, we’re going to specify some events. ScratchCloud uses python decorators to define all event-based interactions.</p>
 <p>Add these lines:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
 </span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;588579111&#39;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 
 <span class="hll"><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
 </span><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
@@ -115,7 +115,7 @@
 <p>Finally, we just have to run our client. Add this line with your password:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;588579111&#39;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 
 <span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
@@ -133,7 +133,7 @@
 </span></pre></div>
 </div>
 <p>The text that states <code class="docutils literal notranslate"><span class="pre">'Your</span> <span class="pre">Password</span> <span class="pre">Here!'</span></code> should be your actual password. The <code class="docutils literal notranslate"><span class="pre">client.run</span></code> method is the only blocking function in the library.</p>
-<p>If we hop over to the <a class="reference external" href="https://scratch.mit.edu/projects/588579111/">project</a> we connected to, click the cat, and change some variables, our ScratchCloud client will print the changes!</p>
+<p>If we hop over to the <a class="reference external" href="https://scratch.mit.edu/projects/622084628/">project</a> we connected to, click the cat, and change some variables, our ScratchCloud client will print the changes!</p>
 </section>
 <section id="setting-cloud-variables">
 <h2>Setting Cloud Variables<a class="headerlink" href="#setting-cloud-variables" title="Permalink to this headline"></a></h2>
@@ -146,14 +146,14 @@
 </span></pre></div>
 </div>
 <p>Our <code class="docutils literal notranslate"><span class="pre">client.set_cloud</span></code> requires two parameters: the name of the cloud variable we’re going to set, and the value we’re going to set it to. Using <code class="docutils literal notranslate"><span class="pre">var.name</span></code> and <code class="docutils literal notranslate"><span class="pre">'200'</span></code>, we can “respond” to someone setting a variable by setting it ourselves. We need to include the <code class="docutils literal notranslate"><span class="pre">await</span></code> keyword before we set any variables to make sure that our code runs in order and continues to be async.</p>
-<p>If we run our client again and send another variable to the <a class="reference external" href="https://scratch.mit.edu/projects/588579111/">project</a>, we will get a response back!</p>
+<p>If we run our client again and send another variable to the <a class="reference external" href="https://scratch.mit.edu/projects/622084628/">project</a>, we will get a response back!</p>
 </section>
 <section id="using-cloud-events">
 <h2>Using Cloud Events<a class="headerlink" href="#using-cloud-events" title="Permalink to this headline"></a></h2>
 <p>ScratchCloud has a system for monitoring only a specific cloud variable. This system is cloud events. Cloud events allow programmers to use different cloud variables for different things. They also come with simple error handling.</p>
 <p>Let’s create a simple cloud event:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;588579111&#39;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 
 <span class="hll"><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
 </span><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">on_request</span><span class="p">(</span><span class="n">var</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
@@ -166,7 +166,7 @@
 <p>In this example, we define a simple cloud event. Whevever the cloud variable named <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code> changes, the client changes the <code class="docutils literal notranslate"><span class="pre">RESPONSE</span></code> cloud variable to 200.</p>
 <p>We can also catch errors in cloud events:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;588579111&#39;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 
 <span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">on_request</span><span class="p">(</span><span class="n">var</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
