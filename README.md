@@ -1,5 +1,5 @@
 # ScratchCloud
-An asynchronous pythonic wrapper for the scratch.mit.edu cloud websocket connection.
+An asynchronous pythonic wrapper for scratch.mit.edu cloud websocket connections.
 
 ## Features
  * Event-based handling
@@ -28,7 +28,7 @@ async def on_disconnect():
 
 @client.event
 async def on_message(cloud: CloudChange):
-    print(f"I got: {cloud}!")
+    print(f"{cloud.name} was set to {cloud.value}!")
     await client.set_cloud(cloud.name, "123")
 
 client.run("SuperSecretPassword22")
