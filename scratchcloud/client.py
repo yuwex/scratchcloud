@@ -1,12 +1,14 @@
 import asyncio
-import websockets
 import json
-import aiohttp
 import time
-
 from typing import Callable
+
+import websockets
 from websockets.exceptions import ConnectionClosedError
+import aiohttp
+
 from .errors import SizeError, MissingCloudVariable
+
 
 class CloudChange:
     """This is a class that stores cloud data received from :class:`client.CloudClient`.
