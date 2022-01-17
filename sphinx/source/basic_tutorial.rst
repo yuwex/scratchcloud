@@ -100,7 +100,7 @@ Using Cloud Events
 
 ScratchCloud has a system for monitoring only a specific cloud variable. This system is cloud events. Cloud events allow programmers to use different cloud variables for different things. They also come with simple error handling.
 
-Let's create a simple cloud event:
+Let's create a new cloud client in a new file:
 
 .. code-block:: python
    :emphasize-lines: 4, 5, 6, 7
@@ -117,7 +117,11 @@ Let's create a simple cloud event:
 
 In this example, we define a simple cloud event. Whevever the cloud variable named ``REQUEST`` changes, the client changes the ``RESPONSE`` cloud variable to 200.
 
-We can also catch errors in cloud events:
+.. warning::
+  In this example, in scratch, the cloud variables are named ``☁️ REQUEST`` and ``☁️ RESPONSE``.
+  Make sure that in your own code, for `client.cloud_event` and `client.set_cloud`, you use the correct variable names without the cloud emoji. 
+
+We can also catch errors in cloud events. In the same file, change the `cloud_event` function and add a :
 
 .. code-block:: python
    :emphasize-lines: 11, 12, 13, 14, 15, 16
