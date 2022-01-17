@@ -74,7 +74,7 @@ This example is linked to the project `622792569 <https://scratch.mit.edu/projec
         hex_result = hashed_result.hexdigest()
         print(f'Got {cloud.value}. Hashing to {hex_result}...')
 
-        await client.set_cloud('RESPONSE', f'The MD5 has for \"{cloud.value}\" is {hex_result}')
+        await client.set_cloud('RESPONSE', f'The MD5 hash for \"{cloud.value}\" is {hex_result}')
 
     @client.cloud_event_error('REQUEST')
     async def request_error(error: Exception, cloud: CloudChange):
