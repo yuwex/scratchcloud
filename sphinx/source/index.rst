@@ -25,8 +25,8 @@ Documentation
 .. toctree::
    :maxdepth: 1
    
-   ScratchCloud <ScratchCloud.rst>
-   ScratchCloud extensions <ScratchCloud.ext.rst>
+   ScratchCloud docs <scratchcloud.rst>
+   ScratchCloud extensions docs <scratchcloud.ext.rst>
 
 External Links
 --------------
