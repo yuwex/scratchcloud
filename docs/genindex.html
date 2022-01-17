@@ -40,8 +40,8 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ScratchCloud.html">ScratchCloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ScratchCloud.ext.html">ScratchCloud extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.html">ScratchCloud docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.ext.html">ScratchCloud extensions docs</a></li>
 </ul>
 
         </div>
@@ -78,6 +78,9 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -85,6 +88,7 @@
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
@@ -93,23 +97,31 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.APIConnection">APIConnection (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.StudioProject.actor_id">actor_id (scratchcloud.ext.api.StudioProject attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.api_path">api_path (scratchcloud.ext.api.Comment attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Author">Author (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.APIConnection">APIConnection (class in scratchcloud.ext.api)</a>
 </li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.author">author (scratchcloud.ext.api.Comment attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.author">(scratchcloud.ext.api.Project attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.codecs.BaseCodec">BaseCodec (class in scratchcloud.ext.codecs)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.codecs.BaseCodec">BaseCodec (class in scratchcloud.ext.codecs)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.BaseScratchObject">BaseScratchObject (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.bio">bio (scratchcloud.ext.api.User attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -117,43 +129,85 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.close">close() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.close">close() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.cloud_event">cloud_event() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.cloud_event">cloud_event() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.cloud_event_error">cloud_event_error() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.cloud_event_error">cloud_event_error() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.cloud_event_task">cloud_event_task() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.cloud_event_task">cloud_event_task() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudChange">CloudChange (class in scratchcloud.client)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudChange">CloudChange (class in scratchcloud.client)</a>
 </li>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient">CloudClient (class in scratchcloud.client)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.utils.CloudValidator">CloudValidator (class in scratchcloud.ext.utils)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment">Comment (class in scratchcloud.ext.api)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.commentee_id">commentee_id (scratchcloud.ext.api.Comment attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.comments">comments (scratchcloud.ext.api.Studio attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.comments_allowed">comments_allowed (scratchcloud.ext.api.Project attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.comments_allowed">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient">CloudClient (class in scratchcloud.client)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.CommentType">CommentType (class in scratchcloud.ext.api)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.utils.CloudValidator">CloudValidator (class in scratchcloud.ext.utils)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.connect_ws">connect_ws() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Comment">Comment (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.connection">connection (scratchcloud.ext.api.Comment attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.connection">(scratchcloud.ext.api.Project attribute)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.CommentType">CommentType (class in scratchcloud.ext.api)</a>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.connection">(scratchcloud.ext.api.Studio attribute)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.connect_ws">connect_ws() (scratchcloud.client.CloudClient method)</a>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.connection">(scratchcloud.ext.api.User attribute)</a>
 </li>
+      </ul></li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.content">content (scratchcloud.ext.api.Comment attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.country">country (scratchcloud.ext.api.User attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.created">created (scratchcloud.ext.api.Comment attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.created">(scratchcloud.ext.api.Project attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.created">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.codecs.BaseCodec.decode">decode() (scratchcloud.ext.codecs.BaseCodec method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.datetime_created">datetime_created (scratchcloud.ext.api.Comment attribute)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.errors.DecodeError">DecodeError</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.datetime_modified">datetime_modified (scratchcloud.ext.api.Comment attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.codecs.BaseCodec.decode">decode() (scratchcloud.ext.codecs.BaseCodec method)</a>
+</li>
+      <li><a href="scratchcloud.html#scratchcloud.errors.DecodeError">DecodeError</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.utils.SegmentDump.dict_has_all_keys">dict_has_all_keys() (scratchcloud.ext.utils.SegmentDump method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.description">description (scratchcloud.ext.api.Project attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.description">(scratchcloud.ext.api.Studio attribute)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.utils.SegmentDump.dump">dump() (scratchcloud.ext.utils.SegmentDump method)</a>
+      </ul></li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.utils.SegmentDump.dict_has_all_keys">dict_has_all_keys() (scratchcloud.ext.utils.SegmentDump method)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.utils.SegmentDump.dump">dump() (scratchcloud.ext.utils.SegmentDump method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -161,13 +215,13 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.codecs.BaseCodec.encode">encode() (scratchcloud.ext.codecs.BaseCodec method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.codecs.BaseCodec.encode">encode() (scratchcloud.ext.codecs.BaseCodec method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.errors.EncodeError">EncodeError</a>
+      <li><a href="scratchcloud.html#scratchcloud.errors.EncodeError">EncodeError</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.event">event() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.event">event() (scratchcloud.client.CloudClient method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -175,53 +229,45 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Project.fetch_api">fetch_api() (scratchcloud.ext.api.Project method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.favorites">favorites (scratchcloud.ext.api.Project attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.fetch_comments">fetch_comments() (scratchcloud.ext.api.Project method)</a>
 
       <ul>
-        <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Studio.fetch_api">(scratchcloud.ext.api.Studio method)</a>
-</li>
-        <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.User.fetch_api">(scratchcloud.ext.api.User method)</a>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.fetch_comments">(scratchcloud.ext.api.Studio method)</a>
 </li>
       </ul></li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Project.fetch_block_count">fetch_block_count() (scratchcloud.ext.api.Project method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.fetch_curators">fetch_curators() (scratchcloud.ext.api.Studio method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Project.fetch_comments">fetch_comments() (scratchcloud.ext.api.Project method)</a>
-
-      <ul>
-        <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Studio.fetch_comments">(scratchcloud.ext.api.Studio method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.fetch_favorite_projects">fetch_favorite_projects() (scratchcloud.ext.api.User method)</a>
 </li>
-      </ul></li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Studio.fetch_curators">fetch_curators() (scratchcloud.ext.api.Studio method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.fetch_followers">fetch_followers() (scratchcloud.ext.api.User method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.User.fetch_favorites">fetch_favorites() (scratchcloud.ext.api.User method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.fetch_following">fetch_following() (scratchcloud.ext.api.User method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.User.fetch_followers">fetch_followers() (scratchcloud.ext.api.User method)</a>
-</li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.User.fetch_following">fetch_following() (scratchcloud.ext.api.User method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.fetch_managers">fetch_managers() (scratchcloud.ext.api.Studio method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Studio.fetch_managers">fetch_managers() (scratchcloud.ext.api.Studio method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.fetch_message_count">fetch_message_count() (scratchcloud.ext.api.User method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.User.fetch_message_count">fetch_message_count() (scratchcloud.ext.api.User method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.APIConnection.fetch_project">fetch_project() (scratchcloud.ext.api.APIConnection method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.APIConnection.fetch_project">fetch_project() (scratchcloud.ext.api.APIConnection method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.fetch_project_json_object">fetch_project_json_object() (scratchcloud.ext.api.Project method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Project.fetch_project_json">fetch_project_json() (scratchcloud.ext.api.Project method)</a>
-</li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Studio.fetch_projects">fetch_projects() (scratchcloud.ext.api.Studio method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.fetch_projects">fetch_projects() (scratchcloud.ext.api.Studio method)</a>
 
       <ul>
-        <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.User.fetch_projects">(scratchcloud.ext.api.User method)</a>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.fetch_projects">(scratchcloud.ext.api.User method)</a>
 </li>
       </ul></li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Comment.fetch_replies">fetch_replies() (scratchcloud.ext.api.Comment method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.fetch_replies">fetch_replies() (scratchcloud.ext.api.Comment method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Project.fetch_sprite_count">fetch_sprite_count() (scratchcloud.ext.api.Project method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.APIConnection.fetch_studio">fetch_studio() (scratchcloud.ext.api.APIConnection method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.APIConnection.fetch_studio">fetch_studio() (scratchcloud.ext.api.APIConnection method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.APIConnection.fetch_user">fetch_user() (scratchcloud.ext.api.APIConnection method)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.APIConnection.fetch_user">fetch_user() (scratchcloud.ext.api.APIConnection method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.followers">followers (scratchcloud.ext.api.Studio attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -229,7 +275,77 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.get_keys">get_keys() (in module scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.ProjectJSON.get_block_count">get_block_count() (scratchcloud.ext.api.ProjectJSON method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.ProjectJSON.get_json">get_json() (scratchcloud.ext.api.ProjectJSON method)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.ProjectJSON.get_sprite_count">get_sprite_count() (scratchcloud.ext.api.ProjectJSON method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.history">history (scratchcloud.ext.api.Project attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.history">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.history">(scratchcloud.ext.api.User attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.host">host (scratchcloud.ext.api.Studio attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.id">id (scratchcloud.ext.api.Comment attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.id">(scratchcloud.ext.api.Project attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.id">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.id">(scratchcloud.ext.api.User attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.IncompleteUser.image">image (scratchcloud.ext.api.IncompleteUser attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.image">(scratchcloud.ext.api.Project attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.image">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.image">(scratchcloud.ext.api.User attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.images">images (scratchcloud.ext.api.Project attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.IncompleteProject">IncompleteProject (class in scratchcloud.ext.api)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.IncompleteUser">IncompleteUser (class in scratchcloud.ext.api)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.instructions">instructions (scratchcloud.ext.api.Project attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.is_published">is_published (scratchcloud.ext.api.Project attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.joined">joined (scratchcloud.ext.api.User attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -237,7 +353,11 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.login">login() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.login">login() (scratchcloud.client.CloudClient method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.loves">loves (scratchcloud.ext.api.Project attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -245,21 +365,33 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.errors.MissingCloudVariable">MissingCloudVariable</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.managers">managers (scratchcloud.ext.api.Studio attribute)</a>
 </li>
+      <li><a href="scratchcloud.html#scratchcloud.errors.MissingCloudVariable">MissingCloudVariable</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.modified">modified (scratchcloud.ext.api.Comment attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.modified">(scratchcloud.ext.api.Project attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.modified">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
       <ul>
-        <li><a href="ScratchCloud.html#module-scratchcloud.client">scratchcloud.client</a>
+        <li><a href="scratchcloud.html#module-scratchcloud.client">scratchcloud.client</a>
 </li>
-        <li><a href="ScratchCloud.html#module-scratchcloud.errors">scratchcloud.errors</a>
+        <li><a href="scratchcloud.html#module-scratchcloud.errors">scratchcloud.errors</a>
 </li>
-        <li><a href="ScratchCloud.ext.html#module-scratchcloud.ext.api">scratchcloud.ext.api</a>
+        <li><a href="scratchcloud.ext.html#module-scratchcloud.ext.api">scratchcloud.ext.api</a>
 </li>
-        <li><a href="ScratchCloud.ext.html#module-scratchcloud.ext.codecs">scratchcloud.ext.codecs</a>
+        <li><a href="scratchcloud.ext.html#module-scratchcloud.ext.codecs">scratchcloud.ext.codecs</a>
 </li>
-        <li><a href="ScratchCloud.ext.html#module-scratchcloud.ext.utils">scratchcloud.ext.utils</a>
+        <li><a href="scratchcloud.ext.html#module-scratchcloud.ext.utils">scratchcloud.ext.utils</a>
 </li>
       </ul></li>
   </ul></td>
@@ -268,11 +400,7 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.NotFound">NotFound (class in scratchcloud.ext.api)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.errors.NotFoundError">NotFoundError</a>
+      <li><a href="scratchcloud.html#scratchcloud.errors.NotFoundError">NotFoundError</a>
 </li>
   </ul></td>
 </tr></table>
@@ -280,23 +408,25 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_connect">on_connect() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_connect">on_connect() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_connect_task">on_connect_task() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_connect_task">on_connect_task() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_disconnect">on_disconnect() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_disconnect">on_disconnect() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_disconnect_task">on_disconnect_task() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_disconnect_task">on_disconnect_task() (scratchcloud.client.CloudClient method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_message">on_message() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_message">on_message() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_message_error">on_message_error() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_message_error">on_message_error() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_message_event_task">on_message_event_task() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_message_event_task">on_message_event_task() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.on_recv">on_recv() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.on_recv">on_recv() (scratchcloud.client.CloudClient method)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.open_to_all">open_to_all (scratchcloud.ext.api.Studio attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -304,16 +434,32 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.parse_raw_cloud">parse_raw_cloud() (scratchcloud.client.CloudClient method)</a>
-</li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.CommentType.Profile">Profile (scratchcloud.ext.api.CommentType attribute)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Project">Project (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.parent_id">parent_id (scratchcloud.ext.api.Comment attribute)</a>
 
       <ul>
-        <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.CommentType.Project">(scratchcloud.ext.api.CommentType attribute)</a>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.parent_id">(scratchcloud.ext.api.Project attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.parse_raw_cloud">parse_raw_cloud() (scratchcloud.client.CloudClient method)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.profile">profile (scratchcloud.ext.api.User attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project">Project (class in scratchcloud.ext.api)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.CommentType.Project">(scratchcloud.ext.api.CommentType attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.ProjectJSON">ProjectJSON (class in scratchcloud.ext.api)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.projects">projects (scratchcloud.ext.api.Studio attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.public">public (scratchcloud.ext.api.Project attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.public">(scratchcloud.ext.api.Studio attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -322,19 +468,25 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.raise_exc_callback">raise_exc_callback() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.raise_exc_callback">raise_exc_callback() (scratchcloud.client.CloudClient method)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.RawCloudChange">RawCloudChange (class in scratchcloud.client)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.RawCloudChange">RawCloudChange (class in scratchcloud.client)</a>
 </li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.utils.SegmentDump.read">read() (scratchcloud.ext.utils.SegmentDump method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.utils.SegmentDump.read">read() (scratchcloud.ext.utils.SegmentDump method)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.remix">remix (scratchcloud.ext.api.Project attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Reply">Reply (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.remixes">remixes (scratchcloud.ext.api.Project attribute)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.run">run() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.reply_count">reply_count (scratchcloud.ext.api.Comment attribute)</a>
 </li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.run_client">run_client() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.root_id">root_id (scratchcloud.ext.api.Project attribute)</a>
+</li>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.run">run() (scratchcloud.client.CloudClient method)</a>
+</li>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.run_client">run_client() (scratchcloud.client.CloudClient method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -346,58 +498,84 @@
     scratchcloud.client
 
       <ul>
-        <li><a href="ScratchCloud.html#module-scratchcloud.client">module</a>
+        <li><a href="scratchcloud.html#module-scratchcloud.client">module</a>
 </li>
       </ul></li>
       <li>
     scratchcloud.errors
 
       <ul>
-        <li><a href="ScratchCloud.html#module-scratchcloud.errors">module</a>
+        <li><a href="scratchcloud.html#module-scratchcloud.errors">module</a>
 </li>
       </ul></li>
       <li>
     scratchcloud.ext.api
 
       <ul>
-        <li><a href="ScratchCloud.ext.html#module-scratchcloud.ext.api">module</a>
+        <li><a href="scratchcloud.ext.html#module-scratchcloud.ext.api">module</a>
 </li>
       </ul></li>
       <li>
     scratchcloud.ext.codecs
 
       <ul>
-        <li><a href="ScratchCloud.ext.html#module-scratchcloud.ext.codecs">module</a>
+        <li><a href="scratchcloud.ext.html#module-scratchcloud.ext.codecs">module</a>
 </li>
       </ul></li>
       <li>
     scratchcloud.ext.utils
 
       <ul>
-        <li><a href="ScratchCloud.ext.html#module-scratchcloud.ext.utils">module</a>
+        <li><a href="scratchcloud.ext.html#module-scratchcloud.ext.utils">module</a>
+</li>
+      </ul></li>
+      <li><a href="scratchcloud.html#scratchcloud.errors.ScratchCloudException">ScratchCloudException</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.scratchteam">scratchteam (scratchcloud.ext.api.User attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.utils.SegmentDump">SegmentDump (class in scratchcloud.ext.utils)</a>
+</li>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.set_cloud">set_cloud() (scratchcloud.client.CloudClient method)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.shared">shared (scratchcloud.ext.api.Project attribute)</a>
+</li>
+      <li><a href="scratchcloud.html#scratchcloud.errors.SizeError">SizeError</a>
+</li>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.start">start() (scratchcloud.client.CloudClient method)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.stats">stats (scratchcloud.ext.api.Project attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.stats">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.status">status (scratchcloud.ext.api.User attribute)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio">Studio (class in scratchcloud.ext.api)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.CommentType.Studio">(scratchcloud.ext.api.CommentType attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.StudioProject">StudioProject (class in scratchcloud.ext.api)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.title">title (scratchcloud.ext.api.Project attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.title">(scratchcloud.ext.api.Studio attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.errors.ScratchCloudException">ScratchCloudException</a>
-</li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.utils.SegmentDump">SegmentDump (class in scratchcloud.ext.utils)</a>
-</li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.set_cloud">set_cloud() (scratchcloud.client.CloudClient method)</a>
-</li>
-      <li><a href="ScratchCloud.html#scratchcloud.errors.SizeError">SizeError</a>
-</li>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.start">start() (scratchcloud.client.CloudClient method)</a>
-</li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.Studio">Studio (class in scratchcloud.ext.api)</a>
-
-      <ul>
-        <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.CommentType.Studio">(scratchcloud.ext.api.CommentType attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.StudioProject">StudioProject (class in scratchcloud.ext.api)</a>
-</li>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.StudioUser">StudioUser (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.type">type (scratchcloud.ext.api.Comment attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -405,11 +583,13 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.errors.UnableToValidate">UnableToValidate</a>
+      <li><a href="scratchcloud.html#scratchcloud.errors.UnableToValidate">UnableToValidate</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.api.User">User (class in scratchcloud.ext.api)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User">User (class in scratchcloud.ext.api)</a>
+</li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.User.username">username (scratchcloud.ext.api.User attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -417,19 +597,31 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.ext.html#scratchcloud.ext.utils.CloudValidator.validate_cloud">validate_cloud() (scratchcloud.ext.utils.CloudValidator method)</a>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.utils.CloudValidator.validate_cloud">validate_cloud() (scratchcloud.ext.utils.CloudValidator method)</a>
 </li>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.views">views (scratchcloud.ext.api.Project attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Comment.visibility">visibility (scratchcloud.ext.api.Comment attribute)</a>
+
+      <ul>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Project.visibility">(scratchcloud.ext.api.Project attribute)</a>
+</li>
+        <li><a href="scratchcloud.ext.html#scratchcloud.ext.api.Studio.visibility">(scratchcloud.ext.api.Studio attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.ws_handshake">ws_handshake() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.ws_handshake">ws_handshake() (scratchcloud.client.CloudClient method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ScratchCloud.html#scratchcloud.client.CloudClient.ws_send">ws_send() (scratchcloud.client.CloudClient method)</a>
+      <li><a href="scratchcloud.html#scratchcloud.client.CloudClient.ws_send">ws_send() (scratchcloud.client.CloudClient method)</a>
 </li>
   </ul></td>
 </tr></table>

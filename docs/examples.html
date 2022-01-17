@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ScratchCloud docs" href="ScratchCloud.html" />
+    <link rel="next" title="ScratchCloud docs" href="scratchcloud.html" />
     <link rel="prev" title="Basic Tutorial" href="basic_tutorial.html" /> 
 </head>
 
@@ -48,8 +48,8 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ScratchCloud.html">ScratchCloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ScratchCloud.ext.html">ScratchCloud extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.html">ScratchCloud docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.ext.html">ScratchCloud extensions docs</a></li>
 </ul>
 
         </div>
@@ -138,7 +138,7 @@
 </span><span class="hll"><span class="linenos">20</span>    <span class="n">hex_result</span> <span class="o">=</span> <span class="n">hashed_result</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 </span><span class="linenos">21</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got </span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">. Hashing to </span><span class="si">{</span><span class="n">hex_result</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
 <span class="linenos">22</span>
-<span class="hll"><span class="linenos">23</span>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The MD5 has for </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> is </span><span class="si">{</span><span class="n">hex_result</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="hll"><span class="linenos">23</span>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The MD5 hash for </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> is </span><span class="si">{</span><span class="n">hex_result</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span class="linenos">24</span>
 <span class="hll"><span class="linenos">25</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event_error</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
 </span><span class="hll"><span class="linenos">26</span><span class="k">async</span> <span class="k">def</span> <span class="nf">request_error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
@@ -229,7 +229,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="basic_tutorial.html" class="btn btn-neutral float-left" title="Basic Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ScratchCloud.html" class="btn btn-neutral float-right" title="ScratchCloud docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="scratchcloud.html" class="btn btn-neutral float-right" title="ScratchCloud docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

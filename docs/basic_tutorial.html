@@ -48,8 +48,8 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ScratchCloud.html">ScratchCloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ScratchCloud.ext.html">ScratchCloud extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.html">ScratchCloud docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.ext.html">ScratchCloud extensions docs</a></li>
 </ul>
 
         </div>
@@ -151,7 +151,7 @@
 <section id="using-cloud-events">
 <h2>Using Cloud Events<a class="headerlink" href="#using-cloud-events" title="Permalink to this headline"></a></h2>
 <p>ScratchCloud has a system for monitoring only a specific cloud variable. This system is cloud events. Cloud events allow programmers to use different cloud variables for different things. They also come with simple error handling.</p>
-<p>Let’s create a simple cloud event:</p>
+<p>Let’s create a new cloud client in a new file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 
@@ -164,7 +164,12 @@
 </pre></div>
 </div>
 <p>In this example, we define a simple cloud event. Whevever the cloud variable named <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code> changes, the client changes the <code class="docutils literal notranslate"><span class="pre">RESPONSE</span></code> cloud variable to 200.</p>
-<p>We can also catch errors in cloud events:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In this example, in scratch, the cloud variables are named <code class="docutils literal notranslate"><span class="pre">☁️</span> <span class="pre">REQUEST</span></code> and <code class="docutils literal notranslate"><span class="pre">☁️</span> <span class="pre">RESPONSE</span></code>.
+Make sure that in your own code, for <cite>client.cloud_event</cite> and <cite>client.set_cloud</cite>, you use the correct variable names without the cloud emoji.</p>
+</div>
+<p>We can also catch errors in cloud events. In the same file, change the <cite>cloud_event</cite> function and add a :</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 
