@@ -10,8 +10,8 @@ install_requires = [
 ]
 
 packages = [
-    'ScratchCloud',
-    'ScratchCloud.ext',
+    'scratchcloud',
+    'scratchcloud.ext',
 ]
 
 extras_require = {
@@ -22,13 +22,13 @@ extras_require = {
 }
 
 setup(
-    name='ScratchCloud',
+    name='scratchcloud',
     version='0.0.1',
     author='yuwex',
-    url='https://github.com/yuwex/ScratchCloud',
+    url='https://github.com/yuwex/scratchcloud',
     description='An event-based asynchronous wrapper for scratch.mit.edu cloud variables.',
     long_description=readme(),
-    long_description_type='text/markdown',
+    long_description_content_type='text/markdown',
     
     install_requires=install_requires,
     extras_require=extras_require,

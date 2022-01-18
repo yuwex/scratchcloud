@@ -1,7 +1,7 @@
-Welcome to ScratchCloud!
+Welcome to scratchcloud!
 ========================
 
-ScratchCloud is a powerful python library made for rapid prototyping and interaction with Scratch cloud variables.
+scratchcloud is a powerful python library made for rapid prototyping and interaction with Scratch cloud variables.
 
 **Features**
 
@@ -25,14 +25,14 @@ Documentation
 .. toctree::
    :maxdepth: 1
    
-   ScratchCloud docs <scratchcloud.rst>
-   ScratchCloud extensions docs <scratchcloud.ext.rst>
+   scratchcloud docs <scratchcloud.rst>
+   scratchcloud extensions docs <scratchcloud.ext.rst>
 
 External Links
 --------------
 
-- `Source Code <https://github.com/yuwex/ScratchCloud/>`_
-- `Issues <https://github.com/yuwex/ScratchCloud/issues>`__
+- `Source Code <https://github.com/yuwex/scratchcloud/>`_
+- `Issues <https://github.com/yuwex/scratchcloud/issues>`__
 - `Join Scratch <https://scratch.mit.edu>`_
 
 Search Tools

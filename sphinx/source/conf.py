@@ -18,7 +18,7 @@ sys.path.append(os.path.abspath('../../scratchcloud'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'ScratchCloud'
+project = 'scratchcloud'
 copyright = '2021, yuwex'
 author = 'yuwex'
 
