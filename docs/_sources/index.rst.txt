@@ -39,4 +39,3 @@ Search Tools
 ============
 
 * :ref:`genindex`
-* :ref:`search`
