@@ -4,7 +4,7 @@ Examples
 Example 1: Ping Pong
 --------------------
 
-In this example, when someone sends a "ping", ScratchCloud will send back a "pong".
+In this example, when someone sends a "ping", scratchcloud will send back a "pong".
 
 This example is linked to the project `622779749 <https://scratch.mit.edu/projects/622779749/>`__.
 
@@ -12,7 +12,7 @@ This example is linked to the project `622779749 <https://scratch.mit.edu/projec
     :emphasize-lines: 1, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16, 18
     :linenos:
 
-    from ScratchCloud import CloudClient, CloudChange
+    from scratchcloud import CloudClient, CloudChange
 
     client = CloudClient(username='yuwe', project_id='622779749')
 
@@ -33,7 +33,7 @@ This example is linked to the project `622779749 <https://scratch.mit.edu/projec
 
 Description:
 
-* Line 1: Imports ScratchCloud
+* Line 1: Imports scratchcloud
 * Line 3: Creates a new ``CloudClient`` object
 * Line 5-11: Sets up print statements when connected and disconnected
 * Line 13-14: Sets up a cloud event function for the cloud variable ``REQUEST``. This is called whenever ``REQUEST`` is set in scratch
@@ -43,7 +43,7 @@ Description:
 Example 2: Hex Hash
 -------------------
 
-In this example, when someone sends data, ScratchCloud `hashes <https://en.wikipedia.org/wiki/Hash_function>`__ it.
+In this example, when someone sends data, scratchcloud `hashes <https://en.wikipedia.org/wiki/Hash_function>`__ it.
 
 This example is linked to the project `622792569 <https://scratch.mit.edu/projects/622792569/>`__.
 
@@ -52,9 +52,9 @@ This example is linked to the project `622792569 <https://scratch.mit.edu/projec
     :emphasize-lines: 2, 3, 5, 7, 19, 20, 23, 25, 26, 27, 28, 29, 30, 31, 32
     :linenos:
 
-    from ScratchCloud import CloudClient, CloudChange
-    from ScratchCloud.ext import BaseCodec
-    from ScratchCloud.errors import DecodeError, SizeError
+    from scratchcloud import CloudClient, CloudChange
+    from scratchcloud.ext import BaseCodec
+    from scratchcloud.errors import DecodeError, SizeError
 
     from hashlib import md5
 
@@ -101,7 +101,7 @@ Description:
 Example 3: API Users
 --------------------
 
-In this example, when someone sends a scratch username, ScratchCloud responds with that user's information.
+In this example, when someone sends a scratch username, scratchcloud responds with that user's information.
 
 This example is linked to the project `622799182 <https://scratch.mit.edu/projects/622799182/>`__.
 
@@ -109,9 +109,9 @@ This example is linked to the project `622799182 <https://scratch.mit.edu/projec
     :emphasize-lines: 2, 6, 20, 21, 22, 23, 24, 26, 27, 28
     :linenos:
 
-    from ScratchCloud import CloudClient, CloudChange
-    from ScratchCloud.ext import BaseCodec, APIConnection
-    from ScratchCloud.errors import DecodeError, NotFoundError, SizeError
+    from scratchcloud import CloudClient, CloudChange
+    from scratchcloud.ext import BaseCodec, APIConnection
+    from scratchcloud.errors import DecodeError, NotFoundError, SizeError
 
     client = CloudClient(username='yuwe', project_id='622799182', encoder=BaseCodec().encode, decoder=BaseCodec().decode)
     api = APIConnection(client)

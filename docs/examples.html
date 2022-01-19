@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; ScratchCloud 0.0.1 documentation</title>
+  <title>Examples &mdash; scratchcloud 0.0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ScratchCloud docs" href="scratchcloud.html" />
+    <link rel="next" title="scratchcloud docs" href="scratchcloud.html" />
     <link rel="prev" title="Basic Tutorial" href="basic_tutorial.html" /> 
 </head>
 
@@ -27,7 +27,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> ScratchCloud
+            <a href="index.html" class="icon icon-home"> scratchcloud
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -48,8 +48,8 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="scratchcloud.html">ScratchCloud docs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scratchcloud.ext.html">ScratchCloud extensions docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.html">scratchcloud docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scratchcloud.ext.html">scratchcloud extensions docs</a></li>
 </ul>
 
         </div>
@@ -58,7 +58,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">ScratchCloud</a>
+          <a href="index.html">scratchcloud</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -80,9 +80,9 @@
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h1>
 <section id="example-1-ping-pong">
 <h2>Example 1: Ping Pong<a class="headerlink" href="#example-1-ping-pong" title="Permalink to this headline"></a></h2>
-<p>In this example, when someone sends a “ping”, ScratchCloud will send back a “pong”.</p>
+<p>In this example, when someone sends a “ping”, scratchcloud will send back a “pong”.</p>
 <p>This example is linked to the project <a class="reference external" href="https://scratch.mit.edu/projects/622779749/">622779749</a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
 </span><span class="linenos"> 2</span>
 <span class="hll"><span class="linenos"> 3</span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622779749&#39;</span><span class="p">)</span>
 </span><span class="linenos"> 4</span>
@@ -104,7 +104,7 @@
 </div>
 <p>Description:</p>
 <ul class="simple">
-<li><p>Line 1: Imports ScratchCloud</p></li>
+<li><p>Line 1: Imports scratchcloud</p></li>
 <li><p>Line 3: Creates a new <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object</p></li>
 <li><p>Line 5-11: Sets up print statements when connected and disconnected</p></li>
 <li><p>Line 13-14: Sets up a cloud event function for the cloud variable <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code>. This is called whenever <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code> is set in scratch</p></li>
@@ -114,11 +114,11 @@
 </section>
 <section id="example-2-hex-hash">
 <h2>Example 2: Hex Hash<a class="headerlink" href="#example-2-hex-hash" title="Permalink to this headline"></a></h2>
-<p>In this example, when someone sends data, ScratchCloud <a class="reference external" href="https://en.wikipedia.org/wiki/Hash_function">hashes</a> it.</p>
+<p>In this example, when someone sends data, scratchcloud <a class="reference external" href="https://en.wikipedia.org/wiki/Hash_function">hashes</a> it.</p>
 <p>This example is linked to the project <a class="reference external" href="https://scratch.mit.edu/projects/622792569/">622792569</a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
-<span class="hll"><span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">ScratchCloud.ext</span> <span class="kn">import</span> <span class="n">BaseCodec</span>
-</span><span class="hll"><span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">ScratchCloud.errors</span> <span class="kn">import</span> <span class="n">DecodeError</span><span class="p">,</span> <span class="n">SizeError</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
+<span class="hll"><span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">scratchcloud.ext</span> <span class="kn">import</span> <span class="n">BaseCodec</span>
+</span><span class="hll"><span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">scratchcloud.errors</span> <span class="kn">import</span> <span class="n">DecodeError</span><span class="p">,</span> <span class="n">SizeError</span>
 </span><span class="linenos"> 4</span>
 <span class="hll"><span class="linenos"> 5</span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">md5</span>
 </span><span class="linenos"> 6</span>
@@ -166,11 +166,11 @@
 </section>
 <section id="example-3-api-users">
 <h2>Example 3: API Users<a class="headerlink" href="#example-3-api-users" title="Permalink to this headline"></a></h2>
-<p>In this example, when someone sends a scratch username, ScratchCloud responds with that user’s information.</p>
+<p>In this example, when someone sends a scratch username, scratchcloud responds with that user’s information.</p>
 <p>This example is linked to the project <a class="reference external" href="https://scratch.mit.edu/projects/622799182/">622799182</a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">ScratchCloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
-<span class="hll"><span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">ScratchCloud.ext</span> <span class="kn">import</span> <span class="n">BaseCodec</span><span class="p">,</span> <span class="n">APIConnection</span>
-</span><span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">ScratchCloud.errors</span> <span class="kn">import</span> <span class="n">DecodeError</span><span class="p">,</span> <span class="n">NotFoundError</span><span class="p">,</span> <span class="n">SizeError</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
+<span class="hll"><span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">scratchcloud.ext</span> <span class="kn">import</span> <span class="n">BaseCodec</span><span class="p">,</span> <span class="n">APIConnection</span>
+</span><span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">scratchcloud.errors</span> <span class="kn">import</span> <span class="n">DecodeError</span><span class="p">,</span> <span class="n">NotFoundError</span><span class="p">,</span> <span class="n">SizeError</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622799182&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">BaseCodec</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">BaseCodec</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
 <span class="hll"><span class="linenos"> 6</span><span class="n">api</span> <span class="o">=</span> <span class="n">APIConnection</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
@@ -229,7 +229,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="basic_tutorial.html" class="btn btn-neutral float-left" title="Basic Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="scratchcloud.html" class="btn btn-neutral float-right" title="ScratchCloud docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="scratchcloud.html" class="btn btn-neutral float-right" title="scratchcloud docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
