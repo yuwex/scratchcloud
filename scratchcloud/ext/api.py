@@ -1,5 +1,4 @@
 from __future__ import annotations
-from typing import List, Union
 from datetime import datetime
 from enum import Enum
 from dataclasses import InitVar, dataclass
@@ -15,7 +14,7 @@ class APIConnection:
     def __init__(self, client: CloudClient):
         self.client: CloudClient = client
     
-    async def fetch_user(self, user: Union[str, 'User', 'IncompleteUser']) -> 'User':
+    async def fetch_user(self, user: str | 'User' | 'IncompleteUser') -> 'User':
         """A coroutine that fetches a user from the API.
         
         :param user: A username or object that inherits from `ext.api.User`
@@ -40,7 +39,7 @@ class APIConnection:
         
         return User(self, **data)
     
-    async def fetch_project(self, project: Union[int, str, 'Project', 'IncompleteProject']) -> 'Project':
+    async def fetch_project(self, project: int | str | 'Project' | 'IncompleteProject') -> 'Project':
         """A coroutine that fetches a project from the API.
         
         :param owner_username: The username of the owner of the project
@@ -71,7 +70,7 @@ class APIConnection:
         
         return Project(self, **data)
         
-    async def fetch_studio(self, studio: Union[str, int, 'Studio']) -> 'Studio':
+    async def fetch_studio(self, studio: str | int | 'Studio') -> 'Studio':
         """A coroutine that fetches a studio from the API.
         
         :param studio: The studio id or `ext.api.Studio` object.
@@ -129,7 +128,7 @@ class User:
                 self.bio = profile['bio']
                 self.country = profile['country']
     
-    async def fetch_favorite_projects(self, limit: int = 20, offset: int = 0) -> List[Project]:
+    async def fetch_favorite_projects(self, limit: int = 20, offset: int = 0) -> list[Project]:
         """Fetches the user's favorite projects.
         
         :param limit: The maximum number of return values,
@@ -139,7 +138,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Project`]
+        :rtype: list[:class:`ext.api.Project`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/favorites?limit={limit}&offset={offset}'
@@ -148,7 +147,7 @@ class User:
 
         return [Project(connection=self.connection, **project) for project in data]
 
-    async def fetch_projects(self, limit: int = 20, offset: int = 0) -> List[Project]:
+    async def fetch_projects(self, limit: int = 20, offset: int = 0) -> list[Project]:
         """Fetches the user's projects.
         
         :param limit: The maximum number of return values,
@@ -158,7 +157,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Project`]
+        :rtype: list[:class:`ext.api.Project`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/projects?limit={limit}&offset={offset}'
@@ -167,7 +166,7 @@ class User:
 
         return [Project(connection=self.connection, **project) for project in data]
 
-    async def fetch_followers(self, limit: int = 20, offset: int = 0) -> List[User]:
+    async def fetch_followers(self, limit: int = 20, offset: int = 0) -> list[User]:
         """Fetches the user's followers.
         
         :param limit: The maximum number of return values,
@@ -177,7 +176,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.User`]
+        :rtype: list[:class:`ext.api.User`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/followers?limit={limit}&offset={offset}'
@@ -186,7 +185,7 @@ class User:
 
         return [User(connection=self.connection, **user) for user in data]
 
-    async def fetch_following(self, limit: int = 20, offset: int = 0) -> List[User]:
+    async def fetch_following(self, limit: int = 20, offset: int = 0) -> list[User]:
         """Fetches who the user is following.
         
         :param limit: The maximum number of return values,
@@ -196,7 +195,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.User`]
+        :rtype: list[:class:`ext.api.User`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/following?limit={limit}&offset={offset}'
@@ -272,7 +271,7 @@ class Project:
             self.parent_id = remix['parent']
             self.root_id = remix['root']
     
-    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> list[Comment]:
         """Fetches the project's comments.
         
         :param limit: The maximum number of return values,
@@ -282,7 +281,7 @@ class Project:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Comment`]
+        :rtype: list[:class:`ext.api.Comment`]
         """
 
         comment_path = f'https://api.scratch.mit.edu/users/{self.author.username}/projects/{self.id}/comments'
@@ -362,7 +361,7 @@ class Studio:
             self.managers = stats['managers']
             self.projects = stats['projects']
     
-    async def fetch_projects(self, limit: int = 24, offset: int = 0) -> List[StudioProject]:
+    async def fetch_projects(self, limit: int = 24, offset: int = 0) -> list[StudioProject]:
         """Fetches the studio's projects.
         
         :param limit: The maximum number of return values, optional
@@ -372,7 +371,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Project`]
+        :rtype: list[:class:`ext.api.Project`]
         """
 
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/projects/?limit={limit}&offset={offset}'
@@ -396,7 +395,7 @@ class Studio:
         
         return project
 
-    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> list[Comment]:
         """Fetches the studio's comments.
         
         :param limit: The maximum number of return values,
@@ -406,7 +405,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Comment`]
+        :rtype: list[:class:`ext.api.Comment`]
         """
 
         comment_path = f'https://api.scratch.mit.edu/studios/{self.id}/comments'
@@ -416,7 +415,7 @@ class Studio:
 
         return [Comment(connection=self.connection, type=CommentType.Studio, api_path=comment_path, **comment) for comment in data]
 
-    async def fetch_managers(self, limit: int = 40, offset: int = 0) -> List[User]:
+    async def fetch_managers(self, limit: int = 40, offset: int = 0) -> list[User]:
         """Fetches the studio's managers from the api.
         
         :param limit: The maximum number of return values,
@@ -426,7 +425,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.StudioUser`]
+        :rtype: list[:class:`ext.api.StudioUser`]
         """
 
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/managers/?limit={limit}&offset={offset}'
@@ -435,7 +434,7 @@ class Studio:
 
         return [User(connection=self.connection, **user) for user in data]
 
-    async def fetch_curators(self, limit: int = 40, offset: int = 0) -> List[User]:
+    async def fetch_curators(self, limit: int = 40, offset: int = 0) -> list[User]:
         """Fetches the studio's curators.
         
         :param limit: The maximum number of return values,
@@ -445,7 +444,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.StudioUser`]
+        :rtype: list[:class:`ext.api.StudioUser`]
         """
 
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/curators/?limit={limit}&offset={offset}'
@@ -492,7 +491,7 @@ class Comment:
         if author:
             self.author = IncompleteUser(self.connection, **author)
     
-    async def fetch_replies(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+    async def fetch_replies(self, limit: int = 20, offset: int = 0) -> list[Comment]:
         """Fetches the comment's replies.
         
         :param limit: The maximum number of return values,
@@ -502,7 +501,7 @@ class Comment:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Reply`]
+        :rtype: list[:class:`ext.api.Reply`]
         """
 
         data = await self.connection.client.http_session.get(f'{self.api_path}/{self.id}/replies?limit={limit}&offset={offset}')

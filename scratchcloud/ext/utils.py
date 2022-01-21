@@ -1,4 +1,3 @@
-from typing import List
 from textwrap import wrap
 import asyncio
 
@@ -12,12 +11,12 @@ class SegmentDump:
     :param client: The client that will be used for operations
     :type client: :class:`client.CloudClient`
     :param cloud_names: The cloud variables that will be set and read
-    :type cloud_names: List[str]
+    :type cloud_names: list[str]
 
     :raises MissingCloudVariable: If not all cloud_names are found in the cached cloud variables
     """
 
-    def __init__(self, client: CloudClient, cloud_names: List[str]):
+    def __init__(self, client: CloudClient, cloud_names: list[str]):
         self.client = client
         self.cloud_names = cloud_names
         
@@ -26,7 +25,7 @@ class SegmentDump:
         if not self.dict_has_all_keys(self.client.cloud_variables, self.cloud_names):
             raise MissingCloudVariable('cloud_names not found in project')
 
-    def dict_has_all_keys(self, d: dict, keys: List[str]):
+    def dict_has_all_keys(self, d: dict, keys: list[str]):
         return not any([key not in d for key in keys])
 
     async def dump(self, data: str, encode_data: bool = False, delay: float = 0.01, empty_value: str = '0', encode_empty: bool = False):
