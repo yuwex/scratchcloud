@@ -220,7 +220,7 @@ class CloudClient:
             "X-CSRFToken": "None",
             "X-Requested-With": "XMLHttpRequest",
             "Referer": "https://scratch.mit.edu",
-            "User-Agent": "ScratchCloud"
+            "User-Agent": "scratchcloud"
         }
         
         cookies = {}
