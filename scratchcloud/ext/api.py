@@ -42,8 +42,6 @@ class APIConnection:
     async def fetch_project(self, project: int | str | 'Project' | 'IncompleteProject') -> 'Project':
         """A coroutine that fetches a project from the API.
         
-        :param owner_username: The username of the owner of the project
-        :type owner_username: str
         :param project: The id of the project or a object that inherits from `ext.api.Project`
 
         :raises NotFoundError: If the data couldn't be accessed by the scratch API
