@@ -12,12 +12,13 @@ Scratch cloud variables use a protocol called websockets to transfer their data 
 
 scratchcloud uses login information provided by the user to connect to the scratch cloud variable servers. This allows programmers to view and modify cloud variables on any project through python, opening endless possibilities.
 
-scratchcloud uses the `AIOHttp <https://docs.aiohttp.org/en/stable/>`_ and `Requests <https://docs.python-requests.org/en/latest/>`_ python libraries.
+scratchcloud uses the `AIOHttp <https://docs.aiohttp.org/en/stable/>`_ and `websockets <https://websockets.readthedocs.io/en/stable/>`_ python libraries.
 
 Installation
 ------------
 
-scratchcloud is an asynchronous library. It is recommended to have intermediate python, OOP, and asyncio knowledge before using this library.
+.. note::
+    scratchcloud is an asynchronous library. It is recommended to have intermediate python, OOP, and asyncio knowledge before using this library.
 
 1. Make sure you have scratcher status by checking scratch.mit.edu/users/your_name/. If you do not have scratcher status, you cannot use this library!
 2. Install `python <https://www.python.org/downloads/>`_
