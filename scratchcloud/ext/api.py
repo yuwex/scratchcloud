@@ -1,4 +1,5 @@
 from __future__ import annotations
+from binascii import Incomplete
 from typing import List, Union
 from datetime import datetime
 from enum import Enum
@@ -102,20 +103,32 @@ class APIConnection:
 
 @dataclass
 class User:
+    """A dataclass that stores information on users
+    """
+
     connection: APIConnection
+    """the connection used to create the user"""
     id: int
+    """the user's id"""
     username: str
+    """the user's username"""
     
-    scratchteam: int = None
+    scratchteam: bool = None
+    """if the user is a member of the scratchteam"""
 
     history: InitVar[dict] = None
     joined: datetime = None
+    """the join date of the user"""
         
     profile: InitVar[dict] = None
     status: str = None
+    """the user's profile status"""
     bio: str = None
+    """the user's profile bio"""
     country: str = None
+    """the user's country"""
     image: str = None
+    """the user's image url"""
 
     def __post_init__(self, history, profile):
         if history:
@@ -218,38 +231,65 @@ class User:
 
 @dataclass
 class IncompleteUser(User):
+    """A dataclass that stores information on users. Contains less information than a normal User object.
+    """
+
     image: str = None
+    """the url of the user's image"""
 
 @dataclass
 class Project:
+    """A dataclass that stores information on projects.
+    """
+
     connection: APIConnection
+    """the connection used to create the project"""
     id: int
+    """the project's id"""
     title: str
+    """the project's title"""
 
     description: str = None
+    """the project's description"""
     instructions: str = None
+    """the project's instructions"""
     visibility: str = None
+    """the project's visibility"""
     public: bool = None
+    """if the project is public"""
     comments_allowed: bool = None
+    """if the project allows comments"""
     is_published: bool = None
+    """if the project is published"""
     image: str = None
+    """the project's image url"""
 
     author: IncompleteUser | InitVar[dict] = None
+    """the project's author"""
 
     history: InitVar[dict] = None
     created: datetime = None
+    """the project's creation date"""
     modified: datetime = None
+    """the project's modification date"""
     shared: datetime = None
+    """the project's share date"""
 
     stats: InitVar[dict] = None
     views: int = None
+    """the project's view count"""
     loves: int = None
+    """the project's love count"""
     favorites: int = None
+    """the project's favorite count"""
     remixes: int = None
+    """the project's remix count"""
 
     remix: InitVar[dict] = None
     parent_id: int = None
+    """if the project is a remix, the project's parent project id"""
     root_id: int = None
+    """if the project is a remix of a remix, the project's root project id"""
 
     images: InitVar[dict] = None
 
@@ -306,22 +346,38 @@ class Project:
 
 @dataclass
 class IncompleteProject(Project):
+    """A dataclass that stores information on projects. Contains less information than a normal Project object.
+    """
+
     pass
 
 @dataclass
 class StudioProject(IncompleteProject):
+    """A dataclass that stores information on projects. Contains some studio information.
+    """
+
     actor_id: int = None
+    """the user id of the user who added the project to the studio"""
 
 @dataclass
 class ProjectJSON(dict):
+    """A dataclass that stores project JSON.
+    """
 
     def __init__(self, *args, **kwargs):
         super(ProjectJSON, self).__init__(*args, **kwargs)
 
     def get_block_count(self) -> int:
+        """A method that gets the block count of the project.
+        :rtype: int
+        """
+
         return sum([len(sprite['blocks']) for sprite in self['targets']])
 
     def get_sprite_count(self) -> int:
+        """A method that gets the sprite count of the project.
+        :rtype: int
+        """
         return len(self['targets']) - 1 # Remove stage from sprites
 
     def get_json(self, *args, **kwargs) -> str:
@@ -329,27 +385,46 @@ class ProjectJSON(dict):
 
 @dataclass
 class Studio:
+    """A dataclass that stores information on studios.
+    """
+
     connection: APIConnection
+    """the connection used to create the studio"""
     id: int
+    """the studio's id"""
     title: str
+    """the studio's title"""
 
     host: int = None
+    """the studio's host's id"""
     description: str = None
+    """the studio's description"""
     visibility: str = None
+    """the studio's visibility"""
     public: bool = None
+    """if the studio is public"""
     open_to_all: bool = None
+    """if the studio is open for anyone to add projects to"""
     comments_allowed: bool = None
+    """if the studio's comment section is open"""
     image: str = None
+    """the studio's image url"""
 
     history: InitVar[dict] = None
     created: datetime = None
+    """the studio's creation date"""
     modified: datetime = None
+    """the studio's modification date"""
 
     stats: InitVar[dict] = None
     comments: int = None
+    """the studio's comment count"""
     followers: int = None
+    """the studio's follower count"""
     managers: int = None
+    """the studio's manager count"""
     projects: int = None
+    """the studio's project count"""
 
     def __post_init__(self, history, stats):
         if history:
@@ -455,32 +530,50 @@ class Studio:
         return [User(connection=self.connection, **user) for user in data]
 
 class CommentType(Enum):
+    """A enum that stores comment type.
+    """
+
     Project = 0
     Studio = 1
 
 @dataclass
 class Comment:
+    """A dataclass that stores information on comments.
+    """
+
     connection: APIConnection
+    """the connection used to create the comment"""
     type: CommentType
+    """the comment's type"""
     api_path: str
+    """the path used for internal api calls """
 
     id: int
+    """the comment's id"""
     
     parent_id: int = None
+    """if the comment is a reply, its parent comment's id"""
     commentee_id: int = None
+    """the comment's sender's id"""
     content: str = None
+    """the comments content"""
 
     datetime_created: InitVar[str] = None
     created: datetime = None
+    """the comment's creation date"""
 
     datetime_modified: InitVar[str] = None
     modified: datetime = None
+    """the comment's modification date"""
 
     visibility: str = None
+    """the comment's visibility"""
 
-    author: InitVar[dict] = None
+    author: IncompleteUser | InitVar[dict] = None
+    """the comment's author"""
 
     reply_count: int = None
+    """the comment's number of replies"""
 
     def __post_init__(self, datetime_created, datetime_modified, author):
         if datetime_created:
