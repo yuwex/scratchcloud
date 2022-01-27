@@ -595,7 +595,7 @@ class Comment:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Reply`]
+        :rtype: List[:class:`ext.api.Comment`]
         """
 
         data = await self.connection.client.http_session.get(f'{self.api_path}/{self.id}/replies?limit={limit}&offset={offset}')
