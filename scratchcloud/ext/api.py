@@ -1,6 +1,4 @@
 from __future__ import annotations
-from binascii import Incomplete
-from typing import List, Union
 from datetime import datetime
 from enum import Enum
 from dataclasses import InitVar, dataclass
@@ -16,7 +14,7 @@ class APIConnection:
     def __init__(self, client: CloudClient):
         self.client: CloudClient = client
     
-    async def fetch_user(self, user: Union[str, 'User', 'IncompleteUser']) -> 'User':
+    async def fetch_user(self, user: str | 'User' | 'IncompleteUser') -> 'User':
         """A coroutine that fetches a user from the API.
         
         :param user: A username or object that inherits from `ext.api.User`
@@ -41,7 +39,7 @@ class APIConnection:
         
         return User(self, **data)
     
-    async def fetch_project(self, project: Union[int, str, 'Project', 'IncompleteProject']) -> 'Project':
+    async def fetch_project(self, project: int | str | 'Project') -> 'Project':
         """A coroutine that fetches a project from the API.
         
         :param owner_username: The username of the owner of the project
@@ -72,7 +70,7 @@ class APIConnection:
         
         return Project(self, **data)
         
-    async def fetch_studio(self, studio: Union[str, int, 'Studio']) -> 'Studio':
+    async def fetch_studio(self, studio: str | int | 'Studio') -> 'Studio':
         """A coroutine that fetches a studio from the API.
         
         :param studio: The studio id or `ext.api.Studio` object.
@@ -117,10 +115,14 @@ class User:
     """if the user is a member of the scratchteam"""
 
     history: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
+
     joined: datetime = None
     """the join date of the user"""
         
     profile: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
+
     status: str = None
     """the user's profile status"""
     bio: str = None
@@ -142,7 +144,7 @@ class User:
                 self.bio = profile['bio']
                 self.country = profile['country']
     
-    async def fetch_favorite_projects(self, limit: int = 20, offset: int = 0) -> List[Project]:
+    async def fetch_favorite_projects(self, limit: int = 20, offset: int = 0) -> list[Project]:
         """Fetches the user's favorite projects.
         
         :param limit: The maximum number of return values,
@@ -152,7 +154,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Project`]
+        :rtype: list[:class:`ext.api.Project`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/favorites?limit={limit}&offset={offset}'
@@ -161,7 +163,7 @@ class User:
 
         return [Project(connection=self.connection, **project) for project in data]
 
-    async def fetch_projects(self, limit: int = 20, offset: int = 0) -> List[Project]:
+    async def fetch_projects(self, limit: int = 20, offset: int = 0) -> list[Project]:
         """Fetches the user's projects.
         
         :param limit: The maximum number of return values,
@@ -171,7 +173,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Project`]
+        :rtype: list[:class:`ext.api.Project`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/projects?limit={limit}&offset={offset}'
@@ -180,7 +182,7 @@ class User:
 
         return [Project(connection=self.connection, **project) for project in data]
 
-    async def fetch_followers(self, limit: int = 20, offset: int = 0) -> List[User]:
+    async def fetch_followers(self, limit: int = 20, offset: int = 0) -> list[User]:
         """Fetches the user's followers.
         
         :param limit: The maximum number of return values,
@@ -190,7 +192,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.User`]
+        :rtype: list[:class:`ext.api.User`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/followers?limit={limit}&offset={offset}'
@@ -199,7 +201,7 @@ class User:
 
         return [User(connection=self.connection, **user) for user in data]
 
-    async def fetch_following(self, limit: int = 20, offset: int = 0) -> List[User]:
+    async def fetch_following(self, limit: int = 20, offset: int = 0) -> list[User]:
         """Fetches who the user is following.
         
         :param limit: The maximum number of return values,
@@ -209,7 +211,7 @@ class User:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.User`]
+        :rtype: list[:class:`ext.api.User`]
         """
 
         PATH = f'https://api.scratch.mit.edu/users/{self.username}/following?limit={limit}&offset={offset}'
@@ -268,6 +270,7 @@ class Project:
     """the project's author"""
 
     history: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
     created: datetime = None
     """the project's creation date"""
     modified: datetime = None
@@ -276,6 +279,7 @@ class Project:
     """the project's share date"""
 
     stats: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
     views: int = None
     """the project's view count"""
     loves: int = None
@@ -286,12 +290,14 @@ class Project:
     """the project's remix count"""
 
     remix: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
     parent_id: int = None
     """if the project is a remix, the project's parent project id"""
     root_id: int = None
     """if the project is a remix of a remix, the project's root project id"""
 
     images: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
 
     def __post_init__(self, author, history, stats, remix, images):
         if author:
@@ -312,7 +318,7 @@ class Project:
             self.parent_id = remix['parent']
             self.root_id = remix['root']
     
-    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> list[Comment]:
         """Fetches the project's comments.
         
         :param limit: The maximum number of return values,
@@ -322,7 +328,7 @@ class Project:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Comment`]
+        :rtype: list[:class:`ext.api.Comment`]
         """
 
         comment_path = f'https://api.scratch.mit.edu/users/{self.author.username}/projects/{self.id}/comments'
@@ -411,12 +417,14 @@ class Studio:
     """the studio's image url"""
 
     history: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
     created: datetime = None
     """the studio's creation date"""
     modified: datetime = None
     """the studio's modification date"""
 
     stats: InitVar[dict] = None
+    """an internal variable deleted on object creation"""
     comments: int = None
     """the studio's comment count"""
     followers: int = None
@@ -437,7 +445,7 @@ class Studio:
             self.managers = stats['managers']
             self.projects = stats['projects']
     
-    async def fetch_projects(self, limit: int = 24, offset: int = 0) -> List[StudioProject]:
+    async def fetch_projects(self, limit: int = 24, offset: int = 0) -> list[StudioProject]:
         """Fetches the studio's projects.
         
         :param limit: The maximum number of return values, optional
@@ -447,7 +455,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Project`]
+        :rtype: list[:class:`ext.api.Project`]
         """
 
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/projects/?limit={limit}&offset={offset}'
@@ -471,7 +479,7 @@ class Studio:
         
         return project
 
-    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+    async def fetch_comments(self, limit: int = 20, offset: int = 0) -> list[Comment]:
         """Fetches the studio's comments.
         
         :param limit: The maximum number of return values,
@@ -481,7 +489,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Comment`]
+        :rtype: list[:class:`ext.api.Comment`]
         """
 
         comment_path = f'https://api.scratch.mit.edu/studios/{self.id}/comments'
@@ -491,7 +499,7 @@ class Studio:
 
         return [Comment(connection=self.connection, type=CommentType.Studio, api_path=comment_path, **comment) for comment in data]
 
-    async def fetch_managers(self, limit: int = 40, offset: int = 0) -> List[User]:
+    async def fetch_managers(self, limit: int = 40, offset: int = 0) -> list[User]:
         """Fetches the studio's managers from the api.
         
         :param limit: The maximum number of return values,
@@ -501,7 +509,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.StudioUser`]
+        :rtype: list[:class:`ext.api.StudioUser`]
         """
 
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/managers/?limit={limit}&offset={offset}'
@@ -510,7 +518,7 @@ class Studio:
 
         return [User(connection=self.connection, **user) for user in data]
 
-    async def fetch_curators(self, limit: int = 40, offset: int = 0) -> List[User]:
+    async def fetch_curators(self, limit: int = 40, offset: int = 0) -> list[User]:
         """Fetches the studio's curators.
         
         :param limit: The maximum number of return values,
@@ -520,7 +528,7 @@ class Studio:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.StudioUser`]
+        :rtype: list[:class:`ext.api.StudioUser`]
         """
 
         PATH = f'https://api.scratch.mit.edu/studios/{self.id}/curators/?limit={limit}&offset={offset}'
@@ -559,10 +567,12 @@ class Comment:
     """the comments content"""
 
     datetime_created: InitVar[str] = None
+    """an internal variable deleted on object creation"""
     created: datetime = None
     """the comment's creation date"""
 
     datetime_modified: InitVar[str] = None
+    """an internal variable deleted on object creation"""
     modified: datetime = None
     """the comment's modification date"""
 
@@ -585,7 +595,7 @@ class Comment:
         if author:
             self.author = IncompleteUser(self.connection, **author)
     
-    async def fetch_replies(self, limit: int = 20, offset: int = 0) -> List[Comment]:
+    async def fetch_replies(self, limit: int = 20, offset: int = 0) -> list[Comment]:
         """Fetches the comment's replies.
         
         :param limit: The maximum number of return values,
@@ -595,7 +605,7 @@ class Comment:
             default 0
         :type offset: int, optional
 
-        :rtype: List[:class:`ext.api.Comment`]
+        :rtype: list[:class:`ext.api.Comment`]
         """
 
         data = await self.connection.client.http_session.get(f'{self.api_path}/{self.id}/replies?limit={limit}&offset={offset}')
