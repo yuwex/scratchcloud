@@ -76,7 +76,7 @@ Finally, we just have to run our client. Add this line with your password:
 
 The text that states ``'Your Password Here!'`` should be your actual password. The ``client.run`` method is the only blocking function in the library.
 
-If we hop over to the `project <https://scratch.mit.edu/projects/622084628/>`_ we connected to, click the cat, and change some variables, our scratchcloud client will print the changes!
+If we hop over to the `project <https://scratch.mit.edu/projects/622084628/>`_ we connected to, click the cat, and change some variables, our scratchcloud client will print the changes! For example, clicking the cat and entering 100 will make scratchcloud print ``REQUEST changed to 100!``
 
 .. note::
   
