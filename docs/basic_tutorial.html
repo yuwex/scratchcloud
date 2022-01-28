@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="next" title="Extensions Tutorial" href="extensions_tutorial.html" />
     <link rel="prev" title="Getting Started" href="getting_started.html" /> 
 </head>
 
@@ -45,6 +45,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#using-cloud-events">Using Cloud Events</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="extensions_tutorial.html">Extensions Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 <ul>
@@ -78,8 +79,8 @@
              
   <section id="basic-tutorial">
 <h1>Basic Tutorial<a class="headerlink" href="#basic-tutorial" title="Permalink to this headline"></a></h1>
+<p><strong>This tutorial will create a basic event-based application.</strong></p>
 <p>This tutorial assumes you’ve already installed scratchcloud. See <a class="reference internal" href="getting_started.html"><span class="doc">Getting Started</span></a> if you haven’t yet.</p>
-<p>This tutorial will create a basic event-based application.</p>
 <section id="basic-events">
 <h2>Basic Events<a class="headerlink" href="#basic-events" title="Permalink to this headline"></a></h2>
 <p>First, create a file <code class="docutils literal notranslate"><span class="pre">main.py</span></code>:</p>
@@ -113,7 +114,10 @@
 </div>
 <p>These are all the types of scratchcloud built-in events.</p>
 <p>The first thing to notice is the decorators, <code class="docutils literal notranslate"><span class="pre">&#64;client.event</span></code>. These client event decorators tell your client object to search for specific names. Event functions must use their perscribed names, being <code class="docutils literal notranslate"><span class="pre">on_connect</span></code>, which is called when the client connects to scratch, <code class="docutils literal notranslate"><span class="pre">on_disconnect</span></code> when the client disconnects from scratch, and <code class="docutils literal notranslate"><span class="pre">on_message</span></code>, when any cloud variable changes in the client’s project.</p>
-<p>The keyword <code class="docutils literal notranslate"><span class="pre">async</span></code> is used before all functions with the <code class="docutils literal notranslate"><span class="pre">&#64;client.event</span></code> decorator. Since this library is asynchronous, we must specify that all functions created by the library are async as well.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The keyword <code class="docutils literal notranslate"><span class="pre">async</span></code> is used before all functions with the <code class="docutils literal notranslate"><span class="pre">&#64;client.event</span></code> decorator. Since this library is asynchronous, many of its methods require the <code class="docutils literal notranslate"><span class="pre">async</span></code> keyword.</p>
+</div>
 <p>Lastly, the change to the first line imports the CloudChange object, which is used in the <code class="docutils literal notranslate"><span class="pre">on_message</span></code> event. The <code class="docutils literal notranslate"><span class="pre">on_message</span></code> variable requires one positional argument, that will always be of type CloudChange. CloudChange objects have several attributes, and we use <code class="docutils literal notranslate"><span class="pre">CloudChange.name</span></code> and <code class="docutils literal notranslate"><span class="pre">CloudChange.value</span></code> in this code, which represent the name and value of a variable we receieve. The <code class="docutils literal notranslate"><span class="pre">on_message</span></code> variable will be called whenever any cloud variable is changed by anyone, excluding the connected CloudClient.</p>
 <p>Finally, we just have to run our client. Add this line with your password:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
@@ -240,7 +244,7 @@ Cloud event error decorators are set up in the similarly to <code class="docutil
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="extensions_tutorial.html" class="btn btn-neutral float-right" title="Extensions Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

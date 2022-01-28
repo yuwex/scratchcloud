@@ -1,9 +1,9 @@
 Basic Tutorial
 ==============
 
-This tutorial assumes you've already installed scratchcloud. See :doc:`getting_started` if you haven't yet.
+**This tutorial will create a basic event-based application.**
 
-This tutorial will create a basic event-based application.
+This tutorial assumes you've already installed scratchcloud. See :doc:`getting_started` if you haven't yet.
 
 Basic Events
 ------------
@@ -46,7 +46,8 @@ These are all the types of scratchcloud built-in events.
 
 The first thing to notice is the decorators, ``@client.event``. These client event decorators tell your client object to search for specific names. Event functions must use their perscribed names, being ``on_connect``, which is called when the client connects to scratch, ``on_disconnect`` when the client disconnects from scratch, and ``on_message``, when any cloud variable changes in the client's project.
 
-The keyword ``async`` is used before all functions with the ``@client.event`` decorator. Since this library is asynchronous, we must specify that all functions created by the library are async as well.
+.. note::
+  The keyword ``async`` is used before all functions with the ``@client.event`` decorator. Since this library is asynchronous, many of its methods require the ``async`` keyword.
 
 Lastly, the change to the first line imports the CloudChange object, which is used in the ``on_message`` event. The ``on_message`` variable requires one positional argument, that will always be of type CloudChange. CloudChange objects have several attributes, and we use ``CloudChange.name`` and ``CloudChange.value`` in this code, which represent the name and value of a variable we receieve. The ``on_message`` variable will be called whenever any cloud variable is changed by anyone, excluding the connected CloudClient.
 

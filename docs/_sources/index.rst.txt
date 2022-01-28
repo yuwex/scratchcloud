@@ -17,6 +17,7 @@ New Users
 
    Getting Started <getting_started>
    Basic Tutorial <basic_tutorial>
+   Extensions Tutorial <extensions_tutorial>
    Examples <examples>
 
 Documentation
