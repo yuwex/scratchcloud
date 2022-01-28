@@ -84,20 +84,31 @@
 This tutorial also assumes you’ve already read <a class="reference internal" href="basic_tutorial.html"><span class="doc">Basic Tutorial</span></a>.</p>
 <section id="codecs-extension">
 <h2>Codecs Extension<a class="headerlink" href="#codecs-extension" title="Permalink to this headline"></a></h2>
-<p>Say what it is</p>
-<p>Link to docs</p>
-<p>Code example</p>
+<p>Scratch only accepts numbers in its cloud variables. To send non-numeric characters to scratch, an encoder must be used to turn letters into numbers.</p>
+<p>scratchcloud has encoder and decoder support built in. The <code class="docutils literal notranslate"><span class="pre">encoder</span></code> and <code class="docutils literal notranslate"><span class="pre">decoder</span></code> parameters in a CloudClient will automatically encode and decode cloud variables, taking away the overhead of dealing with encoding yourself. These parameters must both be functions that take one argument and return a string.</p>
+<p>While scratchcloud allows you to use any encoder you choose, it comes with the built-in codec extension. Currently the only codec is BaseCodec.</p>
+<p>BaseCodec is usable out-of-box, after a simple import:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
+<span class="kn">from</span> <span class="nn">scratchcloud.ext</span> <span class="kn">import</span> <span class="n">BaseCodec</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
+<span class="n">codec</span> <span class="o">=</span> <span class="n">BaseCodec</span><span class="p">()</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">encode</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Then, going to the <a class="reference external" href="https://scratch.mit.edu/projects/622026587">BaseCodec Scratch Project</a> and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud.</p>
+<p>While scratchcloud will automatically encode and decode data, scratch will not. Make sure to use the <code class="docutils literal notranslate"><span class="pre">Encode</span> <span class="pre">(</span> <span class="pre">)</span></code> block before sending data and the <code class="docutils literal notranslate"><span class="pre">Decode</span> <span class="pre">(</span> <span class="pre">)</span></code> block before reading cloud data.</p>
+<p>… more here abt parameters of BaseCodec</p>
 </section>
 <section id="api-connection-extension">
 <h2>API Connection Extension<a class="headerlink" href="#api-connection-extension" title="Permalink to this headline"></a></h2>
-<p>Say what it is</p>
-<p>Link to docs</p>
-<p>Code example</p>
+<p>Some scratch users may want to use the scratch API in their projects. This can be done through the APIConnection extension.</p>
+<p>The APIConnection has three basic fetch functions: <code class="docutils literal notranslate"><span class="pre">fetch_user()</span></code>, <code class="docutils literal notranslate"><span class="pre">fetch_project()</span></code>, and <code class="docutils literal notranslate"><span class="pre">fetch_studio()</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Sending more than 10 api requests per second will result in the complete CloudClient being rate limited. Since scratchcloud does not have built in ratelimiting (yet), please be mindful of how many requests you send! This library was made for event-based interactions rather than constant updating.</p>
+</div>
+<p>… more here abt API connection</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
