@@ -385,6 +385,8 @@ class ProjectJSON(dict):
         return len(self['targets']) - 1 # Remove stage from sprites
 
     def get_json(self, *args, **kwargs) -> str:
+        """A wrapper for json.dumps. Uses the arguments and keword arguments for json.dumps to get the project json"""
+
         return json.dumps(self, *args, **kwargs)
 
 @dataclass
