@@ -53,14 +53,15 @@ class BaseCodec:
         if self.force_lowercase:
             plaintext = plaintext.lower()
         
-        try:
-            encoded = []
-            for letter in plaintext:
-                letter = self.cipheralpha[self.plainalpha.index(letter)]
-                encoded.append(letter)
-            return ''.join(encoded)
-        except Exception as e:
-            raise EncodeError(f'Unable to encode: {plaintext} due to \n{e}')
+        encoded = []
+        for letter in plaintext:
+            
+            if letter not in self.plainalpha:
+                raise EncodeError(f'plainalpha characters does not contain {letter}')
+
+            letter = self.cipheralpha[self.plainalpha.index(letter)]
+            encoded.append(letter)
+        return ''.join(encoded)
 
     def decode(self, ciphertext: str | int) -> str:
         """A method that decodes ciphertext.
@@ -73,16 +74,16 @@ class BaseCodec:
         :rtype: str
         """
 
-
         if self.force_lowercase:
             ciphertext = ciphertext.lower()
         
-        try:
-            decoded = []
-            for letter in wrap(ciphertext, self.places_per_character):
-                letter = self.plainalpha[self.cipheralpha.index(letter)]
-                decoded.append(letter)
-            return ''.join(decoded)
-        except Exception as e:
-            raise DecodeError(f'Unable to decode: {ciphertext} due to \n{e}')
+        decoded = []
+        for number in wrap(ciphertext, self.places_per_character):
+            if number not in self.cipheralpha:
+                raise DecodeError(f'cipheralpha does not contain number {number}')
+
+            number = self.plainalpha[self.cipheralpha.index(number)]
+            decoded.append(number)
+        return ''.join(decoded).lower()
+            
 
