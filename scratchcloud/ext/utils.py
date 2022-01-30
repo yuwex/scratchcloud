@@ -28,8 +28,52 @@ class SegmentDump:
     def dict_has_all_keys(self, d: dict, keys: list[str]):
         return not any([key not in d for key in keys])
 
-    async def dump(self, data: str, encode_data: bool = False, delay: float = 0.01, empty_value: str = '0', encode_empty: bool = False):
-        """A asynchronous method to dump data to several variables at once.
+    def get_segments(self, data: str, encode_data: bool = False, empty_value: str = '0', encode_empty: bool = False) -> dict:
+        """A function that breaks up data into 256-length segment. Returns a dict with the cloud variable name and the segment.
+
+        :param data: The data that will be sent
+        :type data: str
+        :param encode_data: A boolean that encodes the data if true,
+            default false
+        :type encode_data: bool
+        :param empty_value: The value that unused segments are set to,
+            default '0'
+        :type empty_value: str
+        :param encode_empty: A boolean that encodes the empty value,
+            default False
+        :type encode_empty: bool
+
+        :raises ValueError: If the value that will be encoded is not digits
+        :raises SizeError: If the data that will be sent is larger than the maximum length
+
+        :rtype: dict
+        """
+
+        if self.client.encoder and encode_data:
+            data = self.client.encoder(data)
+
+        if self.client.encoder and encode_empty:
+            empty_value = self.client.encoder(empty_value)
+
+        if not empty_value.isdigit():
+            raise ValueError('empty_value must digits. Maybe you meant to use encode_empty=True?')
+
+        if len(data) > (self.MAX_CLOUD_LENGTH * len(self.cloud_names)):
+            raise SizeError(f'Your data is too big! Must be less than or equal to {(self.MAX_CLOUD_LENGTH * len(self.cloud_names))} characters.')
+
+        segments = {}
+
+        pieces = wrap(data, 256)
+        for index, name in enumerate(self.cloud_names):
+            if len(pieces) > index:
+                segments.update({name: pieces[index]})
+            else:
+                segments.update({name: empty_value})
+        
+        return segments
+
+    async def dump(self, data: str, delay: float = 0.01, encode_data: bool = False, empty_value: str = '0', encode_empty: bool = False):
+        """A asynchronous method to dump data to several variables at once. Pretty much a wrapper for get_segments that sends data as well.
         
         :param data: The data that will be sent
         :type data: str
@@ -50,33 +94,14 @@ class SegmentDump:
         :raises SizeError: If the data that will be sent is larger than the maximum length
         """
 
-        if self.client.encoder and encode_data:
-            data = self.client.encoder(data)
-
-        if self.client.encoder and encode_empty:
-            empty_value = self.client.encoder(empty_value)
-
-        if not empty_value.isdigit():
-            raise ValueError('empty_value must digits')
-
-        if len(data) > (self.MAX_CLOUD_LENGTH * len(self.cloud_names)):
-            raise SizeError(f'Your data is too big! Must be less than or equal to {(self.MAX_CLOUD_LENGTH * len(self.cloud_names))} characters.')
-
-        segments = {}
-
-        pieces = wrap(data, 256)
-        for index, name in enumerate(self.cloud_names):
-            if len(pieces) >= index:
-                segments.update({name: pieces[index]})
-            else:
-                segments.update({name: empty_value})
+        segments = self.get_segments()
         
         for cloud_name, cloud_value in segments.items():
             await self.client.set_cloud(cloud_name, cloud_value, encode = False)
             await asyncio.sleep(delay)
         
         return segments
-            
+
     def read(self, decode_data: bool = False, end_var_value: str = '0', encode_end: bool = False) -> str:
         """A method to read data from several variables at once.
         
