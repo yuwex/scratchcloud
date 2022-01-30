@@ -44,6 +44,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="basic_tutorial.html">Basic Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions_tutorial.html">Extensions Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 <ul>
@@ -83,11 +84,14 @@
 <h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline"></a></h2>
 <p>Scratch cloud variables use a protocol called websockets to transfer their data between scratch users. The websockets set up by the scratch team allow any logged-in user to change the cloud variables of any project, regardless of whether the user owns the project or not. To stop users from using cloud variables in a way the owner of the project didn’t originally intend, the scratch website has a failsafe where clicking on the “see-inside” button of a project will terminate its websocket connection.</p>
 <p>scratchcloud uses login information provided by the user to connect to the scratch cloud variable servers. This allows programmers to view and modify cloud variables on any project through python, opening endless possibilities.</p>
-<p>scratchcloud uses the <a class="reference external" href="https://docs.aiohttp.org/en/stable/">AIOHttp</a> and <a class="reference external" href="https://docs.python-requests.org/en/latest/">Requests</a> python libraries.</p>
+<p>scratchcloud uses the <a class="reference external" href="https://docs.aiohttp.org/en/stable/">AIOHttp</a> and <a class="reference external" href="https://websockets.readthedocs.io/en/stable/">websockets</a> python libraries.</p>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>scratchcloud is an asynchronous library. It is recommended to have intermediate python, OOP, and asyncio knowledge before using this library.</p>
+</div>
 <ol class="arabic simple">
 <li><p>Make sure you have scratcher status by checking scratch.mit.edu/users/your_name/. If you do not have scratcher status, you cannot use this library!</p></li>
 <li><p>Install <a class="reference external" href="https://www.python.org/downloads/">python</a></p></li>
