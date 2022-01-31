@@ -21,8 +21,11 @@ Installation
     scratchcloud is an asynchronous library. It is recommended to have intermediate python, OOP, and asyncio knowledge before using this library.
 
 1. Make sure you have scratcher status by checking scratch.mit.edu/users/your_name/. If you do not have scratcher status, you cannot use this library!
-2. Install `python <https://www.python.org/downloads/>`_
-3. Use ``pip install scratchcloud`` (``pip3 install scratchcloud`` for some mac users) to install scratchcloud. Virual environments are always recommended!
-4. Use ``pip show scratchcloud`` (``pip3 show scratchcloud`` for some mac users) to make sure that the installation worked.
+2. Install `python <https://www.python.org/downloads/>`_. scratchcloud requires a version of python larger or equal to 3.10
+3. Open your OS's terminal
+4. Run ``pip install scratchcloud`` to install scratchcloud. Virual environments are always recommended!
+
+.. note::
+    Some mac users may need to use ``pip3`` instead of ``pip``.
 
 Now that you've successfully installed the scratchcloud package, you can start some actual coding!

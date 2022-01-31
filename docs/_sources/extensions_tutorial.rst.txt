@@ -38,6 +38,7 @@ API Connection Extension
 Some scratch users may want to use the scratch API in their projects. This can be done through the APIConnection extension.
 
 .. code-block:: python
+  
   from scratchcloud import CloudClient
   from scratchcloud.ext import APIConnection
 

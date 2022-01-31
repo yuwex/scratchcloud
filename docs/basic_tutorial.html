@@ -83,15 +83,16 @@
 <p>This tutorial assumes you’ve already installed scratchcloud. See <a class="reference internal" href="getting_started.html"><span class="doc">Getting Started</span></a> if you haven’t yet.</p>
 <section id="basic-events">
 <h2>Basic Events<a class="headerlink" href="#basic-events" title="Permalink to this headline"></a></h2>
+<p>To start off, let’s create a basic <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code>. A <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> is an object that represents the connection between scratch and python. We can create one by doing the following:</p>
 <p>First, create a file <code class="docutils literal notranslate"><span class="pre">main.py</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In this code, we first import the <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object. Then, using our username and the ID of the project we want to connect to, we create a new <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object named client. The project id <a class="reference external" href="https://scratch.mit.edu/projects/622084628/">622084628</a> is a basic test project.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<p>In this example, we first import the <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object. Then, using our username and the ID of the project we want to connect to, we create a new <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object named client. The project id <a class="reference external" href="https://scratch.mit.edu/projects/622084628/">622084628</a> is a basic test project.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> objects will only connect to projects that have cloud variables. If a project does not have any cloud variables, a <code class="docutils literal notranslate"><span class="pre">MissingCloudVariable</span></code> exception will be raised.</p>
 </div>
 <p>Next, we’re going to specify some events. scratchcloud uses python decorators to define all event-based interactions.</p>
