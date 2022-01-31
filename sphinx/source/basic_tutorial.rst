@@ -8,6 +8,8 @@ This tutorial assumes you've already installed scratchcloud. See :doc:`getting_s
 Basic Events
 ------------
 
+To start off, let's create a basic ``CloudClient``. A ``CloudClient`` is an object that represents the connection between scratch and python. We can create one by doing the following:
+
 First, create a file ``main.py``:
 
 .. code-block:: python
@@ -16,9 +18,9 @@ First, create a file ``main.py``:
 
   client = CloudClient(username='yuwe', project_id='622084628')
 
-In this code, we first import the ``CloudClient`` object. Then, using our username and the ID of the project we want to connect to, we create a new ``CloudClient`` object named client. The project id `622084628 <https://scratch.mit.edu/projects/622084628/>`_ is a basic test project.
+In this example, we first import the ``CloudClient`` object. Then, using our username and the ID of the project we want to connect to, we create a new ``CloudClient`` object named client. The project id `622084628 <https://scratch.mit.edu/projects/622084628/>`_ is a basic test project.
 
-.. warning::
+.. note::
   ``CloudClient`` objects will only connect to projects that have cloud variables. If a project does not have any cloud variables, a ``MissingCloudVariable`` exception will be raised.
 
 Next, we're going to specify some events. scratchcloud uses python decorators to define all event-based interactions.
