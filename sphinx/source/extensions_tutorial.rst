@@ -30,6 +30,10 @@ Then, going to the `BaseCodec Scratch Project <https://scratch.mit.edu/projects/
 
 While scratchcloud will automatically encode and decode data, scratch will not. Make sure to use the ``Encode ( )`` block before sending data and the ``Decode ( )`` block before reading cloud data.
 
+.. image:: images/extensions/scratch_encode.png
+  :alt: An image of scratch code using the custom Encode block.
+  :width: 400
+  
 ... more here abt parameters of BaseCodec
 
 API Connection Extension
