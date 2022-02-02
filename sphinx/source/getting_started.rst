@@ -17,8 +17,7 @@ scratchcloud uses the `AIOHttp <https://docs.aiohttp.org/en/stable/>`_ and `webs
 Installation
 ------------
 
-.. note::
-    scratchcloud is an asynchronous library. It is recommended to have intermediate python, OOP, and asyncio knowledge before using this library.
+**scratchcloud is an asynchronous library. It is recommended to have intermediate python, object oriented programming, and asyncio knowledge before using this library.**
 
 1. If you don't already have a scratch account, create one `here <https://scratch.mit.edu/join>`_.
 2. Install `Python <https://www.python.org/downloads/>`_. scratchcloud requires a version of python larger or equal to 3.10
