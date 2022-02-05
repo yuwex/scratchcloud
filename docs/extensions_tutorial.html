@@ -99,7 +99,27 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 <p>Then, going to the <a class="reference external" href="https://scratch.mit.edu/projects/622026587">BaseCodec Scratch Project</a> and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud.</p>
 <p>While scratchcloud will automatically encode and decode data, scratch will not. Make sure to use the <code class="docutils literal notranslate"><span class="pre">Encode</span> <span class="pre">(</span> <span class="pre">)</span></code> block before sending data and the <code class="docutils literal notranslate"><span class="pre">Decode</span> <span class="pre">(</span> <span class="pre">)</span></code> block before reading cloud data.</p>
 <a class="reference internal image-reference" href="_images/scratch_encode.png"><img alt="An image of scratch code using the custom Encode block." src="_images/scratch_encode.png" style="width: 400px;" /></a>
-<p>… more here abt parameters of BaseCodec</p>
+<p>The BaseCodec class has several parameters that allow it to work with other scratch codecs.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>These values should not be changed if you decide to use the <a class="reference external" href="https://scratch.mit.edu/projects/622026587">BaseCodec Scratch Project</a>. You should only change these values if you are adapting a different style of encoding.</p>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">plainalpha</span></code> - the alphabet that will be used. The normal alphabet contains 67 basic characters, but if you wanted to have support for other characters or upercase characters, you could input your own alphabet here.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">offset</span></code> - the offset where numbers start. By default, this is 10, meaning the first letter will be encoded to 10 and decoded from 10. Changing this number to 20 would make the first letter start at 20.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">force_lowercase</span></code> - this changes all encoded and decoded data to be lowercase. This is useful if you are dealing with user inputs in Python rather than scratch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">places_per_character</span></code> - this is the length of the encoded value of each character. By default, this 2, meaning each encoded character will be a number of length 2, like 10, 22, or 57. If this number was changed to 3, then each encoded character would be a 3-digit number, like 231, 492, or 001. Some codecs require hundreds or thousands of possible letters, and raising this value will increase the total possible characters that can be sent.</p></li>
+</ul>
+<p>For example, say you wanted to use Sid72020123’s <a class="reference external" href="https://github.com/Sid72020123/scratchconnect/blob/main/scratchconnect/scEncoder.py">ScratchConnect Encoder</a>. You can do the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">codec</span> <span class="o">=</span> <span class="n">BaseCodec</span><span class="p">(</span>
+  <span class="n">plainalpha</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;BCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!&quot;#$%&amp;</span><span class="se">\&#39;</span><span class="s2">()*+,-./:;&lt;=&gt;?@[</span><span class="se">\\</span><span class="s2">]^_`{|}~ &quot;&quot;&quot;</span><span class="p">,</span>
+  <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+  <span class="n">force_lowercase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+  <span class="n">places_per_character</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The BaseCodec documentation can be found here: <a class="reference internal" href="scratchcloud.ext.html#scratchcloud.ext.codecs.BaseCodec" title="scratchcloud.ext.codecs.BaseCodec"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.codecs.BaseCodec</span></code></a></p>
 </section>
 <section id="api-connection-extension">
 <h2>API Connection Extension<a class="headerlink" href="#api-connection-extension" title="Permalink to this headline"></a></h2>
