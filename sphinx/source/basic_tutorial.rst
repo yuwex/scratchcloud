@@ -8,7 +8,10 @@ This tutorial assumes you've already installed scratchcloud. See :doc:`getting_s
 Basic Events
 ------------
 
-To start off, let's create a basic ``CloudClient``. A ``CloudClient`` is an object that represents the connection between scratch and python. We can create one by doing the following:
+To start off, let's create a basic ``CloudClient``.
+
+.. note:: 
+  A ``CloudClient`` is an object that represents the connection between scratch and python. We can create one by doing the following:
 
 First, create a file ``main.py``:
 
