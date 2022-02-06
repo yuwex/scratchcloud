@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import json
 import time
@@ -13,22 +15,22 @@ from .errors import SizeError, MissingCloudVariable
 class CloudChange:
     """This is a class that stores cloud data received from :class:`client.CloudClient`.
     
-    :param name: the cloud variable's name excluding "☁️ "
+    :param name: the cloud variable's name excluding "☁️ ".
     :type name: str
-    :param value: the cloud variable's value
-        If an encoder is specified in :class:`client.CloudClient` this value will be encoded
+    :param value: the cloud variable's value.
+        If an decoder is specified in :class:`client.CloudClient` this value will be decoded.
     :type value: str
-    :param id: the cloud variable's id
+    :param id: the library-assigned cloud variable's id. This value will start at 1 for the first cloud variable received and increment for each new change.
     :type id: int
-    :param previous_value: the cloud variable's previous value
-        Never encoded. None if not found
+    :param previous_value: the cloud variable's previous value.
+        Never encoded. None if not found.
     :type previous_value: str, optional
-    :param sender: the cloud variable's sender
-        If sent from the client, will default to the username attribute of :class:`client.CloudClient`. None otherwise
-    :param sender: str
+    :param sender: the cloud variable's sender.
+        If sent from the client, will be the :class:`client.CloudClient` object. None otherwise. This value may be changed by extensions.
+    :param sender: :class:`client.CloudClient` | str
     """
 
-    def __init__(self, name: str, value: str, id: int, previous_value: str = None, sender: str = None):
+    def __init__(self, name: str, value: str, id: int, previous_value: str = None, sender: 'CloudClient' | str = None):
         self.name = name
         self.value = value
         self.id = id
@@ -63,32 +65,98 @@ class RawCloudChange(CloudChange):
 class CloudClient:
     """Represents the connection with the scratch websocket server.
 
-    :param username: the username of the account that will be used
+    :param username: the username of the account that will perform the connection.
     :type username: str
-    :param project_id: the project id that will be connected to
+    :param project_id: the project id that will be connected to. 
     :type project_id: str
-    :param max_reconnect: the maximum number of reconnects by the client.
-        Used in run
+    :param max_reconnect: the maximum number of reconnects by the client. If reconnecting fails this number of times, the error that caused the reconnect will be raised.
     :type max_reconnect: int, optional
-    :param reconnect_cooldown: the time in seconds between reconnecting.
-        Used in run, defaults to 10
+    :param reconnect_cooldown: the time in seconds between reconnecting. Defaults to 10. Low values may result in ratelimiting / bans.
     :type reconnect_cooldown: int, optional
     :param encoder: a callable function that is used to encode all sent cloud data.
-        Must convert to string of digits. Must take 1 argument
+        The callable must return a string of digits and only take 1 argument.
     :type encoder: Callable[[str], str], optional
     :param decoder: a callable function that is used to decode all received cloud data.
-        Must take 1 argument
+        The callable must take 1 argument.
     :type decoder: Callable[[str], str], optional
     :param disconnect_messages: a boolean that when true, prints the cause of disconnects, 
         defaults to False
     :type disconnect_messages: bool
+    :param max_cache_length: the maximum length of saved RawCloudChange objects.
+        defaults to 1000
+    :type max_cache_length: int
+    :param event_loop: the event loop that the CloudClient will use.
+        defaults to asyncio.get_event_loop()
+    :type event_loop: AbstractEventLoop
+
+    **Attributes:**
+    
+    * http_session :class:`aiohttp.ClientSession`
+        The HTTP session used for logging into scratch
+    * cookies :class:`dict`
+        The cookies gathered from the HTTP session
+    * headers :class:`dict`
+        The headers gathered from the HTTP session
+    * logged_in :class:`bool`
+        If the login was successful
+    * ws :class:`websocket.client`
+        The websocket connection
+    * connected :class:`bool`
+        If the client is connected to the websocket server
+    * cloud_variables :class:`dict`
+        The current values of the cloud variables
+    * cloud_cache :class:`list[RawCloudChange]`
+        A list of all of the cloud variable changed since the client has been active. Newer cloud changes will be later in the list
+    * cloud_events :class:`dict`
+        Internal registers for cloud events
+    * cloud_event_errors :class:`dict`
+        Internal registers for cloud event errors
+    * on_message_registered :class:`bool`
+        If the on_messsage event is registered
+    
+    **Methods:**
     """
-    def __init__(self, username: str, project_id: str, max_reconnect: int = None, reconnect_cooldown: int = 10, encoder: Callable[[str], str] = None, decoder: Callable[[str], str] = None, disconnect_messages: bool = False):
+
+    # http_session: aiohttp.ClientSession
+    # """The HTTP session used for logging into scratch"""
+
+    # cookies: dict
+    # """The cookies gathered from the HTTP session"""
+
+    # headers: dict
+    # """The headers gathered from the HTTP session"""
+
+    # logged_in: bool
+    # """If the login was successful"""
+
+    # ws: websockets.client
+    # """The websocket connection"""
+
+    # connected: bool
+    # """If the websocket connection is connected"""
+
+    # cloud_variables: dict
+    # """The current values of the cloud variables"""
+    
+    # cloud_cache: list[RawCloudChange]
+    # """A list of all of the cloud variable changed since the client has been active. Newer cloud changes will be later in the list"""
+
+    # cloud_events: dict
+    # """Internal registers for cloud events"""
+
+    # cloud_event_errors: dict
+    # """Internal registers for cloud event errors"""
+
+    # on_message_registered: bool
+    # """Internal register for the on_messsage event"""
+
+    def __init__(self, username: str, project_id: str, max_reconnect: int = None, reconnect_cooldown: int = 10, encoder: Callable[[str], str] = None, decoder: Callable[[str], str] = None, disconnect_messages: bool = False, max_cache_length: int = 1000, event_loop = asyncio.get_event_loop()):
 
         self.username = username
         self.project_id = project_id
 
-        self.loop = asyncio.get_event_loop()
+        self.loop = event_loop
+
         self.http_session = None
         self.cookies = None
         self.headers = None
@@ -105,8 +173,8 @@ class CloudClient:
 
         self.cloud_variables = {}
         self.cloud_cache = []
+        self.max_cache_length = max_cache_length
 
-        self.commands = []
         self.cloud_events = {}
         self.cloud_event_errors = {}
 
@@ -115,13 +183,18 @@ class CloudClient:
     # RUNNING CLIENT
     def run(self, token: str):
         """Functions as a blocking function to run the client with builtin reconnecting.
-        Basically runs start repeatedly and disconnects properly after a keyboardinterrupt.
+        Basically runs start repeatedly and disconnects properly after a KeyboardInterrupt.
         Also handles common connection errors.
 
         :param token: the password of the account that will be used to establish a connection
         :type token: str
 
-        :rtype: None 
+        :rtype: None
+
+        Example Usage::
+
+            client = CloudClient('username', '123')
+            client.run('password')
         """
 
         loop = self.loop
@@ -171,11 +244,16 @@ class CloudClient:
 
     async def start(self, token: str):
         """A coroutine that starts a client.
-        Basically just calls other functions in chronological order.
+
+        Calls all login function in chronological order.
         Closes self, logs in, connects to the websocket, performs a handshake, and finally, runs the client.
+
+        This can be used in place of :meth:`run` if you want more control over the event loop.
 
         :param token: the password of the account that will be used to establish a connection
         :type token: str
+
+        Internal.
         """
 
         self.connected = False
@@ -190,12 +268,17 @@ class CloudClient:
 
     async def run_client(self):
         """A coroutine that calls the on_connect_task and starts receving data from the websocket.
+        Assumes that the websocket connection has already been established.
+
+        Internal.
         """
 
         await asyncio.gather(self.on_connect_task(), self.on_recv())
 
     async def close(self):
         """A coroutine that closes self.http_session.
+
+        Internal.
         """
 
         if self.http_session:
@@ -203,6 +286,9 @@ class CloudClient:
 
     async def ws_send(self, data: dict):
         """A coroutine that sends a dictionary to the websocket connection.
+        Assumes that the websocket connection has already been established.
+
+        Internal.
         """
 
         data = json.dumps(data) + '\n'
@@ -214,6 +300,8 @@ class CloudClient:
         
         :param token: the password of the account that will be used to establish a connection
         :type token: str 
+
+        Internal.
         """
 
         headers = {
@@ -253,6 +341,9 @@ class CloudClient:
 
     async def connect_ws(self):
         """A coroutine that establishes a websocket connection with project_id.
+        Assumes that the http session has already been created.
+
+        Internal.
         """
 
         def dict_to_cookie(dictionary: dict) -> str:
@@ -266,6 +357,8 @@ class CloudClient:
         """A coroutine that performs a handshake with the websocket connection.
         
         :raises `errors.MissingCloudVariable`: If no cloud variables are found in the project
+
+        Internal.
         """
 
         payload = {
@@ -285,6 +378,9 @@ class CloudClient:
     # TASKS
     async def on_recv(self):
         """A coroutine that receives data from the cloud connection and calls event functions.
+        Creates CloudChange objects, manages the cache, handles events and cloud_events.
+
+        Internal.
         """
 
         async for data in self.ws:
@@ -299,7 +395,7 @@ class CloudClient:
 
                 cloud = CloudChange(name, value, current_id, previous_value = prev_val)
                 self.cloud_variables.update({name: value})
-                self.cloud_cache.append(RawCloudChange(name, value, current_id, previous_value = prev_val))
+                self.add_to_cloud_cache(RawCloudChange(name, value, current_id, previous_value = prev_val))
 
                 for func_name, cloud_event_name in self.cloud_events.items():
                     if cloud_event_name == name:
@@ -311,6 +407,12 @@ class CloudClient:
                 task.add_done_callback(self.raise_exc_callback)
 
     async def cloud_event_task(self, cloud: CloudChange, func_name: str, error_func_name: str = None):
+        """A cloud event task.
+        Calls a function when an internally registered cloud variable changes.
+
+        Internal.  
+        """
+
         try:
             if not cloud.decoded and self.decoder:
                 cloud.value = self.decoder(cloud.value)
@@ -324,6 +426,13 @@ class CloudClient:
                 raise e
 
     async def on_message_event_task(self, cloud: CloudChange):
+        """The message task.
+        Called whenever a cloud variable changes.
+        If linked, calls the on_message @CloudClient.event
+
+        Internal.
+        """
+
         try:
             if not cloud.decoded and self.decoder:
                 cloud.value = self.decoder(cloud.value)
@@ -334,28 +443,42 @@ class CloudClient:
             return
 
     def raise_exc_callback(self, task: asyncio.Task):
+        """A exception callback.
+
+        Internal.
+        """
         exception = task.exception()
         if exception:
             raise exception
 
     async def on_connect_task(self):
         """A coroutine that calls on_connect.
+
+        Internal.
         """
 
         await self.on_connect()
 
     async def on_disconnect_task(self):
         """A coroutine that calls on_disconnect.
+
+        Internal.
         """
 
         await self.on_disconnect()
 
     # EVENTS
     def event(self, func):
-        """A wrapper that registers on_message, on_connect, and, on_disconnect events.
+        """A decorator that registers on_message, on_connect, and, on_disconnect events.
         
         :param func: A function that will be registered. Must have an identical name to an event
         :param func: Callable
+
+        Example Usage::
+
+            @client.event
+            async def event_name_here():
+              pass
         """
 
         f_name = func.__name__
@@ -381,12 +504,18 @@ class CloudClient:
             return wrap
 
     def cloud_event(self, variable_name: str):
-        """A wrapper that registers cloud events.
+        """A wrapper that registers cloud events. Cloud events call specific functions whenever a specific variable changes. Takes away the user overhead of parsing each CloudChange object.
         
         :param variable_name: The variable name that will be registered
         :param variable_name: str
 
         :raises KeyError: If the cloud variable has already been registered
+
+        Example Usage::
+            
+            @client.cloud_event('CloudVariableName')
+            async def cloud_variable_name_changed(cloud: CloudChange):
+              print(f'The variable CloudVariableName changed to {cloud.value}!')
         """
 
         def decorator(func):
@@ -406,12 +535,23 @@ class CloudClient:
         return decorator
 
     def cloud_event_error(self, variable_name: str):
-        """A wrapper that registers cloud error events.
+        """A wrapper that registers cloud error events. This coroutine is called whenever an error occurs in :meth:`cloud_event`. 
         
         :param variable_name: The variable name that will be registered
         :param variable_name: str
 
         :raises KeyError: If the cloud variable has already been registered
+
+        Example Usage::
+
+            @client.cloud_event('CloudVariableName')
+            async def cloud_variable_name_changed(cloud: CloudChange):
+              print(f'The variable CloudVariableName changed to {cloud.name}!')
+            
+            @client.cloud_event_error('CloudVariableName')
+            async def on_message_error(cloud: CloudChange, error: Exception):
+              if isinstance(error, ZeroDivisionError):
+                print('Somebody entered a zero in CloudVariableName!)
         """
 
         def decorator(func):
@@ -435,18 +575,37 @@ class CloudClient:
 
         :param cloud: A cloudchange object that stores data from on_recv
         :type cloud: :class:`client.CloudChange`
+
+        Example Usage::
+
+            @client.event
+            async def on_message(cloud: CloudChange):
+              print(f'{cloud.name} changed to {cloud.value}!')
         """
 
         pass
 
     async def on_message_error(self, cloud: CloudChange, error: Exception):
-        """The default value for on_message_error.
+        """The default value for on_message_error. This coroutine is called whenever an error occurs in :meth:`on_message`. 
 
         :param cloud: A cloudchange object that stores data from on_recv
         :type cloud: :class:`client.CloudChange`
 
         :param cloud: A cloudchange object that stores data from on_recv
         :type cloud: :class:`client.CloudChange`
+        
+        Example Usage::
+
+            @client.event
+            async def on_message(cloud: CloudChange):
+              if cloud.value.isdigit():
+                val = int(cloud.value)
+                print(100 / val)
+            
+            @client.event
+            async def on_message_error(cloud: CloudChange, error: Exception):
+              if isinstance(error, ZeroDivisionError):
+                print('Somebody entered a zero!)
         """
         
         if self.on_message_registered:
@@ -454,29 +613,48 @@ class CloudClient:
 
     async def on_connect(self):
         """The default value for on_connect.
+
+        Example Usage::
+
+            @client.event
+            async def on_connect():
+              print('Connected to Scratch :)')
         """
 
         pass
 
     async def on_disconnect(self):
         """The default value for on_disconnect.
+
+        Example Usage::
+
+            @client.event
+            async def on_connect():
+              print('Disconnected from Scratch :(')
         """
 
         pass
 
     ### CLOUD VARIABLES
     async def set_cloud(self, name: str, value: str, encode: bool = True):
-        """A coroutine that sets cloud variables by sending data to the websocket connection.
+        """A coroutine that sets cloud variables by sending data to the websocket connection. This must be called from another coroutine.
 
-        :param name: The name of the cloud variable that will be set
+        :param name: The name of the cloud variable that will be set. This value must not include "☁️ ". A cloud variable named "☁️ MyVariable" should be refrenced here as "MyVariable".
         :type name: str
-        :param value: The value the cloud variable will be set to
+        :param value: The value the cloud variable will be set to.
         :type value: str
-        :param encode: Controls whether, if the client has an encoder, the encoder be used
+        :param encode: Controls whether, if the client has an encoder, the encoder be used.
+            Defaults to True
         :type encode: bool
 
         :raises TypeError: If the (possibly encoded) value is not digits
         :raises SizeError: If the value is larger than 256 digits
+
+        Example Usage::
+
+            @client.event
+            async def on_connect():
+              await client.set_cloud('MyCloudVariableName', '200')
         """
 
         value = str(value)
@@ -505,7 +683,7 @@ class CloudClient:
             prev = None
 
         current_id = len(self.cloud_cache)
-        self.cloud_cache.append(RawCloudChange(name, value, current_id, previous_value=prev, sender='@CLIENT'))
+        self.add_to_cloud_cache(RawCloudChange(name, value, current_id, previous_value=prev, sender=self))
         self.cloud_variables.update({name: value})
 
     def parse_raw_cloud(self, raw_data: str) -> dict:
@@ -515,6 +693,8 @@ class CloudClient:
         :type raw_data: str
 
         :rtype: dict
+        
+        Internal.
         """
 
         parsed_data = {}
@@ -531,3 +711,13 @@ class CloudClient:
             parsed_data.update({name: value})
         
         return parsed_data
+    
+    def add_to_cloud_cache(self, item):
+        """Adds an item to the cloud cache. If the cloud cache is too long, delete the least recent item to be added.
+        
+        :param item: the item that will be added
+        """
+
+        self.cloud_cache.append(item)
+        if len(self.cloud_cache) > self.max_cache_length:
+            self.cloud_cache.pop(0)
