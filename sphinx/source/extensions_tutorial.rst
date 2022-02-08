@@ -49,7 +49,7 @@ For example, say you wanted to use Sid72020123's `ScratchConnect Encoder <https:
 .. code-block:: python
   
   codec = BaseCodec(
-    plainalpha="""BCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ """, # The plaintext alphabet that Sid's codec uses
+    plainalpha="""ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ """, # The plaintext alphabet that Sid's codec uses
     offset=0, # Sid's codec starts at 0
     force_lowercase=False, # Sid's codec supports uppercase letters
     places_per_character=2, # All encodings in Sid's codec are 2 characters long
