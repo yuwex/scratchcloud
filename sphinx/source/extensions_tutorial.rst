@@ -19,14 +19,20 @@ BaseCodec is usable out-of-box, after a simple import:
 
 .. code-block:: python
 
-  from scratchcloud import CloudClient
+  from scratchcloud import CloudClient, CloudChange
   from scratchcloud.ext import BaseCodec
 
   codec = BaseCodec()
 
   client = CloudClient(username='yuwe', project_id='622084628', encoder=codec.encode, decoder=codec.decode)
 
-Then, going to the `BaseCodec Scratch Project <https://scratch.mit.edu/projects/622026587>`_ and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud.
+  @client.event
+  async def on_message(cloud: CloudChange):
+    print(f'{cloud.name} changed to {cloud.value}')
+
+Connecting to the `scratchcloud Test Interface <https://scratch.mit.edu/projects/622084628>`_ (622084628) and switching the "Encode Request" slider to 1 in the scratch project will encode everything you send from it. You should now be able to get non-numeric characters in scratchcloud!
+
+Going to the `BaseCodec Scratch Project <https://scratch.mit.edu/projects/622026587>`_ and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud in your own projects.
 
 While scratchcloud will automatically encode and decode data, scratch will not. Make sure to use the ``Encode ( )`` block before sending data and the ``Decode ( )`` block before reading cloud data.
 
