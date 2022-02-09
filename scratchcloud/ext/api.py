@@ -336,7 +336,7 @@ class Project:
 
         return [Comment(connection=self.connection, type=CommentType.Project, api_path=comment_path, **comment) for comment in data]
 
-    async def fetch_project_json_object(self) -> ProjectJSON:
+    async def fetch_project_json(self) -> ProjectJSON:
         """Fetches the project's json from the api.
 
         :rtype: ProjectJSON
