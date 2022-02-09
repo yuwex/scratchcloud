@@ -544,14 +544,14 @@ class CloudClient:
 
         Example Usage::
 
-            @client.cloud_event('CloudVariableName')
-            async def cloud_variable_name_changed(cloud: CloudChange):
-              print(f'The variable CloudVariableName changed to {cloud.name}!')
+            @client.cloud_event('myvar')
+            async def myvar_changed(cloud: CloudChange):
+              print(f'The variable myvar changed to {cloud.name}!')
             
-            @client.cloud_event_error('CloudVariableName')
-            async def on_message_error(cloud: CloudChange, error: Exception):
+            @client.cloud_event_error('myvar')
+            async def myvar_error(cloud: CloudChange, error: Exception):
               if isinstance(error, ZeroDivisionError):
-                print('Somebody entered a zero in CloudVariableName!)
+                print('Somebody entered a zero in myvar!)
         """
 
         def decorator(func):
