@@ -18,7 +18,7 @@ While scratchcloud allows you to use any encoder you choose, it comes with the b
 BaseCodec is usable out-of-box, after a simple import:
 
 .. code-block:: python
-  :lineos:
+  :linenos:
   :emphasize-lines: 2, 4, 6
 
   from scratchcloud import CloudClient, CloudChange
@@ -75,7 +75,7 @@ API Connection Extension
 
 Some scratch users may want to use the scratch API in their projects. This can be done through the APIConnection extension.
 
-APIConnections take a CloudClient as their argument:
+The APIConnection class takes a CloudClient as their argument:
 
 .. code-block:: python
   
@@ -88,16 +88,34 @@ APIConnections take a CloudClient as their argument:
 The APIConnection has three basic fetch functions: ``fetch_user()``, ``fetch_project()``, and ``fetch_studio()``.
 
 .. warning::
-  Sending more than 10 api requests per second will result in the complete CloudClient being rate limited. Since scratchcloud does not have built in ratelimiting (yet), please be mindful of how many requests you send! This library was made for event-based interactions rather than constant updating.
+  Fetching the API more than 10 times per second will result in the CloudClient being rate limited. Since scratchcloud does not have built in ratelimiting (yet), please be mindful of how many requests you send! This library was made for event-based interactions rather than constant updating.
 
-... more here abt API connection
+* ``fetch_user()`` returns a :class:`scratchcloud.ext.api.User` class
+* ``fetch_project()`` returns a :class:`scratchcloud.ext.api.Project` class
+* ``fetch_studio()`` returns a :class:`scratchcloud.ext.api.Studio` class
+
+Sending fetch requests is as follows:
 
 .. code-block:: python
-   
-  from scratchcloud import CloudClient
+  :emphasize-lines: 9
+  
+  from scratchcloud import CloudClient, CloudChange
+  from scratchcloud.ext import APIConnection
 
   client = CloudClient(username='yuwe', project_id='622084628')
+  api = APIConnection(client)
 
+  @client.event
+  async def on_connect():
+    user = await api.fetch_user('yuwe')
+    print(f'Location for {user.username}')
+    print(f'{user.username} is from {user.country}')
+
+Most objects have extra fetch methods. For example, the Studio class has the methods :meth:`fetch_curators` and :meth:`fetch_managers`.
+
+The APIConnection class will not be updated to contain site-api methods or webscraping. It is solely used for scratch's built in API.
+
+The APIConnection documentation and all of its classes and methods can be found here: :class:`scratchcloud.ext.api`
 
 Utils Extension
 ---------------
