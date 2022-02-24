@@ -120,7 +120,30 @@ The APIConnection documentation and all of its classes and methods can be found 
 Utils Extension
 ---------------
 
-Say what it is
+scratchcloud has some utilities that are useful for repetitive or complicated tasks.
+
+The first utility is SegmentDump, which is used to send data that does not fit in scratch's 256 character limit.
+
+SegmentDump will break down data into segments with lengths of 256 and set multiple cloud variables to these segments. It can also combine multiple cloud variables into a single piece of data.
+
+.. code-block:: python
+   
+  from scratchcloud import CloudClient
+
+  client = CloudClient(username='yuwe', project_id='650134344')
+  
+  segments = [
+    'Segment 1',
+    'Segment 2',
+    'Segment 3',
+    'Segment 4',
+    'Segment 5',
+    'Segment 6',
+    'Segment 7',
+    'Segment 8',
+    'Segment 9',
+  ]
+  segmenter = SegmentDump(client, segments)
 
 Link to docs
 
