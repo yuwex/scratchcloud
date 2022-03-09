@@ -97,7 +97,8 @@ The APIConnection has three basic fetch functions: ``fetch_user()``, ``fetch_pro
 Sending fetch requests is as follows:
 
 .. code-block:: python
-  :emphasize-lines: 9
+  :linenos:
+  :emphasize-lines: 7, 9
   
   from scratchcloud import CloudClient, CloudChange
   from scratchcloud.ext import APIConnection
@@ -110,6 +111,8 @@ Sending fetch requests is as follows:
     user = await api.fetch_user('yuwe')
     print(f'Location for {user.username}')
     print(f'{user.username} is from {user.country}')
+
+Line 7 uses the :meth:`api.fetch_user()` method to get data for the user yuwe and turn it into a user object. Line 9 presents the user's username and the country they're from.
 
 Most objects have extra fetch methods. For example, the Studio class has the methods :meth:`fetch_curators` and :meth:`fetch_managers`.
 
@@ -127,8 +130,11 @@ The first utility is SegmentDump, which is used to send data that does not fit i
 SegmentDump will break down data into segments with lengths of 256 and set multiple cloud variables to these segments. It can also combine multiple cloud variables into a single piece of data.
 
 .. code-block:: python
+  :linenos:
+  :emphasize-lines: 2, 6-16, 18
    
   from scratchcloud import CloudClient
+  from scratchcloud.ext.utils import SegmentDump
 
   client = CloudClient(username='yuwe', project_id='650134344')
   
@@ -143,7 +149,39 @@ SegmentDump will break down data into segments with lengths of 256 and set multi
     'Segment 8',
     'Segment 9',
   ]
+
   segmenter = SegmentDump(client, segments)
+
+Line 2 imports SegmentDump. Line 6-16 creates a list of cloud variable names, in this case named Segment 1 - 9. Line 18 creates a SegmentDump object that is linked to the client with said variables.
+
+The SegmentDump object can now be used to split data into multiple variables or read data from multiple variables.
+
+.. code-block:: python
+  :linenos:
+  :emphasize-lines: 6, 17
+   
+  from scratchcloud import CloudClient
+  from scratchcloud.ext.utils import SegmentDump
+
+  client = CloudClient(username='yuwe', project_id='650134344')
+  
+  pi = "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989"
+
+  segments = [
+    'Segment 1', 'Segment 2', 'Segment 3', 'Segment 4', 'Segment 5', 'Segment 6', 'Segment 7', 'Segment 8', 'Segment 9',
+  ]
+
+  segmenter = SegmentDump(client, segments)
+
+  @client.event
+  async def on_connect():
+    print('Setting cloud variables to pi...')
+    await segmenter.dump(pi)
+
+In the example above, line 6 is the first 1000 digits of pi. Then, the :meth:`dump` method is used to set multiple cloud variables to parts of Pi. All variables that do not contain any part of pi are set to "0".
+
+You can change what the default empty value is with the ``empty_value`` argument.
+
 
 Link to docs
 
@@ -154,4 +192,8 @@ Code example
   from scratchcloud import CloudClient
 
   client = CloudClient(username='yuwe', project_id='622084628')
+
+
+
+
 
