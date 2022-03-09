@@ -22,9 +22,6 @@ class SegmentDump:
         
         self.MAX_CLOUD_LENGTH: int = 256
 
-        if not self.dict_has_all_keys(self.client.cloud_variables, self.cloud_names):
-            raise MissingCloudVariable('cloud_names not found in project')
-
     def dict_has_all_keys(self, d: dict, keys: list[str]):
         return not any([key not in d for key in keys])
 
@@ -63,7 +60,7 @@ class SegmentDump:
 
         segments = {}
 
-        pieces = wrap(data, 256)
+        pieces = wrap(data, self.MAX_CLOUD_LENGTH)
         for index, name in enumerate(self.cloud_names):
             if len(pieces) > index:
                 segments.update({name: pieces[index]})
@@ -92,9 +89,13 @@ class SegmentDump:
 
         :raises ValueError: If the value that will be encoded is not digits
         :raises SizeError: If the data that will be sent is larger than the maximum length
+        :raises MissingCloudVariable: If the specified cloud variables don't exist in the project
         """
 
-        segments = self.get_segments()
+        if not self.dict_has_all_keys(self.client.cloud_variables, self.cloud_names):
+            raise MissingCloudVariable('cloud_names not found in project')
+
+        segments = self.get_segments(data, encode_data, empty_value, encode_empty)
         
         for cloud_name, cloud_value in segments.items():
             await self.client.set_cloud(cloud_name, cloud_value, encode = False)
@@ -116,7 +117,12 @@ class SegmentDump:
         :type encode_end: bool
 
         :rtype: str
+
+        :raises MissingCloudVariable: If the specified cloud variables don't exist in the project
         """
+
+        if not self.dict_has_all_keys(self.client.cloud_variables, self.cloud_names):
+            raise MissingCloudVariable('cloud_names not found in project')
 
         payload = ''
         if self.client.encoder and encode_end:
