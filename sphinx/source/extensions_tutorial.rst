@@ -63,7 +63,7 @@ For example, say you wanted to use Sid72020123's `ScratchConnect Encoder <https:
   
   codec = BaseCodec(
     plainalpha="""ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ """, # The plaintext alphabet that Sid's codec uses
-    offset=0, # Sid's codec starts at 0
+    offset=1, # Sid's codec starts at 0
     force_lowercase=False, # Sid's codec supports uppercase letters
     places_per_character=2, # All encodings in Sid's codec are 2 characters long
   )
@@ -125,6 +125,9 @@ Utils Extension
 
 scratchcloud has some utilities that are useful for repetitive or complicated tasks.
 
+SegmentDump Utility
+-------------------
+
 The first utility is SegmentDump, which is used to send data that does not fit in scratch's 256 character limit.
 
 SegmentDump will break down data into segments with lengths of 256 and set multiple cloud variables to these segments. It can also combine multiple cloud variables into a single piece of data.
@@ -180,20 +183,68 @@ The SegmentDump object can now be used to split data into multiple variables or 
 
 In the example above, line 6 is the first 1000 digits of pi. Then, the :meth:`dump` method is used to set multiple cloud variables to parts of Pi. All variables that do not contain any part of pi are set to "0".
 
-You can change what the default empty value is with the ``empty_value`` argument.
+First, the "Segment 1" variable is set to the first 256 digits of pi.
+Then, the "Segment 2" variable is set to the next 256 digits of pi.
+After that, the "Segment 3" variable is set to the next 256 digits of pi.
+Finally, the "Segment 4" variable is set to the remaining 323 digits of pi.
+The "Segment 5" through "Segment 9" variables are set to "0".
 
-
-Link to docs
-
-Code example
+You can change what the default empty value is with the ``empty_value`` argument:
 
 .. code-block:: python
-   
+  
+  await segmenter.dump(pi, empty_value='22')
+
+SegmentDump reads a client's encode and decode functions. If an encoder/decoder is specified, you may specify if a SegmentDump object uses them:
+
+.. code-block:: python
+
   from scratchcloud import CloudClient
+  from scratchcloud.ext.utils import SegmentDump
+  from scratchcloud.codecs import BaseCodec
+
+  codec = BaseCodec()
+
+  # Set an encoder and decoder using BaseCodec
+  client = CloudClient(username='yuwe', project_id='650134344', encoder=codec.encode, decoder=codec.decode)
+
+  pi = "31415" # ...
+
+  @client.event
+  async def on_connect():
+    print('Setting cloud variables to pi...')
+    # Encode the data to send and the empty variable value using the client's encoder and decoder parameters
+    await segmenter.dump(pi, encode_data = True, empty_value='unset', encode_empty = True)
+
+The SegmentDump documentation and all of its classes and methods can be found here: :class:`scratchcloud.ext.utils.SegmentDump`
+
+CloudValidator Utility
+----------------------
+
+The second utility is the CloudValidator. 
+
+Often, developers will want to validate that a specific user is who they claim to be. Lots of cloud servers will simply send a username from Scratch, but this is unsafe because anyone can use a cloud variable library to fake their identity. The CloudValidator fixes this issue by finding the user that sent a CloudChange object through the cloud api.
+
+The CloudValidator is simple to use. Simply create a new CloudValidator object and use the :meth:`validate_cloud` method on a CloudChange object:
+
+.. code-block:: python
+
+  from scratchcloud import CloudClient
+  from scratchcloud.ext.utils import CloudValidator
 
   client = CloudClient(username='yuwe', project_id='622084628')
 
+  validator = CloudValidator(client)
 
+  @client.event
+  async def on_message(cloud: CloudChange):
+    sender = validator.validate_cloud(cloud)
 
+    print(f'{cloud.name} changed to {cloud.value} by {sender}')
 
+.. warning ::
+  The CloudValidator CAN be ratelimited, so please minimize your use. Don't validate variables that are constantly updated: this will result in your entire client getting disconnected.
 
+If the CloudValidator fails in its validation, a :class:`UnableToValidate` exception will be raised. This can be caught at the call location, or using ``on_message_error`` or ``on_cloud_event_error`` decorated functions.
+
+The CloudValidator documentation and all of its classes and methods can be found here: :class:`scratchcloud.ext.utils.CloudValidator`
