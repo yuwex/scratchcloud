@@ -346,8 +346,8 @@ default 0</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scratchcloud.ext.api.Project.fetch_project_json_object">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_project_json_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scratchcloud.ext.api.ProjectJSON" title="scratchcloud.ext.api.ProjectJSON"><span class="pre">scratchcloud.ext.api.ProjectJSON</span></a></span></span><a class="headerlink" href="#scratchcloud.ext.api.Project.fetch_project_json_object" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="scratchcloud.ext.api.Project.fetch_project_json">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_project_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scratchcloud.ext.api.ProjectJSON" title="scratchcloud.ext.api.ProjectJSON"><span class="pre">scratchcloud.ext.api.ProjectJSON</span></a></span></span><a class="headerlink" href="#scratchcloud.ext.api.Project.fetch_project_json" title="Permalink to this definition"></a></dt>
 <dd><p>Fetches the project’s json from the api.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -991,6 +991,7 @@ default False</p></li>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>ValueError</strong> – If the value that will be encoded is not digits</p></li>
 <li><p><a class="reference internal" href="scratchcloud.html#scratchcloud.errors.SizeError" title="scratchcloud.errors.SizeError"><strong>SizeError</strong></a> – If the data that will be sent is larger than the maximum length</p></li>
+<li><p><a class="reference internal" href="scratchcloud.html#scratchcloud.errors.MissingCloudVariable" title="scratchcloud.errors.MissingCloudVariable"><strong>MissingCloudVariable</strong></a> – If the specified cloud variables don’t exist in the project</p></li>
 </ul>
 </dd>
 </dl>
@@ -1041,6 +1042,9 @@ default false</p></li>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="scratchcloud.html#scratchcloud.errors.MissingCloudVariable" title="scratchcloud.errors.MissingCloudVariable"><strong>MissingCloudVariable</strong></a> – If the specified cloud variables don’t exist in the project</p>
 </dd>
 </dl>
 </dd></dl>

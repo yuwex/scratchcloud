@@ -88,15 +88,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – the cloud variable’s name excluding “☁️ “.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – the cloud variable’s name excluding <cite>“☁️ “</cite>.</p></li>
 <li><p><strong>value</strong> (<em>str</em>) – the cloud variable’s value.
 If an decoder is specified in <code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudClient</span></code> this value will be decoded.</p></li>
 <li><p><strong>id</strong> (<em>int</em>) – the library-assigned cloud variable’s id. This value will start at 1 for the first cloud variable received and increment for each new change.</p></li>
 <li><p><strong>previous_value</strong> (<em>str</em><em>, </em><em>optional</em>) – the cloud variable’s previous value.
 Never encoded. None if not found.</p></li>
-<li><p><strong>sender</strong> – the cloud variable’s sender.
+<li><p><strong>sender</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudClient</span></code> | str) – the cloud variable’s sender.
 If sent from the client, will be the <code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudClient</span></code> object. None otherwise. This value may be changed by extensions.</p></li>
-<li><p><strong>sender</strong> – <code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudClient</span></code> | str</p></li>
 </ul>
 </dd>
 </dl>
@@ -104,21 +103,21 @@ If sent from the client, will be the <code class="xref py py-class docutils lite
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.client.</span></span><span class="sig-name descname"><span class="pre">CloudClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">username:</span> <span class="pre">str,</span> <span class="pre">project_id:</span> <span class="pre">str,</span> <span class="pre">max_reconnect:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">reconnect_cooldown:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10,</span> <span class="pre">encoder:</span> <span class="pre">Optional[Callable[[str],</span> <span class="pre">str]]</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">decoder:</span> <span class="pre">Optional[Callable[[str],</span> <span class="pre">str]]</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">disconnect_messages:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">max_cache_length:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1000,</span> <span class="pre">event_loop=&lt;_UnixSelectorEventLoop</span> <span class="pre">running=False</span> <span class="pre">closed=False</span> <span class="pre">debug=False&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.client.</span></span><span class="sig-name descname"><span class="pre">CloudClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">username:</span> <span class="pre">str,</span> <span class="pre">project_id:</span> <span class="pre">str,</span> <span class="pre">max_reconnect:</span> <span class="pre">typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">reconnect_cooldown:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10,</span> <span class="pre">encoder:</span> <span class="pre">typing.Optional[typing.Callable[[str],</span> <span class="pre">str]]</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">decoder:</span> <span class="pre">typing.Optional[typing.Callable[[str],</span> <span class="pre">str]]</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">disconnect_messages:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">max_cache_length:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1000,</span> <span class="pre">event_loop=&lt;_UnixSelectorEventLoop</span> <span class="pre">running=False</span> <span class="pre">closed=False</span> <span class="pre">debug=False&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents the connection with the scratch websocket server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>username</strong> (<em>str</em>) – the username of the account that will perform the connection.</p></li>
+<li><p><strong>username</strong> (<em>str</em>) – the username of the account that will connect to scratch.</p></li>
 <li><p><strong>project_id</strong> (<em>str</em>) – the project id that will be connected to.</p></li>
-<li><p><strong>max_reconnect</strong> (<em>int</em><em>, </em><em>optional</em>) – the maximum number of reconnects by the client. If reconnecting fails this number of times, the error that caused the reconnect will be raised.</p></li>
-<li><p><strong>reconnect_cooldown</strong> (<em>int</em><em>, </em><em>optional</em>) – the time in seconds between reconnecting. Defaults to 10. Low values may result in ratelimiting / bans.</p></li>
+<li><p><strong>max_reconnect</strong> (<em>int</em><em>, </em><em>optional</em>) – the maximum number of reconnects by the client. If reconnecting fails this number of times, the error that caused the reconnect will be raised. Defaults to None, which means always reconnect.</p></li>
+<li><p><strong>reconnect_cooldown</strong> (<em>int</em><em>, </em><em>optional</em>) – the time in seconds between reconnecting. Defaults to 10. Low values may result in account ratelimiting and bans.</p></li>
 <li><p><strong>encoder</strong> (<em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>str</em><em>]</em><em>, </em><em>optional</em>) – a callable function that is used to encode all sent cloud data.
-The callable must return a string of digits and only take 1 argument.</p></li>
+The function must return a string of digits and take 1 argument.</p></li>
 <li><p><strong>decoder</strong> (<em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>str</em><em>]</em><em>, </em><em>optional</em>) – a callable function that is used to decode all received cloud data.
-The callable must take 1 argument.</p></li>
-<li><p><strong>disconnect_messages</strong> (<em>bool</em>) – a boolean that when true, prints the cause of disconnects, 
+The function must take 1 argument.</p></li>
+<li><p><strong>disconnect_messages</strong> (<em>bool</em>) – a boolean that when true, prints the cause of disconnects. 
 defaults to False</p></li>
 <li><p><strong>max_cache_length</strong> (<em>int</em>) – the maximum length of saved RawCloudChange objects.
 defaults to 1000</p></li>
@@ -145,12 +144,12 @@ defaults to asyncio.get_event_loop()</p></li>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>logged_in <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>If the login was successful</p>
+<dt>logged_in <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>If client is logged in</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>ws <code class="xref py py-class docutils literal notranslate"><span class="pre">websocket.client</span></code></dt><dd><p>The websocket connection</p>
+<dt>ws <code class="xref py py-class docutils literal notranslate"><span class="pre">websockets.client</span></code></dt><dd><p>The websocket connection</p>
 </dd>
 </dl>
 </li>
@@ -190,6 +189,7 @@ defaults to asyncio.get_event_loop()</p></li>
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.add_to_cloud_cache">
 <span class="sig-name descname"><span class="pre">add_to_cloud_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.add_to_cloud_cache" title="Permalink to this definition"></a></dt>
 <dd><p>Adds an item to the cloud cache. If the cloud cache is too long, delete the least recent item to be added.</p>
+<p>Internal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>item</strong> – the item that will be added</p>
@@ -207,7 +207,7 @@ defaults to asyncio.get_event_loop()</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.cloud_event">
 <span class="sig-name descname"><span class="pre">cloud_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.cloud_event" title="Permalink to this definition"></a></dt>
-<dd><p>A wrapper that registers cloud events. Cloud events call specific functions whenever a specific variable changes. Takes away the user overhead of parsing each CloudChange object.</p>
+<dd><p>A decorator that registers cloud events. Cloud events call specific functions whenever a specific variable changes. Using them takes away the user overhead of parsing each CloudChange object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -230,7 +230,7 @@ defaults to asyncio.get_event_loop()</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.cloud_event_error">
 <span class="sig-name descname"><span class="pre">cloud_event_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.cloud_event_error" title="Permalink to this definition"></a></dt>
-<dd><p>A wrapper that registers cloud error events. This coroutine is called whenever an error occurs in <a class="reference internal" href="#scratchcloud.client.CloudClient.cloud_event" title="scratchcloud.client.CloudClient.cloud_event"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cloud_event()</span></code></a>.</p>
+<dd><p>A decorator that registers cloud error events. This coroutine is called whenever an error occurs in <a class="reference internal" href="#scratchcloud.client.CloudClient.cloud_event" title="scratchcloud.client.CloudClient.cloud_event"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cloud_event()</span></code></a> for the same variable name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -243,14 +243,14 @@ defaults to asyncio.get_event_loop()</p></li>
 </dd>
 </dl>
 <p>Example Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;CloudVariableName&#39;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">cloud_variable_name_changed</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
-  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The variable CloudVariableName changed to </span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">!&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;myvar&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">myvar_changed</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;2 divided by myvar is </span><span class="si">{</span><span class="mi">2</span> <span class="o">/</span> <span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">!&#39;</span><span class="p">)</span>
 
-<span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event_error</span><span class="p">(</span><span class="s1">&#39;CloudVariableName&#39;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">on_message_error</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">):</span>
+<span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event_error</span><span class="p">(</span><span class="s1">&#39;myvar&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">myvar_error</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">):</span>
   <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="ne">ZeroDivisionError</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Somebody entered a zero in CloudVariableName!)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Somebody entered a zero in myvar!)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -277,16 +277,24 @@ Assumes that the http session has already been created.</p>
 <dd><p>A decorator that registers on_message, on_connect, and, on_disconnect events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> – A function that will be registered. Must have an identical name to an event</p></li>
-<li><p><strong>func</strong> – Callable</p></li>
-</ul>
+<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – A function that will be registered. Must have an identical name to an event</p>
 </dd>
 </dl>
+<p>The on_message event is called whenever the client recieves a CloudChange object</p>
+<p>The on_connect event is called whenever the client connects to the cloud</p>
+<p>The on_disconnect event is called whenever the client disconnects from the cloud</p>
 <p>Example Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">event_name_here</span><span class="p">():</span>
-  <span class="k">pass</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_message</span><span class="p">():</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;We got a new message!&#39;</span><span class="p">)</span>
+
+<span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Client connected to scratch!&#39;</span><span class="p">)</span>
+
+<span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Client disconnected from scratch!&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -310,7 +318,7 @@ Assumes that the http session has already been created.</p>
 <p>Example Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connected to Scratch :)&#39;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connected to Scratch :D&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -328,8 +336,8 @@ Assumes that the http session has already been created.</p>
 <dd><p>The default value for on_disconnect.</p>
 <p>Example Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Disconnected from Scratch :(&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">():</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Disconnected from Scratch D:&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -347,7 +355,7 @@ Assumes that the http session has already been created.</p>
 <dd><p>The default value for on_message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cloud</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudChange</span></code>) – A cloudchange object that stores data from on_recv</p>
+<dd class="field-odd"><p><strong>cloud</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudChange</span></code>) – An object that contains Cloud information</p>
 </dd>
 </dl>
 <p>Example Usage:</p>
@@ -361,12 +369,12 @@ Assumes that the http session has already been created.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.on_message_error">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_message_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cloud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.client.CloudChange" title="scratchcloud.client.CloudChange"><span class="pre">scratchcloud.client.CloudChange</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Exception</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.on_message_error" title="Permalink to this definition"></a></dt>
-<dd><p>The default value for on_message_error. This coroutine is called whenever an error occurs in <a class="reference internal" href="#scratchcloud.client.CloudClient.on_message" title="scratchcloud.client.CloudClient.on_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">on_message()</span></code></a>.</p>
+<dd><p>The default value for on_message_error. Called whenever an error occurs in <a class="reference internal" href="#scratchcloud.client.CloudClient.on_message" title="scratchcloud.client.CloudClient.on_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">on_message()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cloud</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudChange</span></code>) – A cloudchange object that stores data from on_recv</p></li>
-<li><p><strong>cloud</strong> – A cloudchange object that stores data from on_recv</p></li>
+<li><p><strong>error</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code>) – The exception raised in on_message</p></li>
 </ul>
 </dd>
 </dl>
@@ -390,7 +398,7 @@ Assumes that the http session has already been created.</p>
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_message_event_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cloud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scratchcloud.client.CloudChange" title="scratchcloud.client.CloudChange"><span class="pre">scratchcloud.client.CloudChange</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.on_message_event_task" title="Permalink to this definition"></a></dt>
 <dd><p>The message task.
 Called whenever a cloud variable changes.
-If linked, calls the on_message &#64;CloudClient.event</p>
+If the on_message event is linked, calls on_message</p>
 <p>Internal.</p>
 </dd></dl>
 
@@ -398,7 +406,7 @@ If linked, calls the on_message &#64;CloudClient.event</p>
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.on_recv">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_recv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.on_recv" title="Permalink to this definition"></a></dt>
 <dd><p>A coroutine that receives data from the cloud connection and calls event functions.
-Creates CloudChange objects, manages the cache, handles events and cloud_events.</p>
+Creates CloudChange objects, manages the cache, and handles events and cloud_events.</p>
 <p>Internal.</p>
 </dd></dl>
 
@@ -427,7 +435,7 @@ Creates CloudChange objects, manages the cache, handles events and cloud_events.
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.run" title="Permalink to this definition"></a></dt>
-<dd><p>Functions as a blocking function to run the client with builtin reconnecting.
+<dd><p>A blocking function to run the client with library reconnecting.
 Basically runs start repeatedly and disconnects properly after a KeyboardInterrupt.
 Also handles common connection errors.</p>
 <dl class="field-list simple">
@@ -456,11 +464,11 @@ Assumes that the websocket connection has already been established.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.set_cloud">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.set_cloud" title="Permalink to this definition"></a></dt>
-<dd><p>A coroutine that sets cloud variables by sending data to the websocket connection. This must be called from another coroutine.</p>
+<dd><p>A coroutine that sets cloud variables through the websocket connection. This must be called from another coroutine.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – The name of the cloud variable that will be set. This value must not include “☁️ “. A cloud variable named “☁️ MyVariable” should be refrenced here as “MyVariable”.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the cloud variable that will be set. This value must not include <cite>“☁️ “</cite>. A cloud variable named <cite>“☁️ MyVariable”</cite> should be refrenced here as <cite>“MyVariable”</cite>.</p></li>
 <li><p><strong>value</strong> (<em>str</em>) – The value the cloud variable will be set to.</p></li>
 <li><p><strong>encode</strong> (<em>bool</em>) – Controls whether, if the client has an encoder, the encoder be used.
 Defaults to True</p></li>
@@ -479,13 +487,14 @@ Defaults to True</p></li>
   <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;MyCloudVariableName&#39;</span><span class="p">,</span> <span class="s1">&#39;200&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Note that above <cite>client.set_cloud</cite> is called from the <cite>on_connect()</cite> coroutine</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.start">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.start" title="Permalink to this definition"></a></dt>
 <dd><p>A coroutine that starts a client.</p>
-<p>Calls all login function in chronological order.
+<p>Calls all functions needed to connect to scratch in chronological order.
 Closes self, logs in, connects to the websocket, performs a handshake, and finally, runs the client.</p>
 <p>This can be used in place of <a class="reference internal" href="#scratchcloud.client.CloudClient.run" title="scratchcloud.client.CloudClient.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> if you want more control over the event loop.</p>
 <dl class="field-list simple">
@@ -523,7 +532,7 @@ Assumes that the websocket connection has already been established.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.client.</span></span><span class="sig-name descname"><span class="pre">RawCloudChange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">previous_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'CloudClient'</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.RawCloudChange" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#scratchcloud.client.CloudChange" title="scratchcloud.client.CloudChange"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.client.CloudChange</span></code></a></p>
 <p>A subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">client.CloudChange</span></code>.
-Value attribute wil never be encoded.</p>
+Value attribute wil never be encoded. Used in <cite>client.cloud_cache</cite></p>
 </dd></dl>
 
 </section>
