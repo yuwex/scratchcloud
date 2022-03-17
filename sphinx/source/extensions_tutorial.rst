@@ -203,18 +203,18 @@ SegmentDump reads a client's encode and decode functions. If an encoder/decoder 
   from scratchcloud.ext.utils import SegmentDump
   from scratchcloud.codecs import BaseCodec
 
-  codec = BaseCodec()
+  codec = BaseCodec(force_lowercase = True)
 
   # Set an encoder and decoder using BaseCodec
   client = CloudClient(username='yuwe', project_id='650134344', encoder=codec.encode, decoder=codec.decode)
 
-  pi = "31415" # ...
+  text_to_send = "Lorem ipsum dolor sit amet, consectetaur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
   @client.event
   async def on_connect():
-    print('Setting cloud variables to pi...')
+    print('Setting cloud variables to text...')
     # Encode the data to send and the empty variable value using the client's encoder and decoder parameters
-    await segmenter.dump(pi, encode_data = True, empty_value='unset', encode_empty = True)
+    await segmenter.dump(text_to_send, encode_data = True, empty_value='unset', encode_empty = True)
 
 The SegmentDump documentation and all of its classes and methods can be found here: :class:`scratchcloud.ext.utils.SegmentDump`
 
