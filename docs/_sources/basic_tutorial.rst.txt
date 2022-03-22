@@ -11,9 +11,9 @@ Basic Events
 To start off, let's create a basic ``CloudClient``.
 
 .. note:: 
-  A ``CloudClient`` is an object that represents the connection between scratch and python. We can create one by doing the following:
+  A ``CloudClient`` is an object that represents the connection between scratch and python. One can be created through the following:
 
-First, create a file ``main.py``:
+First, create a file named ``main.py``:
 
 .. code-block:: python
    
@@ -21,15 +21,16 @@ First, create a file ``main.py``:
 
   client = CloudClient(username='yuwe', project_id='622084628')
 
-In this example, we first import the ``CloudClient`` object. Then, using our username and the ID of the project we want to connect to, we create a new ``CloudClient`` object named client. The project id `622084628 <https://scratch.mit.edu/projects/622084628/>`_ is a basic test project.
+In this example, the ``CloudClient`` object is imported. Then, a new ``CloudClient`` object is created using using a username and a project ID. The project id `622084628 <https://scratch.mit.edu/projects/622084628/>`_ is a basic test project for this library.
 
 .. warning::
   ``CloudClient`` objects will only connect to projects that have cloud variables. If a project does not have any cloud variables, a ``MissingCloudVariable`` exception will be raised.
 
-Next, we're going to specify some events. scratchcloud uses python decorators to define all event-based interactions.
+The following code shows how to create events. scratchcloud uses python decorators to define all event-based API interactions.
 
 .. code-block:: python
-  :emphasize-lines: 1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+  :emphasize-lines: 1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17
+  :linenos:
 
   from scratchcloud import CloudClient, CloudChange
 
@@ -46,42 +47,35 @@ Next, we're going to specify some events. scratchcloud uses python decorators to
   @client.event
   async def on_message(var: CloudChange):
     print(f'{var.name} changed to {var.value}!')
-
-These are all the types of scratchcloud built-in events.
-
-The first thing to notice is the decorators, ``@client.event``. These client event decorators tell your client object to search for specific names. Event functions must use their perscribed names, being ``on_connect``, which is called when the client connects to scratch, ``on_disconnect`` when the client disconnects from scratch, and ``on_message``, when any cloud variable changes in the client's project.
-
-.. note::
-  The keyword ``async`` is used before all functions with the ``@client.event`` decorator. Since this library is asynchronous, many of its methods require the ``async`` keyword.
-
-Lastly, the change to the first line imports the CloudChange object, which is used in the ``on_message`` event. The ``on_message`` variable requires one positional argument, that will always be of type CloudChange. CloudChange objects have several attributes, and we use ``CloudChange.name`` and ``CloudChange.value`` in this code, which represent the name and value of a variable we receieve. The ``on_message`` variable will be called whenever any cloud variable is changed by anyone, excluding the connected CloudClient.
-
-Finally, we just have to run our client. Add this line with your password:
-
-.. code-block:: python
-  :emphasize-lines: 17
   
-  from scratchcloud import CloudClient, CloudChange
-
-  client = CloudClient(username='yuwe', project_id='622084628')
-
-  @client.event
-  async def on_connect():
-    print('Hello world!')
-
-  @client.event
-  async def on_disconnect():
-    print('Goodbye world!')
-
-  @client.event
-  async def on_message(var: CloudChange):
-    print(f'{var.name} changed to {var.value}!')
-
   client.run('Your Password Here!')
 
-The text that states ``'Your Password Here!'`` should be your actual password. The ``client.run`` method is the only blocking function in the library.
+The first thing to notice are the decorators, ``@client.event``. These client event decorators will call their decorated functions depending on the functions' specific names.
 
-If we hop over to the `project <https://scratch.mit.edu/projects/622084628/>`_ we connected to, click the cat, and change some variables, our scratchcloud client will print the changes! For example, clicking the cat and entering 100 will make scratchcloud print ``REQUEST changed to 100!``
+.. warning::
+  The keyword ``async`` is used before all functions with the ``@client.event`` decorator. Since this library is asynchronous, all of its API-related methods require the ``async`` keyword.
+
+These function names are:
+
+* ``on_connect`` — Called when the client connects to scratch
+* ``on_disconnect`` — Called when the client disconnects from scratch
+* ``on_message`` — Called when any cloud variable changes
+
+.. note::
+  The ``on_message`` event has special syntax. It requires one positional argument, which is a ``CloudChange`` object. On line 1, ``CloudChange`` is imported.
+
+Whenever a variable changes, the client will create a ``CloudChange`` object with the changed variable information. Then, the client will call the ``on_message`` function with that ``CloudChange`` object.
+
+``CloudChange`` objects have several attributes, and this example uses ``CloudChange.name`` and ``CloudChange.value``.
+
+More attributes for CloudChange objects can be found here: :class:`scratchcloud.client.CloudChange`
+
+Lastly, on line 17, this example runs the code using :meth:`client.run`. The text that states ``'Your Password Here!'`` should be your actual password. The ``client.run`` method is blocking, and all code after it will not be run until the client is stopped.
+
+.. warning::
+  If you plan to publish your project on Github or Repl, **make sure that your password is hidden**!
+
+After this code is run, going to the `project id <https://scratch.mit.edu/projects/622084628/>`_ specified in the client, clicking the cat, and changing some variables will cause the scratchcloud client to print the changes! For example, clicking the cat and entering 100 will make scratchcloud print ``REQUEST changed to 100!``
 
 .. note::
   
@@ -90,9 +84,9 @@ If we hop over to the `project <https://scratch.mit.edu/projects/622084628/>`_ w
 Setting Cloud Variables
 -----------------------
 
-Lets change the code a bit to set some variables! Our CloudClient object has a method called ``set_cloud`` we can use to change cloud variables.
+scratchcloud can also change variables! The ``CloudClient`` object has a method called ``set_cloud`` which can be used to set cloud variables.
 
-Using the previous code, in our ``on_message`` event, lets change a cloud variable:
+Using the previous code, the ``on_message`` event is changed to "respond":
 
 .. code-block:: python
   :emphasize-lines: 16
@@ -116,19 +110,23 @@ Using the previous code, in our ``on_message`` event, lets change a cloud variab
   
   client.run('Your Password Here!')
 
-Our ``client.set_cloud`` method requires two parameters: the name of the cloud variable we're going to set, and the value we're going to set it to. Using ``var.name`` and ``'200'``, we can "respond" to someone setting a variable by setting it back to 200. We need to include the ``await`` keyword before we set any variables to make sure that our code runs in order and continues to be async.
+The ``client.set_cloud`` method requires two parameters: the name of the cloud variable to be set, and the value the variable will be set to. Using ``var.name`` and ``'200'``, this code "responds" to someone setting a variable by setting it back to 200. Once again, the ``await`` keyword is necesary before setting any variables to ensure asynchronous execution.
 
-If we run our client again and send another variable to the `project <https://scratch.mit.edu/projects/622084628/>`__, the variable we set will immediately be reset to 200!
+If the client is run again, after another variable is sent to the `test project <https://scratch.mit.edu/projects/622084628/>`__, the variable we set will immediately be reset to 200 by the client!
+
+.. warning::
+  Spamming ``client.set_cloud`` in a while loop will result in ratelimits and possible account IP bans. The likelyhood of this happening is reduced when using events to "respond" to people "requesting" something!
 
 Using Cloud Events
 ------------------
 
 scratchcloud has a system for monitoring only a specific cloud variable. This system is cloud events. Cloud events allow programmers to use different cloud variables for different things. They also come with simple error handling.
 
-Let's rewrite ``main.py`` with the following:
+The following will rewrite ``main.py`` with cloud events:
 
 .. code-block:: python
   :emphasize-lines: 12, 13, 14, 15
+  :linenos:
 
   from scratchcloud import CloudClient, CloudChange
   client = CloudClient(username='yuwe', project_id='622084628')
@@ -148,8 +146,14 @@ Let's rewrite ``main.py`` with the following:
   
   client.run('Your Password Here!')
 
-In this example, we define a simple cloud event. Whevever the cloud variable named ``REQUEST`` changes, the client changes the ``RESPONSE`` cloud variable to 200.
-This style of call and response coding is very efficient and is recommended in writing your own code.
+In this example, a simple cloud event is defined.
+
+#. First, on line 12, the cloud event decorator is created with a variable name, which, in this case, is ``REQUEST``.
+#. On line 13, a async function is defined with one argument of type ``CloudChange``. This function can have any name, but it is recommended to use ``on_variablename`` syntax.
+#. Line 14 prints out the changes to the REQUEST cloud variable.
+#. Line 15 sets a different variable named ``RESPONSE`` to 200.
+
+This call-and-response method is highly efficient compared to other scratch libraries. There is no polling involved in the internal code, meaning that the client's response is as fast as the websocket connection can be!
 
 .. note::
   In this example, in scratch, the cloud variables are named ``☁️ REQUEST`` and ``☁️ RESPONSE``.

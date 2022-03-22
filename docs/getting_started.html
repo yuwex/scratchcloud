@@ -39,6 +39,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-it">What is it</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-it-works">How it works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 </ul>
@@ -79,7 +80,11 @@
   <section id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h1>
 <p>Welcome to scratchcloud!</p>
-<p>scratchcloud is a python library for the popular block-based programming language, <a class="reference external" href="https://scratch.mit.edu">Scratch</a>. Scratch has a feature called <a class="reference external" href="https://en.scratch-wiki.info/wiki/Cloud_Data">cloud variables</a>, which are variables that are stored on the cloud, and can be seen and changed by anyone.</p>
+<section id="what-is-it">
+<h2>What is it<a class="headerlink" href="#what-is-it" title="Permalink to this headline"></a></h2>
+<p>scratchcloud is a python library for the popular block-based programming language, <a class="reference external" href="https://scratch.mit.edu">Scratch</a>.</p>
+<p>Scratch has a feature called <a class="reference external" href="https://en.scratch-wiki.info/wiki/Cloud_Data">cloud variables</a>, which are variables that are stored on the cloud, and can be seen and changed by anyone. The library interacts with the scratch API and allows users to change these variables using Python. It is different from other libraries because it utilizes the scratch websocket connection to immediately observe changes in cloud variables.</p>
+</section>
 <section id="how-it-works">
 <h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline"></a></h2>
 <p>Scratch cloud variables use a protocol called websockets to transfer their data between scratch users. The websockets set up by the scratch team allow any logged-in user to change the cloud variables of any project, regardless of whether the user owns the project or not. To stop users from using cloud variables in a way the owner of the project didn’t originally intend, the scratch website has a failsafe where clicking on the “see-inside” button of a project will terminate its websocket connection.</p>

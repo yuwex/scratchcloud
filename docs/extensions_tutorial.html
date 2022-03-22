@@ -125,7 +125,7 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 <p>For example, say you wanted to use Sid72020123’s <a class="reference external" href="https://github.com/Sid72020123/scratchconnect/blob/main/scratchconnect/scEncoder.py">ScratchConnect Encoder</a>. You can do this with the following code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">codec</span> <span class="o">=</span> <span class="n">BaseCodec</span><span class="p">(</span>
   <span class="n">plainalpha</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!&quot;#$%&amp;</span><span class="se">\&#39;</span><span class="s2">()*+,-./:;&lt;=&gt;?@[</span><span class="se">\\</span><span class="s2">]^_`{|}~ &quot;&quot;&quot;</span><span class="p">,</span> <span class="c1"># The plaintext alphabet that Sid&#39;s codec uses</span>
-  <span class="n">offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1"># Sid&#39;s codec starts at 0</span>
+  <span class="n">offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1"># Sid&#39;s codec starts at 1</span>
   <span class="n">force_lowercase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># Sid&#39;s codec supports uppercase letters</span>
   <span class="n">places_per_character</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="c1"># All encodings in Sid&#39;s codec are 2 characters long</span>
 <span class="p">)</span>
@@ -237,18 +237,18 @@ The “Segment 5” through “Segment 9” variables are set to “0”.</p>
 <span class="kn">from</span> <span class="nn">scratchcloud.ext.utils</span> <span class="kn">import</span> <span class="n">SegmentDump</span>
 <span class="kn">from</span> <span class="nn">scratchcloud.codecs</span> <span class="kn">import</span> <span class="n">BaseCodec</span>
 
-<span class="n">codec</span> <span class="o">=</span> <span class="n">BaseCodec</span><span class="p">()</span>
+<span class="n">codec</span> <span class="o">=</span> <span class="n">BaseCodec</span><span class="p">(</span><span class="n">force_lowercase</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Set an encoder and decoder using BaseCodec</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;650134344&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">encode</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
 
-<span class="n">pi</span> <span class="o">=</span> <span class="s2">&quot;31415&quot;</span> <span class="c1"># ...</span>
+<span class="n">text_to_send</span> <span class="o">=</span> <span class="s2">&quot;Lorem ipsum dolor sit amet, consectetaur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;</span>
 
 <span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting cloud variables to pi...&#39;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting cloud variables to text...&#39;</span><span class="p">)</span>
   <span class="c1"># Encode the data to send and the empty variable value using the client&#39;s encoder and decoder parameters</span>
-  <span class="k">await</span> <span class="n">segmenter</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">encode_data</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">empty_value</span><span class="o">=</span><span class="s1">&#39;unset&#39;</span><span class="p">,</span> <span class="n">encode_empty</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+  <span class="k">await</span> <span class="n">segmenter</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">text_to_send</span><span class="p">,</span> <span class="n">encode_data</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">empty_value</span><span class="o">=</span><span class="s1">&#39;unset&#39;</span><span class="p">,</span> <span class="n">encode_empty</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The SegmentDump documentation and all of its classes and methods can be found here: <a class="reference internal" href="scratchcloud.ext.html#scratchcloud.ext.utils.SegmentDump" title="scratchcloud.ext.utils.SegmentDump"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.utils.SegmentDump</span></code></a></p>
