@@ -16,7 +16,7 @@ class BaseCodec:
     :raises TypeError: If Cipheralpha has too large numbers.
     """
 
-    def __init__(self, plainalpha: str | list[str] = 'abcdefghijklmnopqrstuvwxyz1234567890 -=[]\\;\',./!@#$%^&*()_+{}|:\"<>?', offset: int = 10, force_lowercase: bool = False, places_per_character: int = 2):
+    def __init__(self, plainalpha: str | list[str] = 'abcdefghijklmnopqrstuvwxyz1234567890 -=[]\\;\',./!@#$%^&*()_+{}|:\"<>?', offset: int = 10, force_lowercase: bool = True, places_per_character: int = 2):
         self.force_lowercase = force_lowercase
         self.places_per_character = places_per_character
         
