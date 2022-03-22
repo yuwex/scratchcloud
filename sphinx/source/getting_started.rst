@@ -3,7 +3,11 @@ Getting Started
 
 Welcome to scratchcloud!
 
-scratchcloud is a python library for the popular block-based programming language, `Scratch <https://scratch.mit.edu>`_. Scratch has a feature called `cloud variables <https://en.scratch-wiki.info/wiki/Cloud_Data>`_, which are variables that are stored on the cloud, and can be seen and changed by anyone.
+What is it
+----------
+scratchcloud is a python library for the popular block-based programming language, `Scratch <https://scratch.mit.edu>`_.
+
+Scratch has a feature called `cloud variables <https://en.scratch-wiki.info/wiki/Cloud_Data>`_, which are variables that are stored on the cloud, and can be seen and changed by anyone. The library interacts with the scratch API and allows users to change these variables using Python. It is different from other libraries because it utilizes the scratch websocket connection to immediately observe changes in cloud variables.
 
 How it works
 ------------
