@@ -2,8 +2,8 @@
 An asynchronous pythonic wrapper for scratch.mit.edu cloud websocket connections.
 
 ## Features
- * Event-based handling
- * Pythonic `async` and `await` syntax
+ * Efficient asynchronous connection to Scratch
+ * Event-based handling of cloud variables
  * Built-in reconnecting
 
 ## Extensions
@@ -11,7 +11,7 @@ An asynchronous pythonic wrapper for scratch.mit.edu cloud websocket connections
  * Easy encoding and decoding of variables
  * Sending and receiving large cloud payloads
  * Finding who changed a cloud variable
-gt
+
 ## Example
 ```python
 from scratchcloud import CloudClient, CloudChange
@@ -24,7 +24,7 @@ async def on_connect():
 
 @client.event
 async def on_disconnect():
-    print('Disconnected :(')
+    print('Disconnected!')
 
 @client.event
 async def on_message(cloud: CloudChange):
