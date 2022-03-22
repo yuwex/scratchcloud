@@ -11,9 +11,9 @@ Codecs Extension
 
 Scratch only accepts numbers in its cloud variables. To send non-numeric characters to scratch, an encoder must be used to turn letters into numbers.
 
-scratchcloud has encoder and decoder support built in. The ``encoder`` and ``decoder`` parameters in a CloudClient will automatically encode and decode cloud variables, taking away the overhead of dealing with encoding yourself. These parameters must both be functions that take one argument and return a string.
+Sending non-numeric characters is built into scratchcloud through encoders and decoders. The ``encoder`` and ``decoder`` parameters in a CloudClient will automatically encode and decode cloud variables. These parameters must both be functions that take one argument and return a string.
 
-While scratchcloud allows you to use any encoder you choose, it comes with the built-in codec extension. Currently the only codec is BaseCodec.
+While scratchcloud allows you to use any function as an encoder or decoder, it comes with the built-in codec extension. Currently the only codec is BaseCodec.
 
 BaseCodec is usable out-of-box, after a simple import:
 
