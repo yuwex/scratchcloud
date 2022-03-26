@@ -84,6 +84,6 @@ class BaseCodec:
 
             number = self.plainalpha[self.cipheralpha.index(number)]
             decoded.append(number)
-        return ''.join(decoded).lower()
+        return ''.join(decoded)
             
 
