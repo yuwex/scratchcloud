@@ -18,12 +18,12 @@ extras_require = {
     'docs': [
         'sphinx==4.3.2',
         'sphinx-rtd-theme==1.0.0',
-    ]
+    ],
 }
 
 setup(
     name='scratchcloud',
-    version='0.0.1',
+    version='1.0.0',
     author='yuwex',
     url='https://github.com/yuwex/scratchcloud',
     description='An event-based asynchronous wrapper for scratch.mit.edu cloud variables.',
@@ -36,7 +36,7 @@ setup(
     packages=packages,
 
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Education',
         'Natural Language :: English',
