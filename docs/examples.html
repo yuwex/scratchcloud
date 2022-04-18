@@ -123,46 +123,49 @@
 </span><span class="linenos"> 4</span>
 <span class="hll"><span class="linenos"> 5</span><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">md5</span>
 </span><span class="linenos"> 6</span>
-<span class="hll"><span class="linenos"> 7</span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622792569&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">BaseCodec</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">BaseCodec</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
+<span class="hll"><span class="linenos"> 7</span><span class="n">codec</span> <span class="o">=</span> <span class="n">BaseCodec</span><span class="p">()</span>
 </span><span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
-<span class="linenos">10</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
-<span class="linenos">11</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connected!&#39;</span><span class="p">)</span>
-<span class="linenos">12</span>
-<span class="linenos">13</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
-<span class="linenos">14</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">():</span>
-<span class="linenos">15</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Disconnected!&#39;</span><span class="p">)</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
-<span class="linenos">18</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_request</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
-<span class="hll"><span class="linenos">19</span>    <span class="n">hashed_result</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
-</span><span class="hll"><span class="linenos">20</span>    <span class="n">hex_result</span> <span class="o">=</span> <span class="n">hashed_result</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
-</span><span class="linenos">21</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got </span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">. Hashing to </span><span class="si">{</span><span class="n">hex_result</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
-<span class="linenos">22</span>
-<span class="hll"><span class="linenos">23</span>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The MD5 hash for </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> is </span><span class="si">{</span><span class="n">hex_result</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span class="linenos">24</span>
-<span class="hll"><span class="linenos">25</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event_error</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">26</span><span class="k">async</span> <span class="k">def</span> <span class="nf">request_error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
-</span><span class="hll"><span class="linenos">27</span>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">DecodeError</span><span class="p">):</span>
-</span><span class="hll"><span class="linenos">28</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;there was an error decoding your data&#39;</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">29</span>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">SizeError</span><span class="p">):</span>
-</span><span class="hll"><span class="linenos">30</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;the response was too long to be sent&#39;</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">31</span>    <span class="k">else</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">32</span>        <span class="k">raise</span> <span class="n">error</span>
-</span><span class="linenos">33</span>
-<span class="linenos">34</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+<span class="hll"><span class="linenos"> 9</span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622792569&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">encode</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
+</span><span class="linenos">10</span>
+<span class="linenos">11</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="linenos">12</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
+<span class="linenos">13</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connected!&#39;</span><span class="p">)</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="linenos">16</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">():</span>
+<span class="linenos">17</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Disconnected!&#39;</span><span class="p">)</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
+<span class="linenos">20</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_request</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
+<span class="hll"><span class="linenos">21</span>    <span class="n">hashed_result</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span><span class="hll"><span class="linenos">22</span>    <span class="n">hex_result</span> <span class="o">=</span> <span class="n">hashed_result</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</span><span class="linenos">23</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got </span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">. Hashing to </span><span class="si">{</span><span class="n">hex_result</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
+<span class="linenos">24</span>
+<span class="hll"><span class="linenos">25</span>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The MD5 hash for </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> is </span><span class="si">{</span><span class="n">hex_result</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span class="linenos">26</span>
+<span class="hll"><span class="linenos">27</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event_error</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">28</span><span class="k">async</span> <span class="k">def</span> <span class="nf">request_error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos">29</span>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">DecodeError</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos">30</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;there was an error decoding your data&#39;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">31</span>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">SizeError</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos">32</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;the response was too long to be sent&#39;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">33</span>    <span class="k">else</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">34</span>        <span class="k">raise</span> <span class="n">error</span>
+</span><span class="linenos">35</span>
+<span class="linenos">36</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Description:</p>
 <ul class="simple">
-<li><p>Line 2: Imports <code class="docutils literal notranslate"><span class="pre">BaseCodec</span></code>, which will be used for encoding/decoding all data. This allows us to send letters instead of numbers</p></li>
-<li><p>Line 3: Imports some errors that will be used later.</p></li>
+<li><p>Line 2: Imports <code class="docutils literal notranslate"><span class="pre">BaseCodec</span></code>, which will be used for encoding/decoding all data. This allows the CloudClient to send letters instead of numbers</p></li>
+<li><p>Line 3: Imports the <code class="docutils literal notranslate"><span class="pre">DecodeError</span></code>, which is called when issues with decoding arise, and the <code class="docutils literal notranslate"><span class="pre">SizeError</span></code>, which is called when a <code class="docutils literal notranslate"><span class="pre">Client.set_cloud</span></code> payload is too big to send.</p></li>
 <li><p>Line 5: Imports the builtin python md5 hash function</p></li>
-<li><p>Line 7: Creates a <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object with  <code class="docutils literal notranslate"><span class="pre">encoder=BaseCodec().encode</span></code> and <code class="docutils literal notranslate"><span class="pre">decoder=BaseCodec().decode</span></code>, specifing our encoding and decoding method.</p></li>
-<li><p>Lines 19-20: Hashes the value received from the <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code> variable</p></li>
-<li><p>Line 23: Sends the hashed result. A non-digit value can be used because a encoder was specified when creating the <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code></p></li>
-<li><p>Lines 25-26: Sets up a cloud event error function for the cloud variable <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code>. This is called whenever an error is raised in the cloud event <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code> function</p></li>
-<li><p>Lines 27-32: Handle errors and send error messages</p></li>
+<li><p>Line 7: Creates a new <code class="docutils literal notranslate"><span class="pre">BaseCodec</span></code> object.</p></li>
+<li><p>Line 9: Creates a <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code> object with the predefined codec passed into the encoder and decoder parameters. This specifies the CloudClient’s encoding and decoding method.</p></li>
+<li><p>Lines 21-22: Hashes the value received from the <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code> variable</p></li>
+<li><p>Line 25: Sends the hashed result. A non-digit value can be used because a encoder was specified when creating the <code class="docutils literal notranslate"><span class="pre">CloudClient</span></code></p></li>
+<li><p>Lines 27-28: Sets up a cloud event error function for the cloud variable <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code>. This is called whenever an error is raised in the cloud event <code class="docutils literal notranslate"><span class="pre">REQUEST</span></code> function</p></li>
+<li><p>Lines 29-34: Handles errors and sends error messages</p></li>
 </ul>
 </section>
 <section id="example-3-api-users">
@@ -173,54 +176,56 @@
 <span class="hll"><span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">scratchcloud.ext</span> <span class="kn">import</span> <span class="n">BaseCodec</span><span class="p">,</span> <span class="n">APIConnection</span>
 </span><span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">scratchcloud.errors</span> <span class="kn">import</span> <span class="n">DecodeError</span><span class="p">,</span> <span class="n">NotFoundError</span><span class="p">,</span> <span class="n">SizeError</span>
 <span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622799182&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">BaseCodec</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">BaseCodec</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
-<span class="hll"><span class="linenos"> 6</span><span class="n">api</span> <span class="o">=</span> <span class="n">APIConnection</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-</span><span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
-<span class="linenos"> 9</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
-<span class="linenos">10</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connected!&#39;</span><span class="p">)</span>
-<span class="linenos">11</span>
-<span class="linenos">12</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
-<span class="linenos">13</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">():</span>
-<span class="linenos">14</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Disconnected!&#39;</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
-<span class="linenos">17</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_request</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
-<span class="linenos">18</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Request for user </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> received!&#39;</span><span class="p">)</span>
-<span class="linenos">19</span>
-<span class="hll"><span class="linenos">20</span>    <span class="k">try</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">21</span>        <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">api</span><span class="o">.</span><span class="n">fetch_user</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">22</span>    <span class="k">except</span> <span class="n">NotFoundError</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">23</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;the user </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> could not be found.&#39;</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">24</span>        <span class="k">return</span>
-</span><span class="linenos">25</span>
-<span class="hll"><span class="linenos">26</span>    <span class="n">username</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span>
-</span><span class="hll"><span class="linenos">27</span>    <span class="n">country</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">country</span>
-</span><span class="hll"><span class="linenos">28</span>    <span class="n">join_date</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">joined_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%B </span><span class="si">%d</span><span class="s1">, %Y&#39;</span><span class="p">)</span>
-</span><span class="linenos">29</span>
-<span class="linenos">30</span>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;i</span><span class="se">\&#39;</span><span class="s1">m </span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s1">! I joined on </span><span class="si">{</span><span class="n">join_date</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="linenos">31</span>
-<span class="linenos">32</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event_error</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
-<span class="linenos">33</span><span class="k">async</span> <span class="k">def</span> <span class="nf">request_error</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">):</span>
-<span class="linenos">34</span>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">DecodeError</span><span class="p">):</span>
-<span class="linenos">35</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;there was an error decoding your data.&#39;</span><span class="p">)</span>
-<span class="linenos">36</span>
-<span class="linenos">37</span>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">SizeError</span><span class="p">):</span>
-<span class="linenos">38</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;the response was too long to be sent.&#39;</span><span class="p">)</span>
-<span class="linenos">39</span>
-<span class="linenos">40</span>    <span class="k">else</span><span class="p">:</span>
-<span class="linenos">41</span>        <span class="k">raise</span> <span class="n">error</span>
-<span class="linenos">42</span>
-<span class="linenos">43</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+<span class="linenos"> 5</span><span class="n">codec</span> <span class="o">=</span> <span class="n">BaseCodec</span><span class="p">()</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622799182&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">encode</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">codec</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
+<span class="hll"><span class="linenos"> 8</span><span class="n">api</span> <span class="o">=</span> <span class="n">APIConnection</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</span><span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="linenos">11</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
+<span class="linenos">12</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connected!&#39;</span><span class="p">)</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="linenos">15</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">():</span>
+<span class="linenos">16</span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Disconnected!&#39;</span><span class="p">)</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
+<span class="linenos">19</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_request</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">):</span>
+<span class="linenos">20</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Request for user </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> received!&#39;</span><span class="p">)</span>
+<span class="linenos">21</span>
+<span class="hll"><span class="linenos">22</span>    <span class="k">try</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">23</span>        <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">api</span><span class="o">.</span><span class="n">fetch_user</span><span class="p">(</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">24</span>    <span class="k">except</span> <span class="n">NotFoundError</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">25</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;the user </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> could not be found.&#39;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">26</span>        <span class="k">return</span>
+</span><span class="linenos">27</span>
+<span class="hll"><span class="linenos">28</span>    <span class="n">username</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span>
+</span><span class="hll"><span class="linenos">29</span>    <span class="n">country</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">country</span>
+</span><span class="hll"><span class="linenos">30</span>    <span class="n">join_date</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">joined_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%B </span><span class="si">%d</span><span class="s1">, %Y&#39;</span><span class="p">)</span>
+</span><span class="linenos">31</span>
+<span class="linenos">32</span>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;i</span><span class="se">\&#39;</span><span class="s1">m </span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s1">! I joined on </span><span class="si">{</span><span class="n">join_date</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span><span class="nd">@client</span><span class="o">.</span><span class="n">cloud_event_error</span><span class="p">(</span><span class="s1">&#39;REQUEST&#39;</span><span class="p">)</span>
+<span class="linenos">35</span><span class="k">async</span> <span class="k">def</span> <span class="nf">request_error</span><span class="p">(</span><span class="n">cloud</span><span class="p">:</span> <span class="n">CloudChange</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">):</span>
+<span class="linenos">36</span>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">DecodeError</span><span class="p">):</span>
+<span class="linenos">37</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;there was an error decoding your data.&#39;</span><span class="p">)</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">SizeError</span><span class="p">):</span>
+<span class="linenos">40</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="s1">&#39;the response was too long to be sent.&#39;</span><span class="p">)</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos">43</span>        <span class="k">raise</span> <span class="n">error</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Description:</p>
 <ul class="simple">
 <li><p>Line 2: Imports <code class="docutils literal notranslate"><span class="pre">BaseCodec</span></code> and <code class="docutils literal notranslate"><span class="pre">APIConnection</span></code>. An <code class="docutils literal notranslate"><span class="pre">APIConnection</span></code> object can get scratch user information</p></li>
-<li><p>Line 6: Creates a new APIConnection object</p></li>
-<li><p>Line 21: Fetches a user object using the APIConnection</p></li>
-<li><p>Lines 20-24: Checks to see if there is an issue with fetching a user. If there is, set the <code class="docutils literal notranslate"><span class="pre">RESPONSE</span></code> cloud variable to an error message and exit</p></li>
-<li><p>Lines 26, 27, 28: Sets <code class="docutils literal notranslate"><span class="pre">username</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code>, and <code class="docutils literal notranslate"><span class="pre">join_date</span></code> variables from the <code class="docutils literal notranslate"><span class="pre">User</span></code> object</p></li>
+<li><p>Line 8: Creates a new APIConnection object</p></li>
+<li><p>Line 23: Fetches a user object using the APIConnection</p></li>
+<li><p>Lines 22-26: Checks to see if there is an issue with fetching a user. If there is, set the <code class="docutils literal notranslate"><span class="pre">RESPONSE</span></code> cloud variable to an error message and exit</p></li>
+<li><p>Lines 28, 29, 30: Sets <code class="docutils literal notranslate"><span class="pre">username</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code>, and <code class="docutils literal notranslate"><span class="pre">join_date</span></code> variables from the <code class="docutils literal notranslate"><span class="pre">User</span></code> object</p></li>
 </ul>
 </section>
 </section>

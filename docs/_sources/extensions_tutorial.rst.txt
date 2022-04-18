@@ -11,9 +11,9 @@ Codecs Extension
 
 Scratch only accepts numbers in its cloud variables. To send non-numeric characters to scratch, an encoder must be used to turn letters into numbers.
 
-scratchcloud has encoder and decoder support built in. The ``encoder`` and ``decoder`` parameters in a CloudClient will automatically encode and decode cloud variables, taking away the overhead of dealing with encoding yourself. These parameters must both be functions that take one argument and return a string.
+Sending non-numeric characters is built into scratchcloud through encoders and decoders. The ``encoder`` and ``decoder`` parameters in a CloudClient will automatically encode and decode cloud variables. These parameters must both be functions that take one argument and return a string.
 
-While scratchcloud allows you to use any encoder you choose, it comes with the built-in codec extension. Currently the only codec is BaseCodec.
+While scratchcloud allows you to use any function as an encoder or decoder, it comes with the built-in codec extension. Currently the only codec is BaseCodec.
 
 BaseCodec is usable out-of-box, after a simple import:
 
@@ -37,11 +37,11 @@ BaseCodec is usable out-of-box, after a simple import:
 * Line 4 creates a new BaseCodec object.
 * Line 6 creates a CloudClient with the encoder and decoder parameters from the BaseCodec object.
 
-Connecting to the `scratchcloud Test Interface <https://scratch.mit.edu/projects/622084628>`_ (622084628) and switching the "Encode Request" slider to 1 in the scratch project will encode everything you send from it. You should now be able to get non-numeric characters in scratchcloud!
+Connecting to the `scratchcloud Test Interface <https://scratch.mit.edu/projects/622084628>`_ in scratch and switching the "Encode Request" slider to 1 will encode everything you send from it. You should now be able to get non-numeric characters in scratchcloud!
 
 Going to the `BaseCodec Scratch Project <https://scratch.mit.edu/projects/622026587>`_ and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud in your own projects.
 
-While scratchcloud will automatically encode and decode data, scratch will not. Make sure to use the ``Encode ( )`` block before sending data and the ``Decode ( )`` block before reading cloud data.
+While scratchcloud will automatically encodes and decodes data, scratch will not. Make sure to use the ``Encode ( )`` block and the "encoded ➡️" varible before setting any cloud variables and the ``Decode ( )`` and "decoded ➡️" varible block before reading cloud variables.
 
 .. image:: images/extensions/scratch_encode.png
   :alt: An image of scratch code using the custom Encode block.
@@ -49,10 +49,10 @@ While scratchcloud will automatically encode and decode data, scratch will not. 
   
 The BaseCodec class has several parameters that allow it to work with other scratch codecs. 
 
-* ``plainalpha`` - the alphabet that will be used. The normal alphabet contains 67 basic characters, but if you wanted to have support for other characters or upercase characters, you could input your own alphabet here.
+* ``plainalpha`` - the alphabet that will be used. The normal alphabet contains 67 basic characters and does not support uppercase letters. If you wanted to have support for other characters or upercase letters, you could input your own alphabet here.
 * ``offset`` - the offset where numbers start. By default, this is 10, meaning the first letter will be encoded to 10 and decoded from 10. Changing this number to 20 would make the first letter start at 20.
-* ``force_lowercase`` - this changes all encoded and decoded data to be lowercase. This is useful if you are dealing with user inputs in Python rather than scratch.
-* ``places_per_character`` - this is the length of the encoded value of each character. By default, this 2, meaning each encoded character will be a number of length 2, like 10, 22, or 57. If this number was changed to 3, then each encoded character would be a 3-digit number, like 231, 492, or 001. Some codecs require hundreds or thousands of possible letters, and raising this value will increase the total possible characters that can be sent.
+* ``force_lowercase`` - this changes all encoded and decoded data to be lowercase. This is useful if your data is case-insensitive.
+* ``places_per_character`` - this is the length of the encoded value of each character. By default, this 2, meaning each encoded character will be a 2-digit number, like 10, 22, or 57. If this number was changed to 3, then each encoded character would be a 3-digit number, like 231, 492, or 001. Some codecs require hundreds or thousands of possible letters, and raising this value will increase the total possible characters that can be sent.
 
 .. warning::
   These values should not be changed if you decide to use the `BaseCodec Scratch Project <https://scratch.mit.edu/projects/622026587>`_. You should only change these values if you are adapting a different style of encoding. 
@@ -73,7 +73,7 @@ The BaseCodec documentation can be found here: :class:`scratchcloud.ext.codecs.B
 API Connection Extension
 ------------------------
 
-Some scratch users may want to use the scratch API in their projects. This can be done through the APIConnection extension.
+Some developers may want to use the scratch API in their projects. This can be done through the APIConnection extension.
 
 The APIConnection class takes a CloudClient as their argument:
 
@@ -98,7 +98,7 @@ Sending fetch requests is as follows:
 
 .. code-block:: python
   :linenos:
-  :emphasize-lines: 7, 9
+  :emphasize-lines: 9, 10
   
   from scratchcloud import CloudClient, CloudChange
   from scratchcloud.ext import APIConnection
@@ -109,10 +109,9 @@ Sending fetch requests is as follows:
   @client.event
   async def on_connect():
     user = await api.fetch_user('yuwe')
-    print(f'Location for {user.username}')
     print(f'{user.username} is from {user.country}')
 
-Line 7 uses the :meth:`api.fetch_user()` method to get data for the user yuwe and turn it into a user object. Line 9 presents the user's username and the country they're from.
+Line 9 uses the :meth:`api.fetch_user()` method to get data for the user yuwe and turn it into a user object. Line 10 prints the user's username and the country they're from.
 
 Most objects have extra fetch methods. For example, the Studio class has the methods :meth:`fetch_curators` and :meth:`fetch_managers`.
 
@@ -128,7 +127,7 @@ scratchcloud has some utilities that are useful for repetitive or complicated ta
 SegmentDump Utility
 -------------------
 
-The first utility is SegmentDump, which is used to send data that does not fit in scratch's 256 character limit.
+The first utility is SegmentDump, which is used to send data that does not fit in scratch's 256-character cloud variable limit.
 
 SegmentDump will break down data into segments with lengths of 256 and set multiple cloud variables to these segments. It can also combine multiple cloud variables into a single piece of data.
 
@@ -154,6 +153,8 @@ SegmentDump will break down data into segments with lengths of 256 and set multi
   ]
 
   segmenter = SegmentDump(client, segments)
+
+A SegmentDump object has two parameters: a CloudClient and a list of cloud variable names.
 
 Line 2 imports SegmentDump. Line 6-16 creates a list of cloud variable names, in this case named Segment 1 - 9. Line 18 creates a SegmentDump object that is linked to the client with said variables.
 
@@ -183,13 +184,15 @@ The SegmentDump object can now be used to split data into multiple variables or 
 
 In the example above, line 6 is the first 1000 digits of pi. Then, the :meth:`dump` method is used to set multiple cloud variables to parts of Pi. All variables that do not contain any part of pi are set to "0".
 
-First, the "Segment 1" variable is set to the first 256 digits of pi.
-Then, the "Segment 2" variable is set to the next 256 digits of pi.
-After that, the "Segment 3" variable is set to the next 256 digits of pi.
-Finally, the "Segment 4" variable is set to the remaining 323 digits of pi.
-The "Segment 5" through "Segment 9" variables are set to "0".
+Here is what SegmentDump does internally:
 
-You can change what the default empty value is with the ``empty_value`` argument:
+#. The "Segment 1" variable is set to the first 256 digits of pi.
+#. The "Segment 2" variable is set to the next 256 digits of pi.
+#. The "Segment 3" variable is set to the next 256 digits of pi.
+#. The "Segment 4" variable is set to the remaining 232 digits of pi.
+#. The "Segment 5" through "Segment 9" variables are set to the default ``empty_value`` of "0".
+
+You can change what the empty value with the ``empty_value`` argument:
 
 .. code-block:: python
   
@@ -225,7 +228,7 @@ The second utility is the CloudValidator.
 
 Often, developers will want to validate that a specific user is who they claim to be. Lots of cloud servers will simply send a username from Scratch, but this is unsafe because anyone can use a cloud variable library to fake their identity. The CloudValidator fixes this issue by finding the user that sent a CloudChange object through the cloud api.
 
-The CloudValidator is simple to use. Simply create a new CloudValidator object and use the :meth:`validate_cloud` method on a CloudChange object:
+The CloudValidator is simple to use. Simply create a new CloudValidator with a CloudClient object as a parameter, and use the :meth:`validate_cloud` method on a CloudChange object:
 
 .. code-block:: python
 

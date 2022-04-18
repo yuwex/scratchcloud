@@ -87,8 +87,8 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 <section id="codecs-extension">
 <h2>Codecs Extension<a class="headerlink" href="#codecs-extension" title="Permalink to this headline"></a></h2>
 <p>Scratch only accepts numbers in its cloud variables. To send non-numeric characters to scratch, an encoder must be used to turn letters into numbers.</p>
-<p>scratchcloud has encoder and decoder support built in. The <code class="docutils literal notranslate"><span class="pre">encoder</span></code> and <code class="docutils literal notranslate"><span class="pre">decoder</span></code> parameters in a CloudClient will automatically encode and decode cloud variables, taking away the overhead of dealing with encoding yourself. These parameters must both be functions that take one argument and return a string.</p>
-<p>While scratchcloud allows you to use any encoder you choose, it comes with the built-in codec extension. Currently the only codec is BaseCodec.</p>
+<p>Sending non-numeric characters is built into scratchcloud through encoders and decoders. The <code class="docutils literal notranslate"><span class="pre">encoder</span></code> and <code class="docutils literal notranslate"><span class="pre">decoder</span></code> parameters in a CloudClient will automatically encode and decode cloud variables. These parameters must both be functions that take one argument and return a string.</p>
+<p>While scratchcloud allows you to use any function as an encoder or decoder, it comes with the built-in codec extension. Currently the only codec is BaseCodec.</p>
 <p>BaseCodec is usable out-of-box, after a simple import:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span><span class="p">,</span> <span class="n">CloudChange</span>
 <span class="hll"><span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">scratchcloud.ext</span> <span class="kn">import</span> <span class="n">BaseCodec</span>
@@ -107,16 +107,16 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 <li><p>Line 4 creates a new BaseCodec object.</p></li>
 <li><p>Line 6 creates a CloudClient with the encoder and decoder parameters from the BaseCodec object.</p></li>
 </ul>
-<p>Connecting to the <a class="reference external" href="https://scratch.mit.edu/projects/622084628">scratchcloud Test Interface</a> (622084628) and switching the “Encode Request” slider to 1 in the scratch project will encode everything you send from it. You should now be able to get non-numeric characters in scratchcloud!</p>
+<p>Connecting to the <a class="reference external" href="https://scratch.mit.edu/projects/622084628">scratchcloud Test Interface</a> in scratch and switching the “Encode Request” slider to 1 will encode everything you send from it. You should now be able to get non-numeric characters in scratchcloud!</p>
 <p>Going to the <a class="reference external" href="https://scratch.mit.edu/projects/622026587">BaseCodec Scratch Project</a> and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud in your own projects.</p>
-<p>While scratchcloud will automatically encode and decode data, scratch will not. Make sure to use the <code class="docutils literal notranslate"><span class="pre">Encode</span> <span class="pre">(</span> <span class="pre">)</span></code> block before sending data and the <code class="docutils literal notranslate"><span class="pre">Decode</span> <span class="pre">(</span> <span class="pre">)</span></code> block before reading cloud data.</p>
+<p>While scratchcloud will automatically encodes and decodes data, scratch will not. Make sure to use the <code class="docutils literal notranslate"><span class="pre">Encode</span> <span class="pre">(</span> <span class="pre">)</span></code> block and the “encoded ➡️” varible before setting any cloud variables and the <code class="docutils literal notranslate"><span class="pre">Decode</span> <span class="pre">(</span> <span class="pre">)</span></code> and “decoded ➡️” varible block before reading cloud variables.</p>
 <a class="reference internal image-reference" href="_images/scratch_encode.png"><img alt="An image of scratch code using the custom Encode block." src="_images/scratch_encode.png" style="width: 400px;" /></a>
 <p>The BaseCodec class has several parameters that allow it to work with other scratch codecs.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">plainalpha</span></code> - the alphabet that will be used. The normal alphabet contains 67 basic characters, but if you wanted to have support for other characters or upercase characters, you could input your own alphabet here.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plainalpha</span></code> - the alphabet that will be used. The normal alphabet contains 67 basic characters and does not support uppercase letters. If you wanted to have support for other characters or upercase letters, you could input your own alphabet here.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">offset</span></code> - the offset where numbers start. By default, this is 10, meaning the first letter will be encoded to 10 and decoded from 10. Changing this number to 20 would make the first letter start at 20.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">force_lowercase</span></code> - this changes all encoded and decoded data to be lowercase. This is useful if you are dealing with user inputs in Python rather than scratch.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">places_per_character</span></code> - this is the length of the encoded value of each character. By default, this 2, meaning each encoded character will be a number of length 2, like 10, 22, or 57. If this number was changed to 3, then each encoded character would be a 3-digit number, like 231, 492, or 001. Some codecs require hundreds or thousands of possible letters, and raising this value will increase the total possible characters that can be sent.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">force_lowercase</span></code> - this changes all encoded and decoded data to be lowercase. This is useful if your data is case-insensitive.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">places_per_character</span></code> - this is the length of the encoded value of each character. By default, this 2, meaning each encoded character will be a 2-digit number, like 10, 22, or 57. If this number was changed to 3, then each encoded character would be a 3-digit number, like 231, 492, or 001. Some codecs require hundreds or thousands of possible letters, and raising this value will increase the total possible characters that can be sent.</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -135,7 +135,7 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 </section>
 <section id="api-connection-extension">
 <h2>API Connection Extension<a class="headerlink" href="#api-connection-extension" title="Permalink to this headline"></a></h2>
-<p>Some scratch users may want to use the scratch API in their projects. This can be done through the APIConnection extension.</p>
+<p>Some developers may want to use the scratch API in their projects. This can be done through the APIConnection extension.</p>
 <p>The APIConnection class takes a CloudClient as their argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
 <span class="kn">from</span> <span class="nn">scratchcloud.ext</span> <span class="kn">import</span> <span class="n">APIConnection</span>
@@ -161,14 +161,13 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 <span class="linenos"> 4</span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;yuwe&#39;</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="s1">&#39;622084628&#39;</span><span class="p">)</span>
 <span class="linenos"> 5</span><span class="n">api</span> <span class="o">=</span> <span class="n">APIConnection</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 <span class="linenos"> 6</span>
-<span class="hll"><span class="linenos"> 7</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
-</span><span class="linenos"> 8</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
+<span class="linenos"> 7</span><span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="linenos"> 8</span><span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">():</span>
 <span class="hll"><span class="linenos"> 9</span>  <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">api</span><span class="o">.</span><span class="n">fetch_user</span><span class="p">(</span><span class="s1">&#39;yuwe&#39;</span><span class="p">)</span>
-</span><span class="linenos">10</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Location for </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="linenos">11</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s1"> is from </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">country</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
+</span><span class="hll"><span class="linenos">10</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s1"> is from </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">country</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></pre></div>
 </div>
-<p>Line 7 uses the <code class="xref py py-meth docutils literal notranslate"><span class="pre">api.fetch_user()</span></code> method to get data for the user yuwe and turn it into a user object. Line 9 presents the user’s username and the country they’re from.</p>
+<p>Line 9 uses the <code class="xref py py-meth docutils literal notranslate"><span class="pre">api.fetch_user()</span></code> method to get data for the user yuwe and turn it into a user object. Line 10 prints the user’s username and the country they’re from.</p>
 <p>Most objects have extra fetch methods. For example, the Studio class has the methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">fetch_curators()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">fetch_managers()</span></code>.</p>
 <p>The APIConnection class will not be updated to contain site-api methods or webscraping. It is solely used for scratch’s built in API.</p>
 <p>The APIConnection documentation and all of its classes and methods can be found here: <a class="reference internal" href="scratchcloud.ext.html#module-scratchcloud.ext.api" title="scratchcloud.ext.api"><code class="xref py py-class docutils literal notranslate"><span class="pre">scratchcloud.ext.api</span></code></a></p>
@@ -179,7 +178,7 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 </section>
 <section id="segmentdump-utility">
 <h2>SegmentDump Utility<a class="headerlink" href="#segmentdump-utility" title="Permalink to this headline"></a></h2>
-<p>The first utility is SegmentDump, which is used to send data that does not fit in scratch’s 256 character limit.</p>
+<p>The first utility is SegmentDump, which is used to send data that does not fit in scratch’s 256-character cloud variable limit.</p>
 <p>SegmentDump will break down data into segments with lengths of 256 and set multiple cloud variables to these segments. It can also combine multiple cloud variables into a single piece of data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
 <span class="hll"><span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">scratchcloud.ext.utils</span> <span class="kn">import</span> <span class="n">SegmentDump</span>
@@ -201,6 +200,7 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 <span class="hll"><span class="linenos">18</span><span class="n">segmenter</span> <span class="o">=</span> <span class="n">SegmentDump</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">segments</span><span class="p">)</span>
 </span></pre></div>
 </div>
+<p>A SegmentDump object has two parameters: a CloudClient and a list of cloud variable names.</p>
 <p>Line 2 imports SegmentDump. Line 6-16 creates a list of cloud variable names, in this case named Segment 1 - 9. Line 18 creates a SegmentDump object that is linked to the client with said variables.</p>
 <p>The SegmentDump object can now be used to split data into multiple variables or read data from multiple variables.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
@@ -223,12 +223,15 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 </span></pre></div>
 </div>
 <p>In the example above, line 6 is the first 1000 digits of pi. Then, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">dump()</span></code> method is used to set multiple cloud variables to parts of Pi. All variables that do not contain any part of pi are set to “0”.</p>
-<p>First, the “Segment 1” variable is set to the first 256 digits of pi.
-Then, the “Segment 2” variable is set to the next 256 digits of pi.
-After that, the “Segment 3” variable is set to the next 256 digits of pi.
-Finally, the “Segment 4” variable is set to the remaining 323 digits of pi.
-The “Segment 5” through “Segment 9” variables are set to “0”.</p>
-<p>You can change what the default empty value is with the <code class="docutils literal notranslate"><span class="pre">empty_value</span></code> argument:</p>
+<p>Here is what SegmentDump does internally:</p>
+<ol class="arabic simple">
+<li><p>The “Segment 1” variable is set to the first 256 digits of pi.</p></li>
+<li><p>The “Segment 2” variable is set to the next 256 digits of pi.</p></li>
+<li><p>The “Segment 3” variable is set to the next 256 digits of pi.</p></li>
+<li><p>The “Segment 4” variable is set to the remaining 232 digits of pi.</p></li>
+<li><p>The “Segment 5” through “Segment 9” variables are set to the default <code class="docutils literal notranslate"><span class="pre">empty_value</span></code> of “0”.</p></li>
+</ol>
+<p>You can change what the empty value with the <code class="docutils literal notranslate"><span class="pre">empty_value</span></code> argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">segmenter</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">empty_value</span><span class="o">=</span><span class="s1">&#39;22&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -257,7 +260,7 @@ The “Segment 5” through “Segment 9” variables are set to “0”.</p>
 <h2>CloudValidator Utility<a class="headerlink" href="#cloudvalidator-utility" title="Permalink to this headline"></a></h2>
 <p>The second utility is the CloudValidator.</p>
 <p>Often, developers will want to validate that a specific user is who they claim to be. Lots of cloud servers will simply send a username from Scratch, but this is unsafe because anyone can use a cloud variable library to fake their identity. The CloudValidator fixes this issue by finding the user that sent a CloudChange object through the cloud api.</p>
-<p>The CloudValidator is simple to use. Simply create a new CloudValidator object and use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">validate_cloud()</span></code> method on a CloudChange object:</p>
+<p>The CloudValidator is simple to use. Simply create a new CloudValidator with a CloudClient object as a parameter, and use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">validate_cloud()</span></code> method on a CloudChange object:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scratchcloud</span> <span class="kn">import</span> <span class="n">CloudClient</span>
 <span class="kn">from</span> <span class="nn">scratchcloud.ext.utils</span> <span class="kn">import</span> <span class="n">CloudValidator</span>
 
