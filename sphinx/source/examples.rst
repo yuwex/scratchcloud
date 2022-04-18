@@ -49,7 +49,7 @@ This example is linked to the project `622792569 <https://scratch.mit.edu/projec
 
 
 .. code-block:: python
-    :emphasize-lines: 2, 3, 5, 7, 19, 20, 23, 25, 26, 27, 28, 29, 30, 31, 32
+    :emphasize-lines: 2, 3, 5, 7, 9, 21, 22, 25, 27, 28, 29, 30, 31, 32, 33, 34
     :linenos:
 
     from scratchcloud import CloudClient, CloudChange
@@ -58,7 +58,9 @@ This example is linked to the project `622792569 <https://scratch.mit.edu/projec
 
     from hashlib import md5
 
-    client = CloudClient(username='yuwe', project_id='622792569', encoder=BaseCodec().encode, decoder=BaseCodec().decode)
+    codec = BaseCodec()
+
+    client = CloudClient(username='yuwe', project_id='622792569', encoder=codec.encode, decoder=codec.decode)
 
     @client.event
     async def on_connect():
@@ -89,14 +91,15 @@ This example is linked to the project `622792569 <https://scratch.mit.edu/projec
 
 Description:
 
-* Line 2: Imports ``BaseCodec``, which will be used for encoding/decoding all data. This allows us to send letters instead of numbers
-* Line 3: Imports some errors that will be used later.
+* Line 2: Imports ``BaseCodec``, which will be used for encoding/decoding all data. This allows the CloudClient to send letters instead of numbers
+* Line 3: Imports the ``DecodeError``, which is called when issues with decoding arise, and the ``SizeError``, which is called when a ``Client.set_cloud`` payload is too big to send.
 * Line 5: Imports the builtin python md5 hash function
-* Line 7: Creates a ``CloudClient`` object with  ``encoder=BaseCodec().encode`` and ``decoder=BaseCodec().decode``, specifing our encoding and decoding method.
-* Lines 19-20: Hashes the value received from the ``REQUEST`` variable
-* Line 23: Sends the hashed result. A non-digit value can be used because a encoder was specified when creating the ``CloudClient``
-* Lines 25-26: Sets up a cloud event error function for the cloud variable ``REQUEST``. This is called whenever an error is raised in the cloud event ``REQUEST`` function
-* Lines 27-32: Handle errors and send error messages
+* Line 7: Creates a new ``BaseCodec`` object.
+* Line 9: Creates a ``CloudClient`` object with the predefined codec passed into the encoder and decoder parameters. This specifies the CloudClient's encoding and decoding method.
+* Lines 21-22: Hashes the value received from the ``REQUEST`` variable
+* Line 25: Sends the hashed result. A non-digit value can be used because a encoder was specified when creating the ``CloudClient``
+* Lines 27-28: Sets up a cloud event error function for the cloud variable ``REQUEST``. This is called whenever an error is raised in the cloud event ``REQUEST`` function
+* Lines 29-34: Handles errors and sends error messages
 
 Example 3: API Users
 --------------------
@@ -106,14 +109,16 @@ In this example, when someone sends a scratch username, scratchcloud responds wi
 This example is linked to the project `622799182 <https://scratch.mit.edu/projects/622799182/>`__.
 
 .. code-block:: python
-    :emphasize-lines: 2, 6, 20, 21, 22, 23, 24, 26, 27, 28
+    :emphasize-lines: 2, 8, 22-26, 28-30
     :linenos:
 
     from scratchcloud import CloudClient, CloudChange
     from scratchcloud.ext import BaseCodec, APIConnection
     from scratchcloud.errors import DecodeError, NotFoundError, SizeError
 
-    client = CloudClient(username='yuwe', project_id='622799182', encoder=BaseCodec().encode, decoder=BaseCodec().decode)
+    codec = BaseCodec()
+
+    client = CloudClient(username='yuwe', project_id='622799182', encoder=codec.encode, decoder=codec.decode)
     api = APIConnection(client)
 
     @client.event
@@ -156,7 +161,7 @@ This example is linked to the project `622799182 <https://scratch.mit.edu/projec
 Description:
 
 * Line 2: Imports ``BaseCodec`` and ``APIConnection``. An ``APIConnection`` object can get scratch user information
-* Line 6: Creates a new APIConnection object
-* Line 21: Fetches a user object using the APIConnection
-* Lines 20-24: Checks to see if there is an issue with fetching a user. If there is, set the ``RESPONSE`` cloud variable to an error message and exit
-* Lines 26, 27, 28: Sets ``username``, ``country``, and ``join_date`` variables from the ``User`` object
+* Line 8: Creates a new APIConnection object
+* Line 23: Fetches a user object using the APIConnection
+* Lines 22-26: Checks to see if there is an issue with fetching a user. If there is, set the ``RESPONSE`` cloud variable to an error message and exit
+* Lines 28, 29, 30: Sets ``username``, ``country``, and ``join_date`` variables from the ``User`` object
