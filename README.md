@@ -1,22 +1,28 @@
 # scratchcloud
-An asynchronous pythonic wrapper for scratch.mit.edu cloud websocket connections.
+An asynchronous Pythonic wrapper for scratch.mit.edu cloud websockets.
+
+[![PyPi Package Version](https://img.shields.io/pypi/v/scratchcloud)](https://pypi.org/project/scratchcloud/)
+[![PyPi Package Python Versions](https://shields.io/pypi/pyversions/scratchcloud)](https://pypi.org/project/scratchcloud/)
+[![PyPi Downloads / Month](https://img.shields.io/pypi/dm/scratchcloud)](https://pypi.org/project/scratchcloud/)
+[![Discord server invite](https://discord.com/api/guilds/963940005837946890/widget.png)](https://discord.gg/K4t2WNnEPC)
 
 ## Features
- * Efficient asynchronous connection to Scratch
- * Event-based handling of cloud variables
- * Built-in reconnecting
+ * Efficient asynchronous connection with Scratch.
+ * Event-based handling of cloud variables.
+ * Built-in reconnecting.
+ * Encoding and decoding support.
 
 ## Extensions
- * Fetching data from the Scratch API
- * Easy encoding and decoding of variables
- * Sending and receiving large cloud payloads
- * Finding who changed a cloud variable
+ * Fetching data from the Scratch API.
+ * Easily customizable codecs for encoding and decoding variables.
+ * Sending and parsing large cloud payloads.
+ * Validating the cloud by finding who changed a cloud variable.
 
 ## Example
 ```python
 from scratchcloud import CloudClient, CloudChange
 
-client = CloudClient('SS-2', '588579111')
+client = CloudClient('yuwe', '588579111')
 
 @client.event
 async def on_connect():
@@ -36,5 +42,5 @@ client.run("SuperSecretPassword22")
 
 ## Links
  * [Docs](https://yuwex.github.io/scratchcloud)
+ * [PyPi](https://pypi.org/project/scratchcloud/)
  * [Scratch](https://scratch.mit.edu)
- * [Python Asyncio](https://docs.python.org/3/library/asyncio.html)
