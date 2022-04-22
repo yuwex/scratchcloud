@@ -75,7 +75,7 @@ Lastly, on line 17, this example runs the code using :meth:`client.run`. The tex
 .. warning::
   If you plan to publish your project on Github or Repl, **make sure that your password is hidden**!
   
-  If you want to use repl to host your projects, check out the ``LoginCookie`` documentation here: :class:`scratchcloud.client.LoginCookie`
+  If you want to use Repl to host your projects, check out the ``LoginCookie`` documentation here: :class:`scratchcloud.client.LoginCookie`
 
 After this code is run, going to the `project id <https://scratch.mit.edu/projects/622084628/>`_ specified in the client, clicking the cat, and changing some variables will cause the scratchcloud client to print the changes! For example, clicking the cat and entering 100 will make scratchcloud print ``REQUEST changed to 100!``
 
