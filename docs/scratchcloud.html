@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>scratchcloud docs &mdash; scratchcloud 1.0.0 documentation</title>
+  <title>scratchcloud docs &mdash; scratchcloud 1.1.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -557,16 +557,6 @@ Assumes that the websocket connection has already been established.</p>
 <p>Scratch occasionally blocks new logins from online IDEs. This is most common with the popular IDE, Repl.it. When logging in to scratch normally, Scratch creates a “Session ID” and “CSRF Token” and uses them for your cridentials. You can insert these cridentials directly to scratchcloud to bypass the login process. Anyone with these cridentials can do anything on your account, so make sure to keep them safe!</p>
 <p>The LoginCookie object can be used in place of a password for the <code class="xref py py-meth docutils literal notranslate"><span class="pre">client.CloudClient.run()</span></code> method.</p>
 <p>Cookie Example Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">login_cookie</span> <span class="o">=</span> <span class="n">LoginCookie</span><span class="p">(</span>
-    <span class="n">csrftoken</span> <span class="o">=</span> <span class="s1">&#39;abc123&#39;</span><span class="p">,</span>
-    <span class="n">sessionid</span> <span class="o">=</span> <span class="s1">&#39;def456&#39;</span>
-<span class="p">)</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">)</span>
-<span class="c1"># more code here</span>
-<span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">login_cookie</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.LoginCookie.to_cookie_dict">
 <span class="sig-name descname"><span class="pre">to_cookie_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#scratchcloud.client.LoginCookie.to_cookie_dict" title="Permalink to this definition"></a></dt>

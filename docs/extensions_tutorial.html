@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Extensions Tutorial &mdash; scratchcloud 1.0.0 documentation</title>
+  <title>Extensions Tutorial &mdash; scratchcloud 1.1.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -107,9 +107,9 @@ This tutorial also assumes you’ve already read <a class="reference internal" h
 <li><p>Line 4 creates a new BaseCodec object.</p></li>
 <li><p>Line 6 creates a CloudClient with the encoder and decoder parameters from the BaseCodec object.</p></li>
 </ul>
-<p>Connecting to the <a class="reference external" href="https://scratch.mit.edu/projects/622084628">scratchcloud Test Interface</a> in scratch and switching the “Encode Request” slider to 1 will encode everything you send from it. You should now be able to get non-numeric characters in scratchcloud!</p>
+<p>Connecting to the <a class="reference external" href="https://scratch.mit.edu/projects/622084628">scratchcloud Test Interface</a> in scratch and switching the “Encode Request” slider to 1 will encode everything you send from it. If you run the above code, you should now be able to get non-numeric characters in scratchcloud!</p>
 <p>Going to the <a class="reference external" href="https://scratch.mit.edu/projects/622026587">BaseCodec Scratch Project</a> and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud in your own projects.</p>
-<p>While scratchcloud will automatically encodes and decodes data, scratch will not. Make sure to use the <code class="docutils literal notranslate"><span class="pre">Encode</span> <span class="pre">(</span> <span class="pre">)</span></code> block and the “encoded ➡️” varible before setting any cloud variables and the <code class="docutils literal notranslate"><span class="pre">Decode</span> <span class="pre">(</span> <span class="pre">)</span></code> and “decoded ➡️” varible block before reading cloud variables.</p>
+<p>While scratchcloud will automatically encodes and decodes data, scratch will not. Make sure to use the <code class="docutils literal notranslate"><span class="pre">Encode</span> <span class="pre">(</span> <span class="pre">)</span></code> block and the “➡️ encoded” varible before setting any cloud variables and the <code class="docutils literal notranslate"><span class="pre">Decode</span> <span class="pre">(</span> <span class="pre">)</span></code> and “➡️ decoded” varible block before reading cloud variables.</p>
 <a class="reference internal image-reference" href="_images/scratch_encode.png"><img alt="An image of scratch code using the custom Encode block." src="_images/scratch_encode.png" style="width: 400px;" /></a>
 <p>The BaseCodec class has several parameters that allow it to work with other scratch codecs.</p>
 <ul class="simple">

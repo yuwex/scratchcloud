@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; scratchcloud 1.0.0 documentation</title>
+  <title>Examples &mdash; scratchcloud 1.1.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -199,9 +199,9 @@
 </span><span class="hll"><span class="linenos">25</span>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;the user </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">cloud</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s1"> could not be found.&#39;</span><span class="p">)</span>
 </span><span class="hll"><span class="linenos">26</span>        <span class="k">return</span>
 </span><span class="linenos">27</span>
-<span class="hll"><span class="linenos">28</span>    <span class="n">username</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span>
+<span class="hll"><span class="linenos">28</span>    <span class="n">username</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span>
 </span><span class="hll"><span class="linenos">29</span>    <span class="n">country</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">country</span>
-</span><span class="hll"><span class="linenos">30</span>    <span class="n">join_date</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">joined_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%B </span><span class="si">%d</span><span class="s1">, %Y&#39;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">30</span>    <span class="n">join_date</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">joined</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%B </span><span class="si">%d</span><span class="s1">, %Y&#39;</span><span class="p">)</span>
 </span><span class="linenos">31</span>
 <span class="linenos">32</span>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">set_cloud</span><span class="p">(</span><span class="s1">&#39;RESPONSE&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;i</span><span class="se">\&#39;</span><span class="s1">m </span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s1">! I joined on </span><span class="si">{</span><span class="n">join_date</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="linenos">33</span>
