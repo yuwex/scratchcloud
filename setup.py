@@ -32,7 +32,7 @@ setup(
     
     install_requires=install_requires,
     extras_require=extras_require,
-    python_requires='>=3.8.0',
+    python_requires='>=3.10',
     packages=packages,
 
     classifiers=[
