@@ -37,11 +37,11 @@ BaseCodec is usable out-of-box, after a simple import:
 * Line 4 creates a new BaseCodec object.
 * Line 6 creates a CloudClient with the encoder and decoder parameters from the BaseCodec object.
 
-Connecting to the `scratchcloud Test Interface <https://scratch.mit.edu/projects/622084628>`_ in scratch and switching the "Encode Request" slider to 1 will encode everything you send from it. You should now be able to get non-numeric characters in scratchcloud!
+Connecting to the `scratchcloud Test Interface <https://scratch.mit.edu/projects/622084628>`_ in scratch and switching the "Encode Request" slider to 1 will encode everything you send from it. If you run the above code, you should now be able to get non-numeric characters in scratchcloud!
 
 Going to the `BaseCodec Scratch Project <https://scratch.mit.edu/projects/622026587>`_ and backpacking the BaseCodec sprite will allow you to easily send letters between scratch and scratchcloud in your own projects.
 
-While scratchcloud will automatically encodes and decodes data, scratch will not. Make sure to use the ``Encode ( )`` block and the "encoded ➡️" varible before setting any cloud variables and the ``Decode ( )`` and "decoded ➡️" varible block before reading cloud variables.
+While scratchcloud will automatically encodes and decodes data, scratch will not. Make sure to use the ``Encode ( )`` block and the "➡️ encoded" varible before setting any cloud variables and the ``Decode ( )`` and "➡️ decoded" varible block before reading cloud variables.
 
 .. image:: images/extensions/scratch_encode.png
   :alt: An image of scratch code using the custom Encode block.
