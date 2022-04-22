@@ -23,7 +23,7 @@ extras_require = {
 
 setup(
     name='scratchcloud',
-    version='1.0.0',
+    version='1.0.1',
     author='yuwex',
     url='https://github.com/yuwex/scratchcloud',
     description='An event-based asynchronous wrapper for scratch.mit.edu cloud variables.',
