@@ -139,9 +139,9 @@ This example is linked to the project `622799182 <https://scratch.mit.edu/projec
             await client.set_cloud('RESPONSE', f'the user \"{cloud.value}\" could not be found.')
             return
 
-        username = user.name
+        username = user.username
         country = user.country
-        join_date = user.joined_at.strftime('%B %d, %Y')
+        join_date = user.joined.strftime('%B %d, %Y')
 
         await client.set_cloud('RESPONSE', f'i\'m {username} from {country}! I joined on {join_date}')
 
