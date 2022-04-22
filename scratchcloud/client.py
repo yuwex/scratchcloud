@@ -11,6 +11,46 @@ import aiohttp
 
 from .errors import SizeError, MissingCloudVariable
 
+class LoginCookie:
+    """This is a class that stores login cookie data. It is used by `client.CloudClient`.
+
+    :param csrftoken: the user's CSRFToken.
+    :type csrftoken: str
+    :param sessionid: the user's ScratchSessionID.
+    :type sessionid: str
+
+    What is this?
+
+    Scratch occasionally blocks new logins from online IDEs. This is most common with the popular IDE, Repl.it. When logging in to scratch normally, Scratch creates a "Session ID" and "CSRF Token" and uses them for your cridentials. You can insert these cridentials directly to scratchcloud to bypass the login process. Anyone with these cridentials can do anything on your account, so make sure to keep them safe!
+
+    The LoginCookie object can be used in place of a password for the :meth:`client.CloudClient.run` method.
+
+    Cookie Example Usage::
+
+        login_cookie = LoginCookie(
+            csrftoken = 'abc123',
+            sessionid = 'def456'
+        )
+
+        client = CloudClient('username', '123')
+        # more code here
+        client.run(login_cookie)
+    """
+
+    def __init__(self, csrftoken: str, sessionid: str):
+        self.csrftoken = csrftoken
+        self.sessionid = sessionid
+
+    def to_cookie_dict(self) -> dict:
+        """A method that returns the cookie dictionary in a format that scratch likes.
+
+        :rtype: dict
+        """
+
+        return {
+            'scratchcsrftoken': self.csrftoken,
+            'scratchsessionsid': self.sessionid
+        }
 
 class CloudChange:
     """This is a class that stores cloud data received from :class:`client.CloudClient`.
@@ -148,13 +188,12 @@ class CloudClient:
         self.on_message_registered = False
 
     # RUNNING CLIENT
-    def run(self, token: str):
+    def run(self, token: str | LoginCookie):
         """A blocking function to run the client with library reconnecting.
         Basically runs start repeatedly and disconnects properly after a KeyboardInterrupt.
         Also handles common connection errors.
 
-        :param token: the password of the account that will be used to establish a connection
-        :type token: str
+        :param token: the password or a LoginCookie object for the account that will be used to establish a connection
 
         :rtype: None
 
@@ -162,6 +201,16 @@ class CloudClient:
 
             client = CloudClient('username', '123')
             client.run('password')
+        
+        Cookie Example Usage::
+
+            login_cookie = LoginCookie(
+                csrftoken = 'abc123',
+                sessionid = 'def456'
+            )
+
+            client = CloudClient('username', '123')
+            client.run(login_cookie)
         """
 
         loop = self.loop
@@ -210,7 +259,7 @@ class CloudClient:
                 print(f'ScratchCloud got uncaught Exception with type: {e}')
                 raise e
 
-    async def start(self, token: str):
+    async def start(self, token: str | LoginCookie):
         """A coroutine that starts a client.
 
         Calls all functions needed to connect to scratch in chronological order.
@@ -220,19 +269,22 @@ class CloudClient:
 
         :param token: the password of the account that will be used to establish a connection
         :type token: str
+        :param token: the cookie for the account that will be used to establish a connection.
+        :type token: LoginCookie
 
         Internal.
         """
 
         self.connected = False
         await self.close()
-        
+
         await self.login(token)
         await self.connect_ws()
         await self.ws_handshake()
         
         self.connected = True
         await self.run_client()
+
 
     async def run_client(self):
         """A coroutine that calls the on_connect_task and starts receving data from the websocket.
@@ -263,7 +315,7 @@ class CloudClient:
         return await self.ws.send(data)
 
     # START REQS
-    async def login(self, token: str) -> None:
+    async def login(self, token: str | LoginCookie) -> None:
         """A coroutine that sets http_session, cookies, and headers.
         
         :param token: the password of the account that will be used to establish a connection
@@ -281,26 +333,30 @@ class CloudClient:
         
         cookies = {}
 
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.get('https://scratch.mit.edu/csrf_token/'):
-                filtered = session.cookie_jar.filter_cookies('https://scratch.mit.edu')
-                csrf = filtered['scratchcsrftoken'].value
+        if isinstance(token, LoginCookie):
+            headers['X-CSRFToken'] = token.csrftoken
+            cookies = token.to_cookie_dict()
+        else:
+            async with aiohttp.ClientSession(headers=headers) as session:
+                async with session.get('https://scratch.mit.edu/csrf_token/'):
+                    filtered = session.cookie_jar.filter_cookies('https://scratch.mit.edu')
+                    csrf = filtered['scratchcsrftoken'].value
 
-                headers['X-CSRFToken'] = csrf
-                cookies['scratchcsrftoken'] = csrf
+                    headers['X-CSRFToken'] = csrf
+                    cookies['scratchcsrftoken'] = csrf
 
-            data = {
-                'username': self.username,
-                'password': token,
-            }
+                data = {
+                    'username': self.username,
+                    'password': token,
+                }
 
-            async with session.post('https://scratch.mit.edu/login/', data=json.dumps(data), headers=headers) as p:
-                if p.status != 200:
-                    raise ConnectionError(f'Login Error: Not 200 login status! Got {p.status}')
+                async with session.post('https://scratch.mit.edu/login/', data=json.dumps(data), headers=headers) as p:
+                    if p.status != 200:
+                        raise ConnectionError(f'Login Error: Not 200 login status! Got {p.status}')
 
-                filtered = session.cookie_jar.filter_cookies('https://scratch.mit.edu')
+                    filtered = session.cookie_jar.filter_cookies('https://scratch.mit.edu')
 
-                cookies['scratchsessionsid'] = filtered['scratchsessionsid'].value
+                    cookies['scratchsessionsid'] = filtered['scratchsessionsid'].value
 
         self.http_session = aiohttp.ClientSession(cookies=cookies, headers=headers)
         self.cookies = cookies
