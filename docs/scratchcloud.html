@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>scratchcloud docs &mdash; scratchcloud 0.0.1 documentation</title>
+  <title>scratchcloud docs &mdash; scratchcloud 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -301,7 +301,7 @@ Assumes that the http session has already been created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.login">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scratchcloud.client.CloudClient.login" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#scratchcloud.client.LoginCookie" title="scratchcloud.client.LoginCookie"><span class="pre">scratchcloud.client.LoginCookie</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scratchcloud.client.CloudClient.login" title="Permalink to this definition"></a></dt>
 <dd><p>A coroutine that sets http_session, cookies, and headers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -434,13 +434,13 @@ Creates CloudChange objects, manages the cache, and handles events and cloud_eve
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#scratchcloud.client.LoginCookie" title="scratchcloud.client.LoginCookie"><span class="pre">scratchcloud.client.LoginCookie</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.run" title="Permalink to this definition"></a></dt>
 <dd><p>A blocking function to run the client with library reconnecting.
 Basically runs start repeatedly and disconnects properly after a KeyboardInterrupt.
 Also handles common connection errors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – the password of the account that will be used to establish a connection</p>
+<dd class="field-odd"><p><strong>token</strong> – the password or a LoginCookie object for the account that will be used to establish a connection</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>None</p>
@@ -449,6 +449,16 @@ Also handles common connection errors.</p>
 <p>Example Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">)</span>
 <span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Cookie Example Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">login_cookie</span> <span class="o">=</span> <span class="n">LoginCookie</span><span class="p">(</span>
+    <span class="n">csrftoken</span> <span class="o">=</span> <span class="s1">&#39;abc123&#39;</span><span class="p">,</span>
+    <span class="n">sessionid</span> <span class="o">=</span> <span class="s1">&#39;def456&#39;</span>
+<span class="p">)</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">login_cookie</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -492,14 +502,17 @@ Defaults to True</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scratchcloud.client.CloudClient.start">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.start" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#scratchcloud.client.LoginCookie" title="scratchcloud.client.LoginCookie"><span class="pre">scratchcloud.client.LoginCookie</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.CloudClient.start" title="Permalink to this definition"></a></dt>
 <dd><p>A coroutine that starts a client.</p>
 <p>Calls all functions needed to connect to scratch in chronological order.
 Closes self, logs in, connects to the websocket, performs a handshake, and finally, runs the client.</p>
 <p>This can be used in place of <a class="reference internal" href="#scratchcloud.client.CloudClient.run" title="scratchcloud.client.CloudClient.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> if you want more control over the event loop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – the password of the account that will be used to establish a connection</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<a class="reference internal" href="#scratchcloud.client.LoginCookie" title="scratchcloud.client.LoginCookie"><em>LoginCookie</em></a>) – the password of the account that will be used to establish a connection</p></li>
+<li><p><strong>token</strong> – the cookie for the account that will be used to establish a connection.</p></li>
+</ul>
 </dd>
 </dl>
 <p>Internal.</p>
@@ -523,6 +536,46 @@ Closes self, logs in, connects to the websocket, performs a handshake, and final
 <dd><p>A coroutine that sends a dictionary to the websocket connection.
 Assumes that the websocket connection has already been established.</p>
 <p>Internal.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scratchcloud.client.LoginCookie">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scratchcloud.client.</span></span><span class="sig-name descname"><span class="pre">LoginCookie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csrftoken</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sessionid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scratchcloud.client.LoginCookie" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is a class that stores login cookie data. It is used by <cite>client.CloudClient</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csrftoken</strong> (<em>str</em>) – the user’s CSRFToken.</p></li>
+<li><p><strong>sessionid</strong> (<em>str</em>) – the user’s ScratchSessionID.</p></li>
+</ul>
+</dd>
+</dl>
+<p>What is this?</p>
+<p>Scratch occasionally blocks new logins from online IDEs. This is most common with the popular IDE, Repl.it. When logging in to scratch normally, Scratch creates a “Session ID” and “CSRF Token” and uses them for your cridentials. You can insert these cridentials directly to scratchcloud to bypass the login process. Anyone with these cridentials can do anything on your account, so make sure to keep them safe!</p>
+<p>The LoginCookie object can be used in place of a password for the <code class="xref py py-meth docutils literal notranslate"><span class="pre">client.CloudClient.run()</span></code> method.</p>
+<p>Cookie Example Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">login_cookie</span> <span class="o">=</span> <span class="n">LoginCookie</span><span class="p">(</span>
+    <span class="n">csrftoken</span> <span class="o">=</span> <span class="s1">&#39;abc123&#39;</span><span class="p">,</span>
+    <span class="n">sessionid</span> <span class="o">=</span> <span class="s1">&#39;def456&#39;</span>
+<span class="p">)</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">CloudClient</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">)</span>
+<span class="c1"># more code here</span>
+<span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">login_cookie</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="scratchcloud.client.LoginCookie.to_cookie_dict">
+<span class="sig-name descname"><span class="pre">to_cookie_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#scratchcloud.client.LoginCookie.to_cookie_dict" title="Permalink to this definition"></a></dt>
+<dd><p>A method that returns the cookie dictionary in a format that scratch likes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
