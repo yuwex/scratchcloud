@@ -26,6 +26,7 @@ class LoginCookie:
     The LoginCookie object can be used in place of a password for the :meth:`client.CloudClient.run` method.
 
     Cookie Example Usage::
+        from scratchcloud import CloudClient, LoginCookie
 
         login_cookie = LoginCookie(
             csrftoken = 'abc123',
