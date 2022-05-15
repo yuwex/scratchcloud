@@ -25,9 +25,8 @@ class LoginCookie:
 
     The LoginCookie object can be used in place of a password for the :meth:`client.CloudClient.run` method.
 
-    Cookie Example Usage:
+    Cookie Example Usage::
 
-    .. code-block: python
         from scratchcloud import CloudClient, LoginCookie
 
         login_cookie = LoginCookie(
@@ -318,6 +317,13 @@ class CloudClient:
 
     def stop(self):
         """ A function that stops the client by cancelling the `run_client_task` task.
+
+        Example::
+            
+            @client.event
+            async def on_connect():
+                print('I got here! Time to go...')
+                client.stop()
         """
 
         if self.run_client_task is not None:
