@@ -173,7 +173,7 @@ class CloudClient:
         self.headers = None
         self.logged_in = False
         self.ws = None
-        self.connected = False
+        self.client_setup = False
 
         self.max_reconnect = max_reconnect
         self.reconnect_cooldown = reconnect_cooldown
@@ -190,6 +190,10 @@ class CloudClient:
         self.cloud_event_errors = {}
 
         self.on_message_registered = False
+
+        self.next_set_time: float = 0
+
+        self.run_client_task = None
 
     # RUNNING CLIENT
     def run(self, token: str | LoginCookie):
@@ -225,7 +229,8 @@ class CloudClient:
         while True:
             try:
                 # Run Main loop
-                loop.run_until_complete(self.start(token))
+                self.run_client_task = loop.run_until_complete(self.setup(token))
+                loop.run_until_complete(self.run_client_task)
             except KeyboardInterrupt:
                 # Stop Loop if KeyboardInterrupt
                 loop.create_task(self.on_disconnect_task())
@@ -237,7 +242,7 @@ class CloudClient:
                     print(f'Disconnected due to type: {type(e)}\n{e}')
                 
                 # If previously connected, run disconnect task and reconnect again.
-                if self.connected:
+                if self.client_setup:
                     restart = True
                     reconnects = 0
                 else:
@@ -259,15 +264,20 @@ class CloudClient:
                 if reconnects == self.max_reconnect:
                     print(f'Reconnection failed {reconnects} times. Stopping...')
                     raise e
+            
+            except asyncio.CancelledError:
+                loop.run_until_complete(self.close())
+                break
+                
             except Exception as e:
                 print(f'ScratchCloud got uncaught Exception with type: {e}')
                 raise e
 
-    async def start(self, token: str | LoginCookie):
-        """A coroutine that starts a client.
+    async def setup(self, token: str | LoginCookie) -> asyncio.Task:
+        """A coroutine that sets up a client.
 
-        Calls all functions needed to connect to scratch in chronological order.
-        Closes self, logs in, connects to the websocket, performs a handshake, and finally, runs the client.
+        Calls all functions needed to connect to scratch in chronological order and returns a run client task.
+        Closes self, logs in, connects to the websocket, and performs a handshake.
 
         This can be used in place of :meth:`run` if you want more control over the event loop.
 
@@ -276,19 +286,21 @@ class CloudClient:
         :param token: the cookie for the account that will be used to establish a connection.
         :type token: LoginCookie
 
+        :rtype: :class:`asyncio.Task`
+
         Internal.
         """
 
-        self.connected = False
+        self.client_setup = False
         await self.close()
 
         await self.login(token)
         await self.connect_ws()
         await self.ws_handshake()
         
-        self.connected = True
-        await self.run_client()
-
+        self.client_setup = True
+        
+        return self.loop.create_task(self.run_client())
 
     async def run_client(self):
         """A coroutine that calls the on_connect_task and starts receving data from the websocket.
@@ -298,6 +310,13 @@ class CloudClient:
         """
 
         await asyncio.gather(self.on_connect_task(), self.on_recv())
+
+    def stop(self):
+        """ A function that stops the client by cancelling the `run_client_task` task.
+        """
+
+        if self.run_client_task is not None:
+            self.run_client_task.cancel()
 
     async def close(self):
         """A coroutine that closes self.http_session.
@@ -720,7 +739,15 @@ class CloudClient:
             'project_id': self.project_id,
         }
 
+        # Ratelimit Handler (1 request every 0.1 seconds)
+
+        if not time.time() >= self.next_set_time:
+            await asyncio.sleep(self.next_set_time - time.time())
+
         await self.ws_send(payload)
+        self.next_set_time = time.time() + 0.1
+        
+
         if name in self.cloud_variables:
             prev = self.cloud_variables[name]
         else:
