@@ -69,7 +69,7 @@ class SegmentDump:
         
         return segments
 
-    async def dump(self, data: str, delay: float = 0.01, encode_data: bool = False, empty_value: str = '0', encode_empty: bool = False):
+    async def dump(self, data: str, delay: float = 0, encode_data: bool = False, empty_value: str = '0', encode_empty: bool = False):
         """A asynchronous method to dump data to several variables at once. Pretty much a wrapper for get_segments that sends data as well.
         
         :param data: The data that will be sent
@@ -77,8 +77,8 @@ class SegmentDump:
         :param encode_data: A boolean that encodes the data if true,
             default false
         :type encode_data: bool
-        :param delay: The delay between setting different cloud variables,
-            default 0.01
+        :param delay: The delay between setting different cloud variables. Limited by the library's internal ratelimiting,
+            default 0
         :type delay: float
         :param empty_value: The value that unused segments are set to,
             default '0'
