@@ -132,6 +132,9 @@ class CloudClient:
     :param event_loop: the event loop that the CloudClient will use.
         defaults to asyncio.get_event_loop()
     :type event_loop: AbstractEventLoop
+    :param ignore_missing_variables: prevents a MissingCloudVariable exception during the websocket handshake if cloud variables are missing from the connected project.
+        defaults to False
+    :type: bool
 
     **Attributes:**
     
@@ -161,7 +164,7 @@ class CloudClient:
     **Methods:**
     """
 
-    def __init__(self, username: str, project_id: str, max_reconnect: int = None, reconnect_cooldown: int = 10, encoder: Callable[[str], str] = None, decoder: Callable[[str], str] = None, disconnect_messages: bool = False, max_cache_length: int = 1000, event_loop = asyncio.get_event_loop()):
+    def __init__(self, username: str, project_id: str, max_reconnect: int = None, reconnect_cooldown: int = 10, encoder: Callable[[str], str] = None, decoder: Callable[[str], str] = None, disconnect_messages: bool = False, max_cache_length: int = 1000, event_loop = asyncio.get_event_loop(), ignore_missing_variables: bool = False):
 
         self.username = username
         self.project_id = project_id
@@ -178,6 +181,8 @@ class CloudClient:
         self.max_reconnect = max_reconnect
         self.reconnect_cooldown = reconnect_cooldown
         self.disconnect_messages = disconnect_messages
+
+        self.ignore_missing_variables = ignore_missing_variables
 
         self.decoder = decoder
         self.encoder = encoder
@@ -418,6 +423,8 @@ class CloudClient:
         try:
             data = await asyncio.wait_for(self.ws.recv(), 5)
         except:
+            if self.ignore_missing_variables:
+                return
             await self.close()
             raise MissingCloudVariable('No Cloud Variables Found!')
         self.cloud_variables.update(self.parse_raw_cloud(data))
