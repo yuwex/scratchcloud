@@ -733,8 +733,6 @@ class CloudClient:
         Note that above `client.set_cloud` is called from the `on_connect()` coroutine
         """
 
-        # value = str(value)
-
         if self.encoder and encode:
             value = self.encoder(value)
         
