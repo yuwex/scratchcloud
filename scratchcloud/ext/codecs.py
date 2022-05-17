@@ -42,13 +42,16 @@ class BaseCodec:
     def encode(self, plaintext: str) -> str:
         """A method that encodes plaintext.
 
-        :param plaintext: The text that will be decoded
+        :param plaintext: The text that will be encoded
         :type plaintext: str
 
         :raises EncodeError: If unable to encode. Likely due to characters not included in plainalpha.
 
         :rtype: str
         """
+
+        if not isinstance(plaintext, str):
+            raise TypeError(f'plaintext must be of type str, not {type(plaintext)}')
 
         if self.force_lowercase:
             plaintext = plaintext.lower()
@@ -63,16 +66,19 @@ class BaseCodec:
             encoded.append(letter)
         return ''.join(encoded)
 
-    def decode(self, ciphertext: str | int) -> str:
+    def decode(self, ciphertext: str) -> str:
         """A method that decodes ciphertext.
 
-        :param ciphertext: The text that will be encoded
-        :type ciphertext: str | int
+        :param ciphertext: The text that will be decoded
+        :type ciphertext: str
 
-        :raises EncodeError: If unable to encode. Likely due to characters not included in plainalpha.
+        :raises DecodeError: If unable to encode. Likely due to characters not included in plainalpha.
 
         :rtype: str
         """
+
+        if not isinstance(ciphertext, str):
+            raise TypeError(f'plaintext must be of type str, not {type(ciphertext)}')
 
         if self.force_lowercase:
             ciphertext = ciphertext.lower()
