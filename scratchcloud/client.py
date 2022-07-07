@@ -6,6 +6,7 @@ import time
 from typing import Callable
 
 import websockets
+from socket import gaierror
 from websockets.exceptions import ConnectionClosedError
 import aiohttp
 
@@ -240,7 +241,7 @@ class CloudClient:
                 loop.create_task(self.on_disconnect_task())
                 loop.run_until_complete(self.close())
                 break
-            except (ConnectionClosedError, ConnectionError, TimeoutError) as e:
+            except (ConnectionClosedError, ConnectionError, TimeoutError, gaierror) as e:
                 self.logged_in = False
                 if self.disconnect_messages:
                     print(f'Disconnected due to type: {type(e)}\n{e}')
