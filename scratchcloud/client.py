@@ -10,7 +10,7 @@ from socket import gaierror
 from websockets.exceptions import ConnectionClosedError
 import aiohttp
 
-from .errors import SizeError, MissingCloudVariable
+from .errors import ScratchWebsocketError, SizeError, MissingCloudVariable
 
 class LoginCookie:
     """This is a class that stores login cookie data. It is used by `client.CloudClient`.
@@ -241,7 +241,7 @@ class CloudClient:
                 loop.create_task(self.on_disconnect_task())
                 loop.run_until_complete(self.close())
                 break
-            except (ConnectionClosedError, ConnectionError, TimeoutError, gaierror) as e:
+            except (ConnectionClosedError, ConnectionError, TimeoutError, gaierror, ScratchWebsocketError) as e:
                 self.logged_in = False
                 if self.disconnect_messages:
                     print(f'Disconnected due to type: {type(e)}\n{e}')
@@ -410,7 +410,11 @@ class CloudClient:
                 return '; '.join([f'{key}={val}' for key, val in dictionary.items()]) + ';'
 
         cookie = {'Cookie': dict_to_cookie(self.cookies)}
-        self.ws = await websockets.connect('wss://clouddata.scratch.mit.edu', origin='https://scratch.mit.edu', extra_headers=cookie)
+
+        try:
+            self.ws = await websockets.connect('wss://clouddata.scratch.mit.edu', origin='https://scratch.mit.edu', extra_headers=cookie)
+        except:
+            raise ScratchWebsocketError
 
     async def ws_handshake(self):
         """A coroutine that performs a handshake with the websocket connection.

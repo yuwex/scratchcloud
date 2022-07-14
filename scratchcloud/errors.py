@@ -47,3 +47,8 @@ class UnableToValidate(ScratchCloudException):
     """
 
     pass
+
+class ScratchWebsocketError(ScratchCloudException):
+    """Scratch Websocket Error.
+    Raised when an issue connecting to the scratch websocket occurs.
+    """
